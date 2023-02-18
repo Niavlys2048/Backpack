@@ -7,41 +7,219 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F2011052985A1C2004AA281 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2011042985A1C2004AA281 /* WeatherViewController.swift */; };
+		4F2011092985AEA2004AA281 /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2011082985AEA2004AA281 /* WeatherTableViewCell.swift */; };
+		4F20110D2985B211004AA281 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F20110C2985B211004AA281 /* WeatherModel.swift */; };
+		4F2011112985B2A7004AA281 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2011102985B2A7004AA281 /* WeatherData.swift */; };
+		4F2C1BDC299179F700937309 /* Weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F2C1BDB299179F700937309 /* Weather.json */; };
+		4F2C1BDE29917AF400937309 /* WeatherResponseDataFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C1BDD29917AF400937309 /* WeatherResponseDataFake.swift */; };
+		4F2C1BE429917CEF00937309 /* WeatherManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C1BE329917CEF00937309 /* WeatherManagerTests.swift */; };
+		4F2C1BE62991A57E00937309 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C1BE52991A57E00937309 /* UIImage+Extension.swift */; };
 		4F30FFC129818823009EB827 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FFC029818823009EB827 /* CustomTabBarController.swift */; };
+		4F30FFC429819805009EB827 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FFC329819805009EB827 /* UIColor+Extension.swift */; };
+		4F5995972989407B008395B5 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5995962989407B008395B5 /* WeatherManager.swift */; };
+		4F59959929895B8C008395B5 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F59959829895B8C008395B5 /* Int+Extension.swift */; };
+		4F73AA11298A66FE00D80F41 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F73AA10298A66FE00D80F41 /* Double+Extension.swift */; };
+		4F7BD4302986FBDF00AAC176 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7BD42F2986FBDF00AAC176 /* ResultsViewController.swift */; };
+		4F7BD4322987082A00AAC176 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7BD4312987082A00AAC176 /* GooglePlacesManager.swift */; };
+		4F8732BD29950576000344C6 /* URLSessionDataTaskFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8732BC29950576000344C6 /* URLSessionDataTaskFake.swift */; };
+		4F8732C12995176A000344C6 /* GMSAutocompletePredictionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8732C02995176A000344C6 /* GMSAutocompletePredictionMock.swift */; };
+		4F8732C329951916000344C6 /* URLSessionFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8732C229951916000344C6 /* URLSessionFake.swift */; };
+		4FA0C7AD299F9AA800F87D0C /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA0C7AC299F9AA800F87D0C /* UIViewController+Extension.swift */; };
+		4FDEA1A72998172C00257785 /* GMSProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDEA1A62998172C00257785 /* GMSProtocols.swift */; };
+		4FECA09B2992BA190084E738 /* GMSPlacesClientWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FECA09A2992BA190084E738 /* GMSPlacesClientWrapper.swift */; };
+		4FECA09D2992BF880084E738 /* GMSPlacesClientWrapperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FECA09C2992BF880084E738 /* GMSPlacesClientWrapperMock.swift */; };
+		4FECA09F2992C29D0084E738 /* GooglePlacesManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FECA09E2992C29D0084E738 /* GooglePlacesManagerTests.swift */; };
 		4FEE435929803273002DB4AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEE435829803273002DB4AF /* AppDelegate.swift */; };
 		4FEE436029803273002DB4AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FEE435E29803273002DB4AF /* Main.storyboard */; };
 		4FEE436229803274002DB4AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FEE436129803274002DB4AF /* Assets.xcassets */; };
 		4FEE436529803274002DB4AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FEE436329803274002DB4AF /* LaunchScreen.storyboard */; };
+		4FEEC36729995AC70008E47E /* GMSPlaceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEEC36629995AC70008E47E /* GMSPlaceMock.swift */; };
+		4FFCA1812988500C00E38CFB /* AddWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFCA1802988500C00E38CFB /* AddWeatherViewController.swift */; };
+		C7F844AEAB87DA65E6548038 /* libPods-BackpackTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4422CF7B923C2600F38335AD /* libPods-BackpackTests.a */; };
+		D0618DEC0A3F5213B46F1F36 /* libPods-Backpack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80FBB5EAA237421CC04C17C0 /* libPods-Backpack.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4F2C1BBE29912C5800937309 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FEE434D29803273002DB4AF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4FEE435429803273002DB4AF;
+			remoteInfo = Backpack;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		1ADBB029FD6152BC1ECF3269 /* Pods-BackpackTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BackpackTests.debug.xcconfig"; path = "Target Support Files/Pods-BackpackTests/Pods-BackpackTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4422CF7B923C2600F38335AD /* libPods-BackpackTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BackpackTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		45CB9FDBFDB6E71F14567CAF /* Pods-Backpack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Backpack.debug.xcconfig"; path = "Target Support Files/Pods-Backpack/Pods-Backpack.debug.xcconfig"; sourceTree = "<group>"; };
+		4F2011042985A1C2004AA281 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
+		4F2011082985AEA2004AA281 /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
+		4F20110C2985B211004AA281 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
+		4F2011102985B2A7004AA281 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		4F2C1BBA29912C5800937309 /* BackpackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BackpackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F2C1BDB299179F700937309 /* Weather.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Weather.json; sourceTree = "<group>"; };
+		4F2C1BDD29917AF400937309 /* WeatherResponseDataFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherResponseDataFake.swift; sourceTree = "<group>"; };
+		4F2C1BE329917CEF00937309 /* WeatherManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManagerTests.swift; sourceTree = "<group>"; };
+		4F2C1BE52991A57E00937309 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		4F30FFC029818823009EB827 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		4F30FFC329819805009EB827 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		4F5995962989407B008395B5 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
+		4F59959829895B8C008395B5 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		4F6F4E50298C480700024B39 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		4F73AA10298A66FE00D80F41 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		4F7BD42F2986FBDF00AAC176 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		4F7BD4312987082A00AAC176 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
+		4F8732BC29950576000344C6 /* URLSessionDataTaskFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskFake.swift; sourceTree = "<group>"; };
+		4F8732C02995176A000344C6 /* GMSAutocompletePredictionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMSAutocompletePredictionMock.swift; sourceTree = "<group>"; };
+		4F8732C229951916000344C6 /* URLSessionFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionFake.swift; sourceTree = "<group>"; };
 		4F90936A2997FAA2005DA5F4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4FA0C7AC299F9AA800F87D0C /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		4FDEA1A62998172C00257785 /* GMSProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMSProtocols.swift; sourceTree = "<group>"; };
+		4FECA09A2992BA190084E738 /* GMSPlacesClientWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMSPlacesClientWrapper.swift; sourceTree = "<group>"; };
+		4FECA09C2992BF880084E738 /* GMSPlacesClientWrapperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMSPlacesClientWrapperMock.swift; sourceTree = "<group>"; };
+		4FECA09E2992C29D0084E738 /* GooglePlacesManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GooglePlacesManagerTests.swift; sourceTree = "<group>"; };
 		4FEE435529803273002DB4AF /* Backpack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Backpack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEE435829803273002DB4AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FEE435F29803273002DB4AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4FEE436129803274002DB4AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4FEE436429803274002DB4AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FEE436629803274002DB4AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4FEEC36629995AC70008E47E /* GMSPlaceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GMSPlaceMock.swift; sourceTree = "<group>"; };
+		4FFCA1802988500C00E38CFB /* AddWeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWeatherViewController.swift; sourceTree = "<group>"; };
+		80FBB5EAA237421CC04C17C0 /* libPods-Backpack.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Backpack.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E17ECF0885E7E3A172E66C5 /* Pods-BackpackTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BackpackTests.release.xcconfig"; path = "Target Support Files/Pods-BackpackTests/Pods-BackpackTests.release.xcconfig"; sourceTree = "<group>"; };
+		C310CBF21889296BFBD5D7F8 /* Pods-Backpack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Backpack.release.xcconfig"; path = "Target Support Files/Pods-Backpack/Pods-Backpack.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4F2C1BB729912C5800937309 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7F844AEAB87DA65E6548038 /* libPods-BackpackTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4FEE435229803273002DB4AF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0618DEC0A3F5213B46F1F36 /* libPods-Backpack.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F192EA6299D5CFB0041B5F8 /* TranslateTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TranslateTests;
+			sourceTree = "<group>";
+		};
+		4F20110A2985B147004AA281 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				4F2011042985A1C2004AA281 /* WeatherViewController.swift */,
+				4F2011082985AEA2004AA281 /* WeatherTableViewCell.swift */,
+				4F7BD42F2986FBDF00AAC176 /* ResultsViewController.swift */,
+				4FFCA1802988500C00E38CFB /* AddWeatherViewController.swift */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
+		4F20110B2985B1EE004AA281 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				4F2011102985B2A7004AA281 /* WeatherData.swift */,
+				4F20110C2985B211004AA281 /* WeatherModel.swift */,
+				4F5995962989407B008395B5 /* WeatherManager.swift */,
+				4F7BD4312987082A00AAC176 /* GooglePlacesManager.swift */,
+				4FECA09A2992BA190084E738 /* GMSPlacesClientWrapper.swift */,
+				4FDEA1A62998172C00257785 /* GMSProtocols.swift */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
+		4F2C1BBB29912C5800937309 /* BackpackTests */ = {
+			isa = PBXGroup;
+			children = (
+				4F8732B52994F2FA000344C6 /* CurrencyTests */,
+				4F192EA6299D5CFB0041B5F8 /* TranslateTests */,
+				4F2C1BD82991773500937309 /* WeatherTests */,
+				4F8732BC29950576000344C6 /* URLSessionDataTaskFake.swift */,
+				4F8732C229951916000344C6 /* URLSessionFake.swift */,
+			);
+			path = BackpackTests;
+			sourceTree = "<group>";
+		};
+		4F2C1BD82991773500937309 /* WeatherTests */ = {
+			isa = PBXGroup;
+			children = (
+				4F8732C429951A41000344C6 /* GooglePlaces */,
+				4F2C1BDB299179F700937309 /* Weather.json */,
+				4F2C1BDD29917AF400937309 /* WeatherResponseDataFake.swift */,
+				4F2C1BE329917CEF00937309 /* WeatherManagerTests.swift */,
+			);
+			path = WeatherTests;
+			sourceTree = "<group>";
+		};
+		4F30FFC2298197E5009EB827 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4F73AA10298A66FE00D80F41 /* Double+Extension.swift */,
+				4F59959829895B8C008395B5 /* Int+Extension.swift */,
+				4F30FFC329819805009EB827 /* UIColor+Extension.swift */,
+				4F2C1BE52991A57E00937309 /* UIImage+Extension.swift */,
+				4FA0C7AC299F9AA800F87D0C /* UIViewController+Extension.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		4F4C756A299BB27500BB8D45 /* Translate */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Translate;
+			sourceTree = "<group>";
+		};
+		4F5F0B7E298D2DFA00F037B5 /* Currency */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Currency;
+			sourceTree = "<group>";
+		};
+		4F8732B52994F2FA000344C6 /* CurrencyTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CurrencyTests;
+			sourceTree = "<group>";
+		};
+		4F8732C429951A41000344C6 /* GooglePlaces */ = {
+			isa = PBXGroup;
+			children = (
+				4FECA09C2992BF880084E738 /* GMSPlacesClientWrapperMock.swift */,
+				4FECA09E2992C29D0084E738 /* GooglePlacesManagerTests.swift */,
+				4F8732C02995176A000344C6 /* GMSAutocompletePredictionMock.swift */,
+				4FEEC36629995AC70008E47E /* GMSPlaceMock.swift */,
+			);
+			path = GooglePlaces;
+			sourceTree = "<group>";
+		};
 		4FEE434C29803273002DB4AF = {
 			isa = PBXGroup;
 			children = (
 				4F90936A2997FAA2005DA5F4 /* README.md */,
 				4FEE435729803273002DB4AF /* Backpack */,
+				4F2C1BBB29912C5800937309 /* BackpackTests */,
 				4FEE435629803273002DB4AF /* Products */,
+				97A1C6DBB793668642B902A7 /* Pods */,
+				C798FDE76FBA85DBA5DBCFDB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -49,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				4FEE435529803273002DB4AF /* Backpack.app */,
+				4F2C1BBA29912C5800937309 /* BackpackTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,8 +239,10 @@
 				4FEE43922980599D002DB4AF /* Model */,
 				4FEE4393298059A4002DB4AF /* View */,
 				4FEE4394298059AB002DB4AF /* Controller */,
+				4F30FFC2298197E5009EB827 /* Helpers */,
 				4FEE4395298059CD002DB4AF /* Resources */,
 				4FEE436629803274002DB4AF /* Info.plist */,
+				4F6F4E50298C480700024B39 /* Secrets.xcconfig */,
 			);
 			path = Backpack;
 			sourceTree = "<group>";
@@ -69,6 +250,9 @@
 		4FEE43922980599D002DB4AF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4F5F0B7E298D2DFA00F037B5 /* Currency */,
+				4F4C756A299BB27500BB8D45 /* Translate */,
+				4F20110B2985B1EE004AA281 /* Weather */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -85,6 +269,9 @@
 		4FEE4394298059AB002DB4AF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4FFCA1792987C12A00E38CFB /* Currency */,
+				4FFCA1782987C11F00E38CFB /* Translate */,
+				4F20110A2985B147004AA281 /* Weather */,
 				4F30FFC029818823009EB827 /* CustomTabBarController.swift */,
 			);
 			path = Controller;
@@ -98,17 +285,73 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		4FFCA1782987C11F00E38CFB /* Translate */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Translate;
+			sourceTree = "<group>";
+		};
+		4FFCA1792987C12A00E38CFB /* Currency */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Currency;
+			sourceTree = "<group>";
+		};
+		97A1C6DBB793668642B902A7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				45CB9FDBFDB6E71F14567CAF /* Pods-Backpack.debug.xcconfig */,
+				C310CBF21889296BFBD5D7F8 /* Pods-Backpack.release.xcconfig */,
+				1ADBB029FD6152BC1ECF3269 /* Pods-BackpackTests.debug.xcconfig */,
+				9E17ECF0885E7E3A172E66C5 /* Pods-BackpackTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C798FDE76FBA85DBA5DBCFDB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				80FBB5EAA237421CC04C17C0 /* libPods-Backpack.a */,
+				4422CF7B923C2600F38335AD /* libPods-BackpackTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4F2C1BB929912C5800937309 /* BackpackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F2C1BC229912C5800937309 /* Build configuration list for PBXNativeTarget "BackpackTests" */;
+			buildPhases = (
+				91F43256AC2110D59555A458 /* [CP] Check Pods Manifest.lock */,
+				4F2C1BB629912C5800937309 /* Sources */,
+				4F2C1BB729912C5800937309 /* Frameworks */,
+				4F2C1BB829912C5800937309 /* Resources */,
+				A00AB1DB082F28BCFE4FB2F0 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4F2C1BBF29912C5800937309 /* PBXTargetDependency */,
+			);
+			name = BackpackTests;
+			productName = BackpackTests;
+			productReference = 4F2C1BBA29912C5800937309 /* BackpackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		4FEE435429803273002DB4AF /* Backpack */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4FEE436929803274002DB4AF /* Build configuration list for PBXNativeTarget "Backpack" */;
 			buildPhases = (
+				F669D36B9131D4EF02B3145E /* [CP] Check Pods Manifest.lock */,
 				4FEE435129803273002DB4AF /* Sources */,
 				4FEE435229803273002DB4AF /* Frameworks */,
 				4FEE435329803273002DB4AF /* Resources */,
 				4F059BFC298992AC004539D8 /* ShellScript */,
+				50824D8DC10963A8E0B1662B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -129,6 +372,10 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					4F2C1BB929912C5800937309 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 4FEE435429803273002DB4AF;
+					};
 					4FEE435429803273002DB4AF = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -148,11 +395,20 @@
 			projectRoot = "";
 			targets = (
 				4FEE435429803273002DB4AF /* Backpack */,
+				4F2C1BB929912C5800937309 /* BackpackTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4F2C1BB829912C5800937309 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F2C1BDC299179F700937309 /* Weather.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4FEE435329803273002DB4AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -184,19 +440,135 @@
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		50824D8DC10963A8E0B1662B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Backpack/Pods-Backpack-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Backpack/Pods-Backpack-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Backpack/Pods-Backpack-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		91F43256AC2110D59555A458 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BackpackTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A00AB1DB082F28BCFE4FB2F0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BackpackTests/Pods-BackpackTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BackpackTests/Pods-BackpackTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BackpackTests/Pods-BackpackTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F669D36B9131D4EF02B3145E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Backpack-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4F2C1BB629912C5800937309 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F8732C329951916000344C6 /* URLSessionFake.swift in Sources */,
+				4F2C1BDE29917AF400937309 /* WeatherResponseDataFake.swift in Sources */,
+				4FEEC36729995AC70008E47E /* GMSPlaceMock.swift in Sources */,
+				4F8732C12995176A000344C6 /* GMSAutocompletePredictionMock.swift in Sources */,
+				4F8732BD29950576000344C6 /* URLSessionDataTaskFake.swift in Sources */,
+				4FECA09F2992C29D0084E738 /* GooglePlacesManagerTests.swift in Sources */,
+				4F2C1BE429917CEF00937309 /* WeatherManagerTests.swift in Sources */,
+				4FECA09D2992BF880084E738 /* GMSPlacesClientWrapperMock.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4FEE435129803273002DB4AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F2011052985A1C2004AA281 /* WeatherViewController.swift in Sources */,
+				4F73AA11298A66FE00D80F41 /* Double+Extension.swift in Sources */,
+				4FA0C7AD299F9AA800F87D0C /* UIViewController+Extension.swift in Sources */,
+				4F59959929895B8C008395B5 /* Int+Extension.swift in Sources */,
+				4F2011092985AEA2004AA281 /* WeatherTableViewCell.swift in Sources */,
 				4FEE435929803273002DB4AF /* AppDelegate.swift in Sources */,
+				4FECA09B2992BA190084E738 /* GMSPlacesClientWrapper.swift in Sources */,
+				4F7BD4322987082A00AAC176 /* GooglePlacesManager.swift in Sources */,
+				4F2011112985B2A7004AA281 /* WeatherData.swift in Sources */,
+				4F20110D2985B211004AA281 /* WeatherModel.swift in Sources */,
 				4F30FFC129818823009EB827 /* CustomTabBarController.swift in Sources */,
+				4FFCA1812988500C00E38CFB /* AddWeatherViewController.swift in Sources */,
+				4F5995972989407B008395B5 /* WeatherManager.swift in Sources */,
+				4F2C1BE62991A57E00937309 /* UIImage+Extension.swift in Sources */,
+				4F30FFC429819805009EB827 /* UIColor+Extension.swift in Sources */,
+				4F7BD4302986FBDF00AAC176 /* ResultsViewController.swift in Sources */,
+				4FDEA1A72998172C00257785 /* GMSProtocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4F2C1BBF29912C5800937309 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4FEE435429803273002DB4AF /* Backpack */;
+			targetProxy = 4F2C1BBE29912C5800937309 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4FEE435E29803273002DB4AF /* Main.storyboard */ = {
@@ -218,8 +590,55 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4F2C1BC029912C5800937309 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1ADBB029FD6152BC1ECF3269 /* Pods-BackpackTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SSZ659U5H9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.okami.BackpackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Backpack.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Backpack";
+			};
+			name = Debug;
+		};
+		4F2C1BC129912C5800937309 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E17ECF0885E7E3A172E66C5 /* Pods-BackpackTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SSZ659U5H9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.okami.BackpackTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Backpack.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Backpack";
+			};
+			name = Release;
+		};
 		4FEE436729803274002DB4AF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F6F4E50298C480700024B39 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -280,6 +699,7 @@
 		};
 		4FEE436829803274002DB4AF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F6F4E50298C480700024B39 /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -334,6 +754,7 @@
 		};
 		4FEE436A29803274002DB4AF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 45CB9FDBFDB6E71F14567CAF /* Pods-Backpack.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -368,6 +789,7 @@
 		};
 		4FEE436B29803274002DB4AF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C310CBF21889296BFBD5D7F8 /* Pods-Backpack.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -403,6 +825,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F2C1BC229912C5800937309 /* Build configuration list for PBXNativeTarget "BackpackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F2C1BC029912C5800937309 /* Debug */,
+				4F2C1BC129912C5800937309 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4FEE435029803273002DB4AF /* Build configuration list for PBXProject "Backpack" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

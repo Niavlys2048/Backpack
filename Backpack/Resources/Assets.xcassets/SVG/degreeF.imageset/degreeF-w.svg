@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-821a6ba4-a7c9-496a-9dd2-88aa4a1ba6fc" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 29.65">
+  <defs>
+    <style>
+      .uuid-56909e3e-8006-4df9-822f-1bc65632a9e7 {
+        fill: #fff;
+        font-family: SFPro-Semibold, 'SF Pro';
+        font-size: 20.58px;
+        font-variation-settings: 'wdth' 100, 'opsz' 28, 'wght' 590;
+        font-weight: 600;
+      }
+    </style>
+  </defs>
+  <g id="uuid-74e39c63-bfd1-42db-bb17-291ba2a0c197" data-name="Layer 1">
+    <text class="uuid-56909e3e-8006-4df9-822f-1bc65632a9e7" transform="translate(0 17.54)"><tspan x="0" y="0">°F</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-64aa8dbe-d390-4b5c-9beb-016f1bd06549" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.58 29.8">
+  <defs>
+    <style>
+      .uuid-b801a96c-87bd-48fc-835c-f16791f08512 {
+        font-size: 20.05px;
+      }
+
+      .uuid-b801a96c-87bd-48fc-835c-f16791f08512, .uuid-f5a390b2-c488-4902-9593-5afba7f0fc2a {
+        fill: #fff;
+        font-family: SFPro-Semibold, 'SF Pro';
+        font-variation-settings: 'wdth' 100, 'opsz' 28, 'wght' 590;
+        font-weight: 600;
+      }
+
+      .uuid-f5a390b2-c488-4902-9593-5afba7f0fc2a {
+        font-size: 20.68px;
+      }
+    </style>
+  </defs>
+  <g id="uuid-2f3d9a66-ae63-46f1-b3bb-76d465d17695" data-name="Layer 1">
+    <text class="uuid-b801a96c-87bd-48fc-835c-f16791f08512" transform="translate(0 17.15)"><tspan x="0" y="0">°</tspan></text>
+    <text class="uuid-f5a390b2-c488-4902-9593-5afba7f0fc2a" transform="translate(8.59 17.63) scale(.83 1)"><tspan x="0" y="0">C</tspan></text>
+  </g>
+</svg>

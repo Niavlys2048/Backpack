@@ -4,7 +4,7 @@ General description:
 Backpack (Baluchon) is a three-page application:
 * Get the exchange rate between the dollar and your current currency.
 * Translate from your favorite language to English.
-* Compare the local weather and that of your good old home.
+* Compare the local weather and the one of your good old home.
 
 Main features:
 This application as been designed from scratch thanks to Figma.
@@ -17,12 +17,20 @@ Some images (png and svg) are homemade, others are available for free on the Int
     - Work in progress
 
 - 3rd page: Weather
-    - Work in progress
+    - UX/UI inspired by the official Apple weather app.
+    - User-friendly search, thanks to Google Places SDK and its autocomplete features (via CocoaPods).
+    - The Google Places SDK isn't free, but you can use your own API key or request one through a free trial.
+    - Display weather information for any city of your choice, using the OpenWeatherMap API.
+    - Using UITableView to show the weather for as many location as you wish. 
+    - The list is editable to sort, add or remove loactions and convert Celsius to Fahrenheit.
 
 Technical constraints:
 - Using MVC architectural pattern.
 - Using tab bar to navigate between the pages (each tab corresponding to one of the three pages described above).
-- Network errors handled through a popup using the UIAlertController class.
+- Network errors handled through a popup using the UIAlertController class through a UIViewController extension.
+- Implementing UITableView, custom UITableViewCell, Segues, custom protocols, delegates, various extensions.
+- Each API call displays an activity indicator to handle slow connections.
 - Responsive display on all iPhone screen sizes (Portrait mode only).
 - Supporting iOS 14.7 and above.
 - Using unit tests.
+- All API Keys are stored in a configuration file named Secrets.xcconfig
