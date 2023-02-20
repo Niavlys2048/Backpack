@@ -15,4 +15,12 @@ extension Double {
         numberFormatter.maximumFractionDigits = 0
         return numberFormatter.string(for: self) ?? String(self)
     }
+    
+    var displayCurrency: String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.minimumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = 2
+        return numberFormatter.string(for: self) ?? String(self)
+    }
 }

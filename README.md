@@ -11,7 +11,13 @@ This application as been designed from scratch thanks to Figma.
 Some images (png and svg) are homemade, others are available for free on the Internet.
 
 - 1st page: Currency (Exchange rate)
-    - Work in progress
+    - UX/UI inspired by the "Currency converter - Money" app (available on App Store).
+    - Get a conversion from a currency of your choice to a list of pre-selected currencies, thanks to a UITableView.
+    - Using a list of the most traded currencies.
+    - The list is editable to add or remove currencies.
+    - Using the fixer.io API, updated each time the application is opened to be up to date.
+    - Real-time currency conversion as you type an amount on the selected currency of your choice.
+    - Using svg flags from FlagKit.
 
 - 2nd page: Translate (Google translate)
     - Work in progress
