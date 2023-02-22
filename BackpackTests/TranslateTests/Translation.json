@@ -1,0 +1,10 @@
+{
+    "data": {
+        "translations": [
+            {
+                "translatedText": "Hello, How old are you?",
+                "detectedSourceLanguage": "fr"
+            }
+        ]
+    }
+}

@@ -20,7 +20,11 @@ Some images (png and svg) are homemade, others are available for free on the Int
     - Using svg flags from FlagKit.
 
 - 2nd page: Translate (Google translate)
-    - Work in progress
+    - UX/UI inspired by the "Google Translate" app (available on App Store).
+    - Write the sentence of your choice in any auto-detected language and get its translation in another language of your choice.
+    - Just as the official application, you can modify the source and/or target language by choosing it from a list of supported languages.
+    - You can also use a searchBar to make your selection easier. 
+    - Using Google Translate API.
 
 - 3rd page: Weather
     - UX/UI inspired by the official Apple weather app.
