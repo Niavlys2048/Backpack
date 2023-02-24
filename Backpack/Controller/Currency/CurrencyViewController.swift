@@ -15,7 +15,7 @@ final class CurrencyViewController: UIViewController {
     @IBOutlet private var inputTextField: UITextField!
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-        
+    
     // MARK: - Properties
     private var menuButton: UIBarButtonItem!
     private var menu: UIMenu!
@@ -107,17 +107,21 @@ final class CurrencyViewController: UIViewController {
             return
         }
         activityIndicator.isHidden = false
-        RateManager.shared.performRequest { success, rates in
-            self.activityIndicator.isHidden = true
+        // https://www.avanderlee.com/swift/weak-self/
+        RateManager.shared.performRequest { [weak self] success, rates in
+            self?.activityIndicator.isHidden = true
             guard let rates, success else {
-                self.presentAlert(.connectionFailed)
+                self?.presentAlert(.connectionFailed)
                 return
             }
             // Retrieve rates data
-            self.rates = rates
+            self?.rates = rates
             
             // availableCurrencyData update with the corresponding up-to-date rate
-            for currency in self.availableCurrencyData {
+            guard let availableCurrencies = self?.availableCurrencyData else {
+                return
+            }
+            for currency in availableCurrencies {
                 for rate in rates where currency.code == rate.currencyCode {
                     currency.rate = rate.currencyRate
                 }

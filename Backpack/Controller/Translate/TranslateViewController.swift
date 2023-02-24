@@ -84,29 +84,33 @@ final class TranslateViewController: UIViewController {
         }
         
         activityIndicator.isHidden = false
-        TranslateManager.shared.translate(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { success, translation in
-            self.activityIndicator.isHidden = true
+        // https://www.avanderlee.com/swift/weak-self/
+        TranslateManager.shared.translate(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] success, translation in
+            self?.activityIndicator.isHidden = true
             guard let translation, success else {
-                self.presentAlert(.connectionFailed)
+                self?.presentAlert(.connectionFailed)
                 return
             }
-            self.targetTextView.text = translation.translatedText
+            self?.targetTextView.text = translation.translatedText
             
             // Set sourceLanguageLabel text
-            var sourceLanguage = self.sourceLanguage
-            var sourceLanguageName = self.locale.localizedString(forIdentifier: sourceLanguage)
-            let selectedSourceLanguage = self.sourceLanguage
-            let detectedSourceLanguage = translation.detectedSourceLanguage
-            if self.sourceLanguage.contains("detect") || selectedSourceLanguage != detectedSourceLanguage {
-                sourceLanguage = detectedSourceLanguage
-                sourceLanguageName = self.locale.localizedString(forIdentifier: sourceLanguage)
-                self.sourceLanguageButton.setTitle("Detect language", for: .normal)
+            guard let selectedSourceLanguage = self?.sourceLanguage else {
+                return
             }
-            self.sourceLanguageLabel.text = sourceLanguageName?.uppercased()
+            var sourceLanguageName = self?.locale.localizedString(forIdentifier: selectedSourceLanguage)
+            let detectedSourceLanguage = translation.detectedSourceLanguage
+            if selectedSourceLanguage.contains("detect") || selectedSourceLanguage != detectedSourceLanguage {
+                sourceLanguageName = self?.locale.localizedString(forIdentifier: detectedSourceLanguage)
+                self?.sourceLanguageButton.setTitle("Detect language", for: .normal)
+            }
+            self?.sourceLanguageLabel.text = sourceLanguageName?.uppercased()
             
             // Set targetLanguageLabel text
-            let targetLanguageName = self.locale.localizedString(forIdentifier: self.targetLanguage)
-            self.targetLanguageLabel.text = targetLanguageName?.uppercased()
+            guard let targetLanguage = self?.targetLanguage else {
+                return
+            }
+            let targetLanguageName = self?.locale.localizedString(forIdentifier: targetLanguage)
+            self?.targetLanguageLabel.text = targetLanguageName?.uppercased()
         }
     }
     

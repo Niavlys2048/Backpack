@@ -698,7 +698,7 @@
                                 <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
                             <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EEW-Mj-CGt">
-                                <rect key="frame" x="0.0" y="103" width="4" height="18.666666666666671"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="18.666666666666668"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
                             </textField>
@@ -743,7 +743,7 @@
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WQc-Hi-Jfx">
                                                                     <rect key="frame" x="106.66666666666667" y="0.0" width="62.666666666666671" height="55"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="40" id="M6e-Aq-2Hq"/>
+                                                                        <constraint firstAttribute="height" priority="999" constant="40" id="M6e-Aq-2Hq"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="33"/>
                                                                     <color key="textColor" name="defaultColor"/>
@@ -786,9 +786,10 @@
                             <constraint firstItem="IKO-kl-yhs" firstAttribute="trailing" secondItem="0v5-T1-5xo" secondAttribute="trailing" id="4Cs-qZ-ZdO"/>
                             <constraint firstItem="cRo-0p-CRt" firstAttribute="centerY" secondItem="vHT-oC-cIm" secondAttribute="centerY" id="Mmm-q9-Xzb"/>
                             <constraint firstItem="IKO-kl-yhs" firstAttribute="top" secondItem="0v5-T1-5xo" secondAttribute="top" id="OhN-8r-5un"/>
+                            <constraint firstItem="EEW-Mj-CGt" firstAttribute="trailing" secondItem="vHT-oC-cIm" secondAttribute="trailing" id="Rkw-fn-uuv"/>
                             <constraint firstItem="IKO-kl-yhs" firstAttribute="bottom" secondItem="0v5-T1-5xo" secondAttribute="bottom" id="TF2-rp-kqR"/>
-                            <constraint firstItem="EEW-Mj-CGt" firstAttribute="top" secondItem="IKO-kl-yhs" secondAttribute="top" id="cc2-tu-acW"/>
-                            <constraint firstItem="EEW-Mj-CGt" firstAttribute="leading" secondItem="IKO-kl-yhs" secondAttribute="leading" id="ln9-fo-19C"/>
+                            <constraint firstItem="EEW-Mj-CGt" firstAttribute="top" secondItem="vHT-oC-cIm" secondAttribute="top" id="cc2-tu-acW"/>
+                            <constraint firstItem="EEW-Mj-CGt" firstAttribute="leading" secondItem="vHT-oC-cIm" secondAttribute="leading" id="ln9-fo-19C"/>
                             <constraint firstItem="IKO-kl-yhs" firstAttribute="leading" secondItem="0v5-T1-5xo" secondAttribute="leading" id="sdk-4W-U6i"/>
                             <constraint firstItem="cRo-0p-CRt" firstAttribute="centerX" secondItem="vHT-oC-cIm" secondAttribute="centerX" id="vtW-Ok-CrN"/>
                         </constraints>
@@ -880,7 +881,7 @@
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Euro Member Countries, €" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXH-d8-TaW" userLabel="Detail Label">
                                                                     <rect key="frame" x="181.66666666666663" y="0.0" width="171.33333333333337" height="80"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="25" id="RVs-4m-CGQ"/>
+                                                                        <constraint firstAttribute="height" priority="999" constant="25" id="RVs-4m-CGQ"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

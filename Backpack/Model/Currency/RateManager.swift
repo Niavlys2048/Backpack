@@ -43,8 +43,7 @@ final class RateManager {
         // 1. Create a URL
         if let url = URL(string: urlString) {
             
-            // 2. Create URLSession
-//            let session = URLSession(configuration: .default)
+            // 2. Create URLSession (see Dependency injection for unit tests)
             
             // Cancel the previous task if a new request is added before the previous task is completed
             task?.cancel()

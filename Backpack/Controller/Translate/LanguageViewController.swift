@@ -64,23 +64,27 @@ final class LanguageViewController: UIViewController {
             return
         }
         activityIndicator.isHidden = false
-        TranslateManager.shared.fetchSupportedLanguages { success, languages in
-            self.activityIndicator.isHidden = true
+        // https://www.avanderlee.com/swift/weak-self/
+        TranslateManager.shared.fetchSupportedLanguages { [weak self] success, languages in
+            self?.activityIndicator.isHidden = true
             guard let languages, success else {
-                self.presentAlert(.connectionFailed)
+                self?.presentAlert(.connectionFailed)
                 return
             }
-            self.supportedLanguageData = languages
+            self?.supportedLanguageData = languages
             
             // Init supported languages list
-            self.supportedLanguageData = self.supportedLanguageData.sorted { $0.name < $1.name }
+            guard var supportedLanguages = self?.supportedLanguageData else {
+                return
+            }
+            self?.supportedLanguageData = supportedLanguages.sorted { $0.name < $1.name }
             
-            if self.selectedLanguage == .sourceLanguage {
-                self.supportedLanguageData.insert(LanguageModel(name: "Detect language", code: "detect"), at: 0)
+            if self?.selectedLanguage == .sourceLanguage {
+                supportedLanguages.insert(LanguageModel(name: "Detect language", code: "detect"), at: 0)
             }
             
-            self.filteredData = self.supportedLanguageData
-            self.languageTableView.reloadData()
+            self?.filteredData = supportedLanguages
+            self?.languageTableView.reloadData()
         }
     }
     

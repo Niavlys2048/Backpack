@@ -59,8 +59,7 @@ final class TranslateManager {
             var request = URLRequest(url: url)
             request.httpMethod = api.getHTTPMethod()
             
-            // 5. Create URLSession
-//            let session = URLSession(configuration: .default)
+            // 5. Create URLSession (see Dependency injection for unit tests)
             
             // Cancel the previous task if a new request is added before the previous task is completed
             task?.cancel()

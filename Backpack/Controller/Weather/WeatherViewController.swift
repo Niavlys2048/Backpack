@@ -148,17 +148,18 @@ final class WeatherViewController: UIViewController {
         let currentCoordinates = Coordinates(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
         
         activityIndicator.isHidden = false
-        WeatherManager.shared.performRequest(coordinates: currentCoordinates) { success, weatherModel in
-            self.activityIndicator.isHidden = true
+        // https://www.avanderlee.com/swift/weak-self/
+        WeatherManager.shared.performRequest(coordinates: currentCoordinates) { [weak self] success, weatherModel in
+            self?.activityIndicator.isHidden = true
             guard let weatherModel, success else {
-                self.presentAlert(.connectionFailed)
+                self?.presentAlert(.connectionFailed)
                 return
             }
             // Retrieve weather data for later (if Add is enabled from segue VC)
-            self.weather = weatherModel
+            self?.weather = weatherModel
             
-            self.weatherData.append(weatherModel)
-            self.weatherTableView.reloadData()
+            self?.weatherData.append(weatherModel)
+            self?.weatherTableView.reloadData()
         }
     }
     
@@ -222,15 +223,16 @@ extension WeatherViewController: UISearchResultsUpdating {
         resultVC.delegate = self
         
         activityIndicator.isHidden = false
-        GooglePlacesManager.shared.findPlaces(query: query) { result in
-            self.activityIndicator.isHidden = true
+        // https://www.avanderlee.com/swift/weak-self/
+        GooglePlacesManager.shared.findPlaces(query: query) { [weak self] result in
+            self?.activityIndicator.isHidden = true
             switch result {
             case .success(let places):
                 DispatchQueue.main.async {
                     resultVC.update(with: places)
                 }
             case .failure(let error):
-                self.presentAlert(.connectionFailed)
+                self?.presentAlert(.connectionFailed)
                 print(error)
             }
         }
@@ -251,17 +253,18 @@ extension WeatherViewController: ResultsViewControllerDelegate {
         
         // Get data from matching coordinates
         activityIndicator.isHidden = false
-        WeatherManager.shared.performRequest(coordinates: coordinates) { success, weatherModel in
-            self.activityIndicator.isHidden = true
+        // https://www.avanderlee.com/swift/weak-self/
+        WeatherManager.shared.performRequest(coordinates: coordinates) { [weak self] success, weatherModel in
+            self?.activityIndicator.isHidden = true
             guard let weatherModel, success else {
-                self.presentAlert(.connectionFailed)
+                self?.presentAlert(.connectionFailed)
                 return
             }
             // Retrieve weather data for later (if Add is enabled from segue VC)
-            self.weather = weatherModel
+            self?.weather = weatherModel
             
             // Send a weather object to segue to ask whether or not we add it to the WeatherTableView (see func prepare)
-            self.performSegue(withIdentifier: "segueToAddWeather", sender: self)
+            self?.performSegue(withIdentifier: "segueToAddWeather", sender: self)
         }
     }
 }
