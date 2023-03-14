@@ -65,12 +65,8 @@ As easy to use as the applications on which it is based.
 
 ## Demo
 
-|Currency|Weather|
-|--|--|
-|<video src="https://github.com/SylvainDruaux/Backpack/tree/dev/Resources/Demo-iPhone-14-Pro-Currency.mp4">|<video src="https://github.com/SylvainDruaux/Backpack/tree/dev/ResourcesDemo-iPhone-14-Pro-Weather.mp4">|
-
-|Translate - Video 1|Translate - Video 2|
-|--|--|
-|<video src="https://github.com/SylvainDruaux/Backpack/tree/dev/ResourcesDemo-iPhone-14-Pro-Translate-1.mp4">|<video src="https://github.com/SylvainDruaux/Backpack/tree/dev/ResourcesDemo-iPhone-14-Pro-Translate-2.mp4">|
+|Currency|Translate|Weather|
+|--|--|--|
+|<img src="/Resources/Demo-iPhone-14-Pro-Currency.gif" width="250">|<img src="/Resources/Demo-iPhone-14-Pro-Translate.gif" width="250">|<img src="/Resources/Demo-iPhone-14-Pro-Weather.gif" width="250">|
 
 ## License
