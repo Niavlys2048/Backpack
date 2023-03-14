@@ -67,10 +67,10 @@ As easy to use as the applications on which it is based.
 
 |Currency|Weather|
 |--|--|
-|<video width="200"><source src="/Resources/Demo-iPhone-14-Pro-Currency.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|<video width="200"><source src="/Resources/Demo-iPhone-14-Pro-Weather.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|
+|<video width="200" height="435"><source src="/Resources/Demo-iPhone-14-Pro-Currency.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|<video width="200" height="435"><source src="/Resources/Demo-iPhone-14-Pro-Weather.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|
 
-|Translate|
+| Translate |
 |--|--|
-|<video width="200"><source src="/Resources/Demo-iPhone-14-Pro-Translate-1.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|<video width="200"><source src="/Resources/Demo-iPhone-14-Pro-Translate-2.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|
+|<video width="200" height="435"><source src="/Resources/Demo-iPhone-14-Pro-Translate-1.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|<video width="200" height="435"><source src="/Resources/Demo-iPhone-14-Pro-Translate-2.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|
 
 ## License
