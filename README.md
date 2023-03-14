@@ -67,10 +67,10 @@ As easy to use as the applications on which it is based.
 
 |Currency|Weather|
 |--|--|
-|https://github.com/SylvainDruaux/Backpack/blob/dev/Resources/Demo-iPhone-14-Pro-Currency.mp4|https://github.com/SylvainDruaux/Backpack/blob/dev/Resources/Demo-iPhone-14-Pro-Weather.mp4|
+|<video src="/Resources/Demo-iPhone-14-Pro-Currency.mp4">|<video src="/Resources/Demo-iPhone-14-Pro-Weather.mp4">|
 
-| <td colspan=3>Translate |
+|Translate - Video 1|Translate - Video 2|
 |--|--|
-|https://github.com/SylvainDruaux/Backpack/blob/dev/Resources/Demo-iPhone-14-Pro-Translate-1.mp4|https://github.com/SylvainDruaux/Backpack/blob/dev/Resources/Demo-iPhone-14-Pro-Translate-2.mp4|
+|<video src="/Resources/Demo-iPhone-14-Pro-Translate-1.mp4">|<video src="/Resources/Demo-iPhone-14-Pro-Translate-2.mp4">|
 
 ## License
