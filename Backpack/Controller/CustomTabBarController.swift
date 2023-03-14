@@ -11,38 +11,22 @@ final class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // MARK: - Custom images for TabBar
-        // https://stackoverflow.com/questions/69794613/tabbar-custom-button-image-doesnt-show-up
-        // https://stackoverflow.com/questions/29874499/tabbaritems-and-setting-their-image-sizes
-        
         // MARK: - First Item
-        guard let firstItem = tabBar.items?[0] else {
-            return
-        }
+        guard let firstItem = tabBar.items?[0] else { return }
         
-        guard let btnImageCurrencyDeselected: UIImage = UIImage(named: "currencyDeselected")?.withRenderingMode(.alwaysOriginal) else {
-            return
-        }
+        guard let btnImageCurrencyDeselected: UIImage = UIImage(named: "currencyDeselected")?.withRenderingMode(.alwaysOriginal) else { return }
         firstItem.image = btnImageCurrencyDeselected
         
-        guard let btnImageCurrency: UIImage = UIImage(named: "currency")?.withRenderingMode(.alwaysOriginal) else {
-            return
-        }
+        guard let btnImageCurrency: UIImage = UIImage(named: "currency")?.withRenderingMode(.alwaysOriginal) else { return }
         firstItem.selectedImage = btnImageCurrency
         
         // MARK: - Second Item
-        guard let secondItem = tabBar.items?[1] else {
-            return
-        }
+        guard let secondItem = tabBar.items?[1] else { return }
         
-        guard let btnImageTranslateDeselected: UIImage = UIImage(named: "translateDeselected")?.withRenderingMode(.alwaysOriginal) else {
-            return
-        }
+        guard let btnImageTranslateDeselected: UIImage = UIImage(named: "translateDeselected")?.withRenderingMode(.alwaysOriginal) else { return }
         secondItem.image = btnImageTranslateDeselected
         
-        guard let btnImageTranslate: UIImage = UIImage(named: "translate")?.withRenderingMode(.alwaysOriginal) else {
-            return
-        }
+        guard let btnImageTranslate: UIImage = UIImage(named: "translate")?.withRenderingMode(.alwaysOriginal) else { return }
         secondItem.selectedImage = btnImageTranslate
         
         // MARK: - Third Item
@@ -50,18 +34,13 @@ final class CustomTabBarController: UITabBarController {
             return
         }
         
-        guard let btnImageWeatherDeselected: UIImage = UIImage(named: "weatherDeselected")?.withRenderingMode(.alwaysOriginal) else {
-            return
-        }
+        guard let btnImageWeatherDeselected: UIImage = UIImage(named: "weatherDeselected")?.withRenderingMode(.alwaysOriginal) else { return }
         thirdItem.image = btnImageWeatherDeselected
         
-        guard let btnImageWeather: UIImage = UIImage(named: "weather")?.withRenderingMode(.alwaysOriginal) else {
-            return
-        }
+        guard let btnImageWeather: UIImage = UIImage(named: "weather")?.withRenderingMode(.alwaysOriginal) else { return }
         thirdItem.selectedImage = btnImageWeather
         
         // MARK: - Custom text color for TabBar
-        // https://developer.apple.com/forums/thread/682528
         let tabBarAppearance = UITabBarAppearance()
         let tabBarItemAppearance = UITabBarItemAppearance()
 

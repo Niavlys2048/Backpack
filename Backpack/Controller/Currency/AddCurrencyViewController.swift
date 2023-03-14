@@ -7,7 +7,6 @@
 
 import UIKit
 
-// https://jamesrochabrun.medium.com/implementing-delegates-in-swift-step-by-step-d3211cbac3ef
 protocol AddCurrencyViewControllerDelegate: AnyObject {
     func didTapAdd(_ addCurrencyViewController: AddCurrencyViewController)
 }
@@ -15,7 +14,6 @@ protocol AddCurrencyViewControllerDelegate: AnyObject {
 final class AddCurrencyViewController: UIViewController {
     
     // MARK: - Outlets
-    // https://www.youtube.com/watch?v=R2Ng8Vj2yhY
     @IBOutlet private var addCurrencyTableView: UITableView!
     
     // MARK: - Properties
@@ -33,7 +31,6 @@ final class AddCurrencyViewController: UIViewController {
         addCurrencyTableView.dataSource = self
         addCurrencyTableView.delegate = self
         
-        // Init addableCurrencyData
         let currentCurrencyCodes = currencyData.map({ return $0.code })
         addableCurrencyData = availableCurrencyData.filter({ !currentCurrencyCodes.contains($0.code) })
     }

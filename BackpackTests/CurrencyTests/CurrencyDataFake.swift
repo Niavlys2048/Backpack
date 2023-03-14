@@ -19,7 +19,7 @@ class CurrencyDataFake {
         for localeID in localeIDs {
             let locale = Locale(identifier: localeID)
             let currencyCode = locale.currencyCode
-            if let currencyCode, mainCurrencyCodes.contains(currencyCode), !availableCurrencyData.contains(where: {
+            if let currencyCode, CurrencyCodes.mainCurrencyCodes.contains(currencyCode), !availableCurrencyData.contains(where: {
                 $0.code == currencyCode }
             ) {
                 let currency = Currency(countryId: localeID)
@@ -29,7 +29,6 @@ class CurrencyDataFake {
     }
     
     private func updateRates() {
-        // currencyData update with the corresponding up-to-date rate
         for currency in self.currencyData {
             for rate in rates where currency.code == rate.key {
                 currency.rate = rate.value

@@ -5,73 +5,87 @@
 //  Created by Sylvain Druaux on 03/02/2023.
 //
 
-// https://fixer.io/documentation
-
 import Foundation
 
 final class RateManager {
     
     // MARK: - Properties
-    // shared represents unique instance of the class
     static var shared = RateManager()
-    
-    private let currencieCodes = mainCurrencyCodes.joined(separator: ",")
-    
-    private let ratesURL = "https://api.apilayer.com/fixer/latest"
-    private var task: URLSessionTask?    
-    
-    // Dependency injection (for unit tests)
+    private let currencyCodes = CurrencyCodes.mainCurrencyCodes.joined(separator: ",")
+    private var task: URLSessionTask?
     private var session = URLSession(configuration: .default)
+    
+    lazy var appConfiguration = AppConfiguration()
+    private var apiKey: String?
+    
+    // MARK: - Enum
+    enum RateError: Error {
+        case failedToConnect, failedToGetRates, failedToParseRates
+    }
+    
+    // MARK: - Methods
     init(session: URLSession) {
         self.session = session
     }
     
-    // MARK: - Methods
-    // Make init private to become inaccessible from outside
-    private init() {}
+    private init() {
+        apiKey = appConfiguration.fixerApiKey
+    }
     
-    func performRequest(callback: @escaping (Bool, [RateModel]?) -> Void) {
-        let apiKey = Bundle.main.object(forInfoDictionaryKey: "FIXER_API_KEY") as? String
+    func performRequest(completion: @escaping (Result<[RateModel], Error>) -> Void) {
+        var urlParams = [String: String]()
+        urlParams["apikey"] = apiKey
+        urlParams["base"] = "USD"
+        urlParams["symbols"] = currencyCodes
         
-        guard let apiKey, !apiKey.isEmpty else {
-            print("Error: Missing fixer API key")
+        // 1. Retrieve url
+        guard var components = URLComponents(string: appConfiguration.fixerBaseURL) else {
+            completion(.failure(RateError.failedToConnect))
             return
         }
         
-        let urlString = "\(ratesURL)?base=USD&apikey=\(apiKey)&symbols=\(currencieCodes)"
-        
-        // 1. Create a URL
-        if let url = URL(string: urlString) {
-            
-            // 2. Create URLSession (see Dependency injection for unit tests)
-            
-            // Cancel the previous task if a new request is added before the previous task is completed
-            task?.cancel()
-            
-            // 3. Give the session a task
-            task = session.dataTask(with: url, completionHandler: { data, response, error in
-                DispatchQueue.main.async {
-                    guard let safeData = data, error == nil else {
-                        callback(false, nil)
-                        return
-                    }
-                    
-                    guard let safeResponse = response as? HTTPURLResponse, safeResponse.statusCode == 200 else {
-                        callback(false, nil)
-                        return
-                    }
-                    
-                    guard let rates = self.parseJSON(safeData) else {
-                        callback(false, nil)
-                        return
-                    }
-                    
-                    callback(true, rates)
-                }
-            })
+        // 2. Building final url with all parameters
+        components.queryItems = [URLQueryItem]()
+        for (key, value) in urlParams {
+            components.queryItems?.append(URLQueryItem(name: key, value: value))
         }
         
-        // 4. Start the task
+        // 3. Create final url
+        guard let url = components.url else {
+            completion(.failure(RateError.failedToConnect))
+            return
+        }
+        
+        // 4. Create URLRequest
+        let request = URLRequest(url: url)
+        
+        // 5. Create URLSession (see Dependency injection for unit tests)
+        
+        // Cancel the previous task if another request happens
+        task?.cancel()
+        
+        // 6. Give the session a task
+        task = session.dataTask(with: request, completionHandler: { data, response, error in
+            DispatchQueue.main.async {
+                guard let safeData = data, error == nil else {
+                    completion(.failure(RateError.failedToConnect))
+                    return
+                }
+                
+                guard let safeResponse = response as? HTTPURLResponse, safeResponse.statusCode == 200 else {
+                    completion(.failure(RateError.failedToGetRates))
+                    return
+                }
+                
+                guard let rates = self.parseJSON(safeData) else {
+                    completion(.failure(RateError.failedToParseRates))
+                    return
+                }
+                completion(.success(rates))
+            }
+        })
+        
+        // 7. Start the task
         task?.resume()
     }
     

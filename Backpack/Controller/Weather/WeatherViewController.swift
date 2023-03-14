@@ -16,18 +16,13 @@ enum DegreeUnit {
 final class WeatherViewController: UIViewController {
     
     // MARK: - Outlets
-    // https://www.youtube.com/watch?v=R2Ng8Vj2yhY
     @IBOutlet private var weatherTableView: UITableView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
         
     // MARK: - Properties
     private var weather: WeatherModel?
-    
-    // Data for weatherTableView
     private var weatherData: [WeatherModel] = []
     
-    // https://www.youtube.com/watch?v=Lb8aJa7J4BI
-    // https://www.youtube.com/watch?v=Cd-B5_vkOFs
     private let searchController = UISearchController(searchResultsController: ResultsViewController())
     
     private var currentLocation: CLLocationCoordinate2D?
@@ -42,19 +37,18 @@ final class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Init Navigation Bar
         initNavigationBar()
         
-        // Ask for Authorisation from the User.
-        // https://www.zerotoappstore.com/how-to-get-current-location-in-swift.html
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         
-        //        if CLLocationManager.locationServicesEnabled() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.startUpdatingLocation()
-        //        }
+        DispatchQueue.global().async {
+            if CLLocationManager.locationServicesEnabled() {
+                self.locationManager.delegate = self
+                self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+                self.locationManager.startUpdatingLocation()
+            }
+        }
         
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
@@ -111,10 +105,8 @@ final class WeatherViewController: UIViewController {
     }
     
     private func editList() {
-        // Hide searchBar
         searchController.searchBar.isHidden = true
         
-        // Change appearance and behavior of menuButton to be able to exit editing
         menuButton.title = "Done"
         menuButton.image = nil
         menuButton.menu = nil
@@ -136,39 +128,30 @@ final class WeatherViewController: UIViewController {
     }
     
     private func updateWeatherTableViewWithCurrentLocation() {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPEN_WEATHER_API_KEY") as? String,
-                !apiKey.isEmpty else {
-            presentAlert(.missingApiKey)
-            return
-        }
-        
-        // Update weatherTableView with user's current coordinates (location)
         guard let currentLocation else { return }
-        
         let currentCoordinates = Coordinates(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
         
         activityIndicator.isHidden = false
-        // https://www.avanderlee.com/swift/weak-self/
-        WeatherManager.shared.performRequest(coordinates: currentCoordinates) { [weak self] success, weatherModel in
+        
+        WeatherManager.shared.performRequest(coordinates: currentCoordinates) { [weak self] result in
             self?.activityIndicator.isHidden = true
-            guard let weatherModel, success else {
+            switch result {
+            case .success(let weatherModel):
+                guard let weather = weatherModel else { return }
+                self?.weather = weather
+                self?.weatherData.append(weather)
+                self?.weatherTableView.reloadData()
+            case .failure(let error):
                 self?.presentAlert(.connectionFailed)
-                return
+                print(error)
             }
-            // Retrieve weather data for later (if Add is enabled from segue VC)
-            self?.weather = weatherModel
-            
-            self?.weatherData.append(weatherModel)
-            self?.weatherTableView.reloadData()
         }
     }
     
     // MARK: - Actions
     @objc private func exitEditing() {
-        // Show searchBar
         searchController.searchBar.isHidden = false
         
-        // Change appearance and behavior of menuButton back to its original purpose
         menuButton.title = nil
         menuButton.image = UIImage(systemName: "ellipsis.circle")
         menuButton.menu = generatePullDownMenu()
@@ -206,12 +189,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
 // MARK: - Update of ResultViewController from searchController via GooglePlacesManager
 extension WeatherViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "GOOGLE_API_KEY") as? String,
-                !apiKey.isEmpty else {
-            presentAlert(.missingApiKey)
-            return
-        }
-        
         guard let query = searchController.searchBar.text, !query.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
@@ -223,7 +200,6 @@ extension WeatherViewController: UISearchResultsUpdating {
         resultVC.delegate = self
         
         activityIndicator.isHidden = false
-        // https://www.avanderlee.com/swift/weak-self/
         GooglePlacesManager.shared.findPlaces(query: query) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
@@ -245,26 +221,18 @@ extension WeatherViewController: ResultsViewControllerDelegate {
         searchController.searchBar.resignFirstResponder()
         searchController.dismiss(animated: true)
         
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPEN_WEATHER_API_KEY") as? String,
-                !apiKey.isEmpty else {
-            presentAlert(.missingApiKey)
-            return
-        }
-        
-        // Get data from matching coordinates
         activityIndicator.isHidden = false
-        // https://www.avanderlee.com/swift/weak-self/
-        WeatherManager.shared.performRequest(coordinates: coordinates) { [weak self] success, weatherModel in
+        WeatherManager.shared.performRequest(coordinates: coordinates) { [weak self] result in
             self?.activityIndicator.isHidden = true
-            guard let weatherModel, success else {
+            switch result {
+            case .success(let weatherModel):
+                guard let weather = weatherModel else { return }
+                self?.weather = weather
+                self?.performSegue(withIdentifier: "segueToAddWeather", sender: self)
+            case .failure(let error):
                 self?.presentAlert(.connectionFailed)
-                return
+                print(error)
             }
-            // Retrieve weather data for later (if Add is enabled from segue VC)
-            self?.weather = weatherModel
-            
-            // Send a weather object to segue to ask whether or not we add it to the WeatherTableView (see func prepare)
-            self?.performSegue(withIdentifier: "segueToAddWeather", sender: self)
         }
     }
 }
@@ -272,7 +240,6 @@ extension WeatherViewController: ResultsViewControllerDelegate {
 // MARK: - AdditionViewController Delegate to display the city and add it to WeatherTableView
 extension WeatherViewController: AddWeatherViewControllerDelegate {
     func didTapAdd(_ addWeatherViewController: AddWeatherViewController) {
-        // Add the location previously chosen to WeatherTableView
         if let weather {
             weatherData.append(weather)
             weatherTableView.reloadData()
@@ -315,7 +282,6 @@ extension WeatherViewController: UITableViewDataSource {
         return cell
     }
     
-    // https://www.youtube.com/watch?v=GUnzTIYSucU
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -324,7 +290,6 @@ extension WeatherViewController: UITableViewDataSource {
         weatherData.swapAt(sourceIndexPath.row, destinationIndexPath.row)
     }
     
-    // https://www.youtube.com/watch?v=F6dgdJCFS1Q
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
@@ -351,7 +316,6 @@ extension WeatherViewController: UITableViewDataSource {
                 cornerRadius: 10
             )
         
-        // https://stackoverflow.com/questions/51937648/how-to-set-clear-background-in-table-view-cell-swipe-action/51939297#51939297
         delete.backgroundColor = UIColor(white: 1, alpha: 0)
         actions.append(delete)
         let config = UISwipeActionsConfiguration(actions: actions)

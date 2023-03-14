@@ -7,7 +7,6 @@
 
 import Foundation
 
-// https://stackoverflow.com/questions/28124119/convert-html-to-plain-text-in-swift
 extension Data {
     var html2AttributedString: NSAttributedString? {
         do {

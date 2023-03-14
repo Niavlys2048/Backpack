@@ -7,7 +7,6 @@
 
 import UIKit
 
-// https://jamesrochabrun.medium.com/implementing-delegates-in-swift-step-by-step-d3211cbac3ef
 protocol LanguageViewControllerDelegate: AnyObject {
     func didTapLanguage(_ languageViewController: LanguageViewController)
 }
@@ -33,13 +32,16 @@ final class LanguageViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        initView()
         
         languageTableView.dataSource = self
         languageTableView.delegate = self
-        
         languageSearchBar.delegate = self
         
-        // Init title
+        getSupportedLanguages()
+    }
+    
+    private func initView() {
         switch selectedLanguage {
         case .sourceLanguage:
             translateLabel.text = "Translate from"
@@ -47,44 +49,33 @@ final class LanguageViewController: UIViewController {
             translateLabel.text = "Translate to"
         }
         
-        // Init searchBar
         let textFieldInsideSearchBar = languageSearchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.overrideUserInterfaceStyle = .dark
-        if self.traitCollection.userInterfaceStyle == .light {
-            textFieldInsideSearchBar?.keyboardAppearance = .light
-        }
-        
-        getSupportedLanguages()
+        if self.traitCollection.userInterfaceStyle == .light { textFieldInsideSearchBar?.keyboardAppearance = .light }
     }
     
     private func getSupportedLanguages() {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "GOOGLE_API_KEY") as? String,
-                !apiKey.isEmpty else {
-            presentAlert(.missingApiKey)
-            return
-        }
         activityIndicator.isHidden = false
-        // https://www.avanderlee.com/swift/weak-self/
-        TranslateManager.shared.fetchSupportedLanguages { [weak self] success, languages in
+        TranslateManager.shared.fetchSupportedLanguages { [weak self] result in
             self?.activityIndicator.isHidden = true
-            guard let languages, success else {
+            switch result {
+            case .success(let languages):
+                guard let supportedLanguages = languages else { return }
+                self?.supportedLanguageData = supportedLanguages
+                
+                guard var supportedLanguages = self?.supportedLanguageData else { return }
+                self?.supportedLanguageData = supportedLanguages.sorted { $0.name < $1.name }
+                
+                if self?.selectedLanguage == .sourceLanguage {
+                    supportedLanguages.insert(LanguageModel(name: "Detect language", code: "detect"), at: 0)
+                }
+                
+                self?.filteredData = supportedLanguages
+                self?.languageTableView.reloadData()
+            case .failure(let error):
                 self?.presentAlert(.connectionFailed)
-                return
+                print(error)
             }
-            self?.supportedLanguageData = languages
-            
-            // Init supported languages list
-            guard var supportedLanguages = self?.supportedLanguageData else {
-                return
-            }
-            self?.supportedLanguageData = supportedLanguages.sorted { $0.name < $1.name }
-            
-            if self?.selectedLanguage == .sourceLanguage {
-                supportedLanguages.insert(LanguageModel(name: "Detect language", code: "detect"), at: 0)
-            }
-            
-            self?.filteredData = supportedLanguages
-            self?.languageTableView.reloadData()
         }
     }
     

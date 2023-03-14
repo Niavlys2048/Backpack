@@ -16,10 +16,14 @@ final class WeatherManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        weatherManager.performRequest(coordinates: parisCoordinates) { success, weatherModel in
+        weatherManager.performRequest(coordinates: parisCoordinates) { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(weatherModel)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -32,10 +36,14 @@ final class WeatherManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        weatherManager.performRequest(coordinates: parisCoordinates) { success, weatherModel in
+        weatherManager.performRequest(coordinates: parisCoordinates) { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(weatherModel)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -53,10 +61,14 @@ final class WeatherManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        weatherManager.performRequest(coordinates: parisCoordinates) { success, weatherModel in
+        weatherManager.performRequest(coordinates: parisCoordinates) { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(weatherModel)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -74,10 +86,14 @@ final class WeatherManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        weatherManager.performRequest(coordinates: parisCoordinates) { success, weatherModel in
+        weatherManager.performRequest(coordinates: parisCoordinates) { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(weatherModel)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -95,7 +111,7 @@ final class WeatherManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        weatherManager.performRequest(coordinates: parisCoordinates) { success, weatherModel in
+        weatherManager.performRequest(coordinates: parisCoordinates) { result in
             // Then
             let cityName = "Paris"
             let timeZone = 3600
@@ -103,14 +119,16 @@ final class WeatherManagerTests: XCTestCase {
             let temperature = 5.99
             let conditionId = 800
             
-            XCTAssertTrue(success)
-            XCTAssertNotNil(weatherModel)
-            
-            XCTAssertEqual(cityName, weatherModel?.cityName)
-            XCTAssertEqual(timeZone, weatherModel?.timeZone)
-            XCTAssertEqual(conditionName, weatherModel?.conditionName)
-            XCTAssertEqual(temperature, weatherModel?.temperature)
-            XCTAssertEqual(conditionId, weatherModel?.conditionId)
+            switch result {
+            case .success(let weatherModel):
+                XCTAssertEqual(cityName, weatherModel?.cityName)
+                XCTAssertEqual(timeZone, weatherModel?.timeZone)
+                XCTAssertEqual(conditionName, weatherModel?.conditionName)
+                XCTAssertEqual(temperature, weatherModel?.temperature)
+                XCTAssertEqual(conditionId, weatherModel?.conditionId)
+            case .failure:
+                XCTFail(#function)
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)

@@ -20,7 +20,6 @@ extension String {
         return decimalValue
     }
     
-    // https://stackoverflow.com/questions/28124119/convert-html-to-plain-text-in-swift
     var html2AttributedString: NSAttributedString? {
         Data(utf8).html2AttributedString
     }

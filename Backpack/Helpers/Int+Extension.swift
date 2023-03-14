@@ -5,8 +5,6 @@
 //  Created by Sylvain Druaux on 31/01/2023.
 //
 
-// // https://www.agnosticdev.com/content/how-convert-swift-dates-timezone
-
 import Foundation
 
 extension Int {

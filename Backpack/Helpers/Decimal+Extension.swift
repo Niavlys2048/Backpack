@@ -5,8 +5,6 @@
 //  Created by Sylvain Druaux on 12/02/2023.
 //
 
-// https://www.jessesquires.com/blog/2022/02/01/decimal-vs-double/
-
 import Foundation
 
 extension Decimal {

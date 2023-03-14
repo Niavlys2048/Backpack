@@ -281,6 +281,10 @@
                                                 <rect key="frame" x="0.0" y="33" width="353" height="56"/>
                                                 <color key="barTintColor" name="translateBackgroundColor"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                                <scopeButtonTitles>
+                                                    <string>Title</string>
+                                                    <string>Title</string>
+                                                </scopeButtonTitles>
                                                 <connections>
                                                     <outlet property="delegate" destination="Iy0-5s-NQP" id="H3b-gh-zmN"/>
                                                 </connections>

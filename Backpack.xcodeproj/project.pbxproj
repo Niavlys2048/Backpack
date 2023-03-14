@@ -70,6 +70,7 @@
 		4FFCA1812988500C00E38CFB /* AddWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFCA1802988500C00E38CFB /* AddWeatherViewController.swift */; };
 		C7F844AEAB87DA65E6548038 /* libPods-BackpackTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4422CF7B923C2600F38335AD /* libPods-BackpackTests.a */; };
 		D0618DEC0A3F5213B46F1F36 /* libPods-Backpack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80FBB5EAA237421CC04C17C0 /* libPods-Backpack.a */; };
+		E4706DC729C082A900E81E9B /* AppConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4706DC629C082A900E81E9B /* AppConfigurations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,7 @@
 		80FBB5EAA237421CC04C17C0 /* libPods-Backpack.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Backpack.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E17ECF0885E7E3A172E66C5 /* Pods-BackpackTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BackpackTests.release.xcconfig"; path = "Target Support Files/Pods-BackpackTests/Pods-BackpackTests.release.xcconfig"; sourceTree = "<group>"; };
 		C310CBF21889296BFBD5D7F8 /* Pods-Backpack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Backpack.release.xcconfig"; path = "Target Support Files/Pods-Backpack/Pods-Backpack.release.xcconfig"; sourceTree = "<group>"; };
+		E4706DC629C082A900E81E9B /* AppConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -325,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				4FEE435829803273002DB4AF /* AppDelegate.swift */,
+				E4706DC629C082A900E81E9B /* AppConfigurations.swift */,
 				4FEE43922980599D002DB4AF /* Model */,
 				4FEE4393298059A4002DB4AF /* View */,
 				4FEE4394298059AB002DB4AF /* Controller */,
@@ -684,6 +687,7 @@
 				4F5F0B7B298D203F00F037B5 /* CurrencyTableViewCell.swift in Sources */,
 				4F7BD4302986FBDF00AAC176 /* ResultsViewController.swift in Sources */,
 				4F4C7576299BD96300BB8D45 /* GoogleTranslateAPI.swift in Sources */,
+				E4706DC729C082A900E81E9B /* AppConfigurations.swift in Sources */,
 				4FDEA1A72998172C00257785 /* GMSProtocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

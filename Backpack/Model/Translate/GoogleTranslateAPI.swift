@@ -5,10 +5,6 @@
 //  Created by Sylvain Druaux on 14/02/2023.
 //
 
-// https://cloud.google.com/translate/docs/basic/translating-text
-// https://cloud.google.com/translate/docs/basic/discovering-supported-languages
-// https://developerinsider.co/advanced-enum-enumerations-by-example-swift-programming-language/
-
 import Foundation
 
 enum GoogleTranslateAPI {
@@ -16,14 +12,15 @@ enum GoogleTranslateAPI {
     case supportedLanguages
     
     func getURL() -> String {
+        lazy var appConfiguration = AppConfiguration()
         var urlString = ""
         
         switch self {
         case .translate:
-            urlString = "https://translation.googleapis.com/language/translate/v2"
+            urlString = appConfiguration.googleTranslateBaseURL
         
         case .supportedLanguages:
-            urlString = "https://translation.googleapis.com/language/translate/v2/languages"
+            urlString = appConfiguration.googleLanguagesBaseURL
         }
         return urlString
     }

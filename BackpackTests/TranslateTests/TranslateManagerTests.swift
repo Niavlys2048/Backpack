@@ -17,10 +17,14 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { success, translateModel in
+        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(translateModel)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -34,10 +38,14 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { success, translateModel in
+        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(translateModel)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -54,10 +62,14 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { success, translateModel in
+        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(translateModel)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -74,10 +86,14 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { success, translateModel in
+        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(translateModel)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -94,17 +110,17 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { success, translateModel in
+        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
             let translatedText = "Hello, How old are you?"
             let detectedSourceLanguage = "fr"
-            
-            XCTAssertTrue(success)
-            XCTAssertNotNil(translateModel)
-            
-            XCTAssertEqual(translatedText, translateModel?.translatedText)
-            XCTAssertEqual(detectedSourceLanguage, translateModel?.detectedSourceLanguage)
-            
+            switch result {
+            case .success(let translateModel):
+                XCTAssertEqual(translatedText, translateModel?.translatedText)
+                XCTAssertEqual(detectedSourceLanguage, translateModel?.detectedSourceLanguage)
+            case .failure:
+                XCTFail(#function)
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -116,10 +132,14 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { success, languages in
+        translateManager.fetchSupportedLanguages { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(languages)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -131,10 +151,14 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { success, languages in
+        translateManager.fetchSupportedLanguages { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(languages)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -149,10 +173,14 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { success, languages in
+        translateManager.fetchSupportedLanguages { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(languages)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -167,10 +195,14 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { success, languages in
+        translateManager.fetchSupportedLanguages { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(languages)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -185,9 +217,8 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { success, languages in
+        translateManager.fetchSupportedLanguages { result in
             // Then
-                        
             let afLanguageName = "Afrikaans"
             let afLanguageCode = "af"
 
@@ -200,21 +231,22 @@ final class TranslateManagerTests: XCTestCase {
             let amLanguageName = "Amharic"
             let amLanguageCode = "am"
             
-            XCTAssertTrue(success)
-            XCTAssertNotNil(languages)
-            
-            XCTAssertEqual(afLanguageName, languages?[0].name)
-            XCTAssertEqual(afLanguageCode, languages?[0].code)
-            
-            XCTAssertEqual(akLanguageName, languages?[1].name)
-            XCTAssertEqual(akLanguageCode, languages?[1].code)
-            
-            XCTAssertEqual(sqLanguageName, languages?[2].name)
-            XCTAssertEqual(sqLanguageCode, languages?[2].code)
-            
-            XCTAssertEqual(amLanguageName, languages?[3].name)
-            XCTAssertEqual(amLanguageCode, languages?[3].code)
-            
+            switch result {
+            case .success(let languages):
+                XCTAssertEqual(afLanguageName, languages?[0].name)
+                XCTAssertEqual(afLanguageCode, languages?[0].code)
+                
+                XCTAssertEqual(akLanguageName, languages?[1].name)
+                XCTAssertEqual(akLanguageCode, languages?[1].code)
+                
+                XCTAssertEqual(sqLanguageName, languages?[2].name)
+                XCTAssertEqual(sqLanguageCode, languages?[2].code)
+                
+                XCTAssertEqual(amLanguageName, languages?[3].name)
+                XCTAssertEqual(amLanguageCode, languages?[3].code)
+            case .failure:
+                XCTFail(#function)
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)

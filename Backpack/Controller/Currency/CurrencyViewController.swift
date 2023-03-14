@@ -10,7 +10,6 @@ import UIKit
 final class CurrencyViewController: UIViewController {
 
     // MARK: - Outlets
-    // https://www.youtube.com/watch?v=R2Ng8Vj2yhY
     @IBOutlet private var currencyTableView: UITableView!
     @IBOutlet private var inputTextField: UITextField!
     
@@ -20,7 +19,7 @@ final class CurrencyViewController: UIViewController {
     private var menuButton: UIBarButtonItem!
     private var menu: UIMenu!
     
-    // Data for currencyTableView & addCurrencyTableView
+    private let mainCurrencyCodes = CurrencyCodes.mainCurrencyCodes
     private var availableCurrencyData: [Currency] = []
     private var currencyData: [Currency] = []
     private var rates: [RateModel] = []
@@ -40,22 +39,12 @@ final class CurrencyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Init Navigation Bar
         initNavigationBar()
-        
-        // Init available currencies
         initAvailableCurrencyData()
-        
-        // Update rates for all available currencies
         updateRates()
-        
-        // Init currencyData
         initCurrencyData()
         
-        // https://mobikul.com/pull-to-refresh-in-swift/
-        // Init refreshControl
         currencyTableView.refreshControl = UIRefreshControl()
-        // add target to UIRefreshControl
         currencyTableView.refreshControl?.addTarget(self, action: #selector(callPullToRefresh), for: .valueChanged)
         
         currencyTableView.dataSource = self
@@ -63,11 +52,9 @@ final class CurrencyViewController: UIViewController {
         
         inputTextField.delegate = self
         
-        // Setting the separator var ("." or "," based on locale)
         let numberFormatter = NumberFormatter()
         decimalSeparator = numberFormatter.locale.decimalSeparator ?? "."
         
-        // Keyboard observers
         NotificationCenter.default.addObserver(
             self, selector: #selector(keyboardWillShow),
             name: UIResponder.keyboardWillShowNotification, object: nil
@@ -101,35 +88,26 @@ final class CurrencyViewController: UIViewController {
     }
     
     private func updateRates() {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "FIXER_API_KEY") as? String,
-                !apiKey.isEmpty else {
-            presentAlert(.missingApiKey)
-            return
-        }
         activityIndicator.isHidden = false
-        // https://www.avanderlee.com/swift/weak-self/
-        RateManager.shared.performRequest { [weak self] success, rates in
+        RateManager.shared.performRequest { [weak self] result in
             self?.activityIndicator.isHidden = true
-            guard let rates, success else {
-                self?.presentAlert(.connectionFailed)
-                return
-            }
-            // Retrieve rates data
-            self?.rates = rates
-            
-            // availableCurrencyData update with the corresponding up-to-date rate
-            guard let availableCurrencies = self?.availableCurrencyData else {
-                return
-            }
-            for currency in availableCurrencies {
-                for rate in rates where currency.code == rate.currencyCode {
-                    currency.rate = rate.currencyRate
+            switch result {
+            case .success(let rates):
+                self?.rates = rates
+                
+                guard let availableCurrencies = self?.availableCurrencyData else { return }
+                for currency in availableCurrencies {
+                    for rate in rates where currency.code == rate.currencyCode {
+                        currency.rate = rate.currencyRate
+                    }
                 }
+            case .failure(let error):
+                self?.presentAlert(.connectionFailed)
+                print(error)
             }
         }
         
         guard !currencyData.isEmpty else { return }
-        // If currencyData is not empty, we also update rate here
         for currency in self.currencyData {
             for rate in rates where currency.code == rate.currencyCode {
                 currency.rate = rate.currencyRate
@@ -187,21 +165,17 @@ final class CurrencyViewController: UIViewController {
     }
     
     private func addCurrency() {
-        // Send an availableCurrencyData object to segue to ask whether or not we add currencies to the CurrencyTableView (see func prepare)
         self.performSegue(withIdentifier: "segueToAddCurrency", sender: self)
     }
     
     private func editList() {
-        // Change appearance and behavior of menuButton to be able to exit editing
         menuButton.title = "Done"
         menuButton.image = nil
         menuButton.menu = nil
         menuButton.action = #selector(exitEditing)
         menuButton.target = self
         
-        if !currencyTableView.isEditing {
-            currencyTableView.isEditing = true
-        }
+        if !currencyTableView.isEditing { currencyTableView.isEditing = true }
     }
     
     // MARK: - Actions
@@ -212,40 +186,36 @@ final class CurrencyViewController: UIViewController {
     }
     
     @objc private func exitEditing() {
-        // Change appearance and behavior of menuButton back to its original purpose
         menuButton.title = nil
         menuButton.image = UIImage(systemName: "ellipsis.circle")
         menuButton.menu = generatePullDownMenu()
         menuButton.action = nil
         
-        if currencyTableView.isEditing {
-            currencyTableView.isEditing = false
-        }
+        if currencyTableView.isEditing { currencyTableView.isEditing = false }
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if let selectedIndexPath = currencyTableView.indexPathForSelectedRow, !typingAmount {
-                let selectedCellRect = currencyTableView.rectForRow(at: selectedIndexPath)
-                let tableViewBottom = currencyTableView.frame.size.height + currencyTableView.contentOffset.y
-                let cellBottom = selectedCellRect.origin.y + selectedCellRect.size.height
-                let difference = tableViewBottom - cellBottom
-                if difference < keyboardSize.height {
-                    // https://gist.github.com/nielsbot/f9b8224aff70685be4b5
-                    currencyTableViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-                    currencyTableView.contentInset = currencyTableViewContentInset
-                    currencyTableView.scrollIndicatorInsets = currencyTableViewContentInset
-                    
-                    let contentOffset = currencyTableView.contentOffset
-                    let newPosition = contentOffset.y + keyboardSize.height - difference
-                    
-                    currencyTableViewContentOffset = CGPoint(x: contentOffset.x, y: newPosition)
-                    currencyTableView.contentOffset = currencyTableViewContentOffset
-                    
-                    typingAmount = true
-                }
-            }
-        }
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue  else { return }
+        guard let selectedIndexPath = currencyTableView.indexPathForSelectedRow, !typingAmount else { return }
+        
+        let selectedCellRect = currencyTableView.rectForRow(at: selectedIndexPath)
+        let tableViewBottom = currencyTableView.frame.size.height + currencyTableView.contentOffset.y
+        let cellBottom = selectedCellRect.origin.y + selectedCellRect.size.height
+        let difference = tableViewBottom - cellBottom
+        
+        guard difference < keyboardSize.height else { return }
+        
+        currencyTableViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        currencyTableView.contentInset = currencyTableViewContentInset
+        currencyTableView.scrollIndicatorInsets = currencyTableViewContentInset
+        
+        let contentOffset = currencyTableView.contentOffset
+        let newPosition = contentOffset.y + keyboardSize.height - difference
+        
+        currencyTableViewContentOffset = CGPoint(x: contentOffset.x, y: newPosition)
+        currencyTableView.contentOffset = currencyTableViewContentOffset
+        
+        typingAmount = true
     }
       
     @objc private func keyboardWillHide(notification: NSNotification) {
@@ -263,7 +233,6 @@ final class CurrencyViewController: UIViewController {
 // MARK: - AddCurrencyViewControllerDelegate to display the city and add it to CurrencyTableView
 extension CurrencyViewController: AddCurrencyViewControllerDelegate {
     func didTapAdd(_ addCurrencyViewController: AddCurrencyViewController) {
-        // Add the up-to-date currencyData to weatherTableView
         currencyData = addCurrencyViewController.currencyData
         updateCurrencyData()
         
@@ -293,7 +262,6 @@ extension CurrencyViewController: UITableViewDataSource {
         return cell
     }
     
-    // https://www.youtube.com/watch?v=GUnzTIYSucU
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -302,12 +270,9 @@ extension CurrencyViewController: UITableViewDataSource {
         currencyData.swapAt(sourceIndexPath.row, destinationIndexPath.row)
     }
     
-    // https://www.youtube.com/watch?v=F6dgdJCFS1Q
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         let currency = currencyData[indexPath.row]
-        if currency.code == "USD" || currency.code == "EUR" {
-            return .none
-        }
+        if currency.code == "USD" || currency.code == "EUR" { return .none }
         return .delete
     }
     
@@ -336,42 +301,29 @@ extension CurrencyViewController: UITableViewDelegate {
 // MARK: - inputTextField Delegate
 extension CurrencyViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let selectedIndexPath = currencyTableView.indexPathForSelectedRow else {
-            return false
-        }
+        guard let selectedIndexPath = currencyTableView.indexPathForSelectedRow else { return false }
         let selectedCurrency = currencyData[selectedIndexPath.row]
         
         let currentText = textField.text ?? ""
         let replacementText = (currentText as NSString).replacingCharacters(in: range, with: string)
         
-        // Avoid separator more than once
         let currentTextHasDecimalSeparator = currentText.range(of: decimalSeparator)
         let replacementTextHasDecimalSeparator = string.range(of: decimalSeparator)
 
-        if currentTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil {
-            return false
-        }
+        if currentTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil { return false }
         
         let decimalComponents = replacementText.components(separatedBy: decimalSeparator)
         let decimalDigitLimit = decimalComponents.count > 1 ? 2 : 0
 
-        if decimalComponents.count > 2 { // If there are more than two components (more than one decimal separator)
-            return false
-        }
+        if decimalComponents.count > 2 { return false }
         
-        // If the number has one decimal separator
         if decimalComponents.count > 1 {
             let integerPart = decimalComponents.first
             let decimalPart = decimalComponents.last
             guard let integerCount = integerPart?.count else { return false }
             guard let decimalCount = decimalPart?.count else { return false }
-            if integerCount > 10 || decimalCount > decimalDigitLimit {
-                return false
-            }
-        } else if let integerPart = decimalComponents.first, integerPart.count > 12 {
-            // If the number is an integer
-            return false
-        }
+            if integerCount > 10 || decimalCount > decimalDigitLimit { return false }
+        } else if let integerPart = decimalComponents.first, integerPart.count > 12 { return false }
         
         let newCurrencyArray = currencyConverter.convertCurrency(
             amount: replacementText,
@@ -381,10 +333,8 @@ extension CurrencyViewController: UITextFieldDelegate {
         currencyData = newCurrencyArray
         currencyTableView.reloadData()
         
-        // Return to row selection
         currencyTableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
         
-        // Return to previous inputTextField & currencyTableView position
         currencyTableView.contentInset = currencyTableViewContentInset
         currencyTableView.scrollIndicatorInsets = currencyTableViewContentInset
         currencyTableView.contentOffset = currencyTableViewContentOffset

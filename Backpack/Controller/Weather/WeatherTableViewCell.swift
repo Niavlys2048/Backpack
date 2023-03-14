@@ -5,10 +5,6 @@
 //  Created by Sylvain Druaux on 28/01/2023.
 //
 
-// https://www.youtube.com/watch?v=WK5vrOD1zCQ
-// https://www.youtube.com/watch?v=iekavhiE0ZM
-// https://www.youtube.com/watch?v=OQYqGM5_wVY
-
 import UIKit
 
 final class WeatherTableViewCell: UITableViewCell {

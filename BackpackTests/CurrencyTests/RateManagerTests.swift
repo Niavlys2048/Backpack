@@ -15,10 +15,14 @@ final class RateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateManager.performRequest { success, rateModels in
+        rateManager.performRequest { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(rateModels)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -30,10 +34,14 @@ final class RateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateManager.performRequest { success, rateModels in
+        rateManager.performRequest { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(rateModels)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -50,10 +58,14 @@ final class RateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateManager.performRequest { success, rateModels in
+        rateManager.performRequest { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(rateModels)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -70,10 +82,14 @@ final class RateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateManager.performRequest { success, rateModels in
+        rateManager.performRequest { result in
             // Then
-            XCTAssertFalse(success)
-            XCTAssertNil(rateModels)
+            switch result {
+            case .success:
+                XCTFail("Error")
+            case .failure:
+                break
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -90,7 +106,7 @@ final class RateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateManager.performRequest { success, rateModels in
+        rateManager.performRequest { result in
             // Then
             
             let aedCurrencyCode = "AED"
@@ -105,23 +121,24 @@ final class RateManagerTests: XCTestCase {
             let cadCurrencyCode = "CAD"
             let cadCurrencyRate = 1.340375
             
-            XCTAssertTrue(success)
-            XCTAssertNotNil(rateModels)
-            
-            let sortedRates = rateModels?.sorted { $0.currencyCode < $1.currencyCode }
-            
-            XCTAssertEqual(aedCurrencyCode, sortedRates?[0].currencyCode)
-            XCTAssertEqual(aedCurrencyRate, sortedRates?[0].currencyRate)
-            
-            XCTAssertEqual(audCurrencyCode, sortedRates?[1].currencyCode)
-            XCTAssertEqual(audCurrencyRate, sortedRates?[1].currencyRate)
-            
-            XCTAssertEqual(brlCurrencyCode, sortedRates?[2].currencyCode)
-            XCTAssertEqual(brlCurrencyRate, sortedRates?[2].currencyRate)
-            
-            XCTAssertEqual(cadCurrencyCode, sortedRates?[3].currencyCode)
-            XCTAssertEqual(cadCurrencyRate, sortedRates?[3].currencyRate)
-            
+            switch result {
+            case .success(let rateModels):
+                let sortedRates = rateModels.sorted { $0.currencyCode < $1.currencyCode }
+                
+                XCTAssertEqual(aedCurrencyCode, sortedRates[0].currencyCode)
+                XCTAssertEqual(aedCurrencyRate, sortedRates[0].currencyRate)
+                
+                XCTAssertEqual(audCurrencyCode, sortedRates[1].currencyCode)
+                XCTAssertEqual(audCurrencyRate, sortedRates[1].currencyRate)
+                
+                XCTAssertEqual(brlCurrencyCode, sortedRates[2].currencyCode)
+                XCTAssertEqual(brlCurrencyRate, sortedRates[2].currencyRate)
+                
+                XCTAssertEqual(cadCurrencyCode, sortedRates[3].currencyCode)
+                XCTAssertEqual(cadCurrencyRate, sortedRates[3].currencyRate)
+            case .failure:
+                XCTFail(#function)
+            }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)

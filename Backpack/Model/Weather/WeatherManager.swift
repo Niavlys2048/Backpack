@@ -5,74 +5,90 @@
 //  Created by Sylvain Druaux on 31/01/2023.
 //
 
-// https://openweathermap.org/current
-
 import Foundation
 
 final class WeatherManager {
     
     // MARK: - Properties
-    // shared represents unique instance of the class
     static var shared = WeatherManager()
-    
-    private let weatherURL = "https://api.openweathermap.org/data/2.5/weather/"
     private var task: URLSessionTask?
-    
-    // Dependency injection (for unit tests)
     private var session = URLSession(configuration: .default)
+    
+    lazy var appConfiguration = AppConfiguration()
+    private var apiKey: String?
+    
+    // MARK: - Enum
+    enum WeatherError: Error {
+        case failedToConnect, failedToGetWeather, failedToParseWeather
+    }
+    
+    // MARK: - Methods
     init(session: URLSession) {
         self.session = session
     }
     
-    // MARK: - Methods
-    // Make init private to become inaccessible from outside
-    private init() {}
+    private init() {
+        apiKey = appConfiguration.openWeatherApiKey
+    }
     
-    func performRequest(coordinates: Coordinates, callback: @escaping (Bool, WeatherModel?) -> Void) {        
-        let apiKey = Bundle.main.object(forInfoDictionaryKey: "OPEN_WEATHER_API_KEY") as? String
+    func performRequest(coordinates: Coordinates, completion: @escaping (Result<WeatherModel?, Error>) -> Void) {
+        let latitude = String(coordinates.latitude)
+        let longitude = String(coordinates.longitude)
         
-        guard let apiKey, !apiKey.isEmpty else {
-            print("Error: Missing OpenWeather API key")
+        var urlParams = [String: String]()
+        urlParams["appid"] = apiKey
+        urlParams["units"] = "metric"
+        urlParams["lat"] = latitude
+        urlParams["lon"] = longitude
+        
+        // 1. Retrieve url
+        guard var components = URLComponents(string: appConfiguration.openWeatherBaseURL) else {
+            completion(.failure(WeatherError.failedToConnect))
             return
         }
         
-        let latitude = coordinates.latitude
-        let longitude = coordinates.longitude
-        
-        let urlString = "\(weatherURL)?appid=\(apiKey)&units=metric&lat=\(latitude)&lon=\(longitude)"
-        
-        // 1. Create a URL
-        if let url = URL(string: urlString) {
-            
-            // 2. Create URLSession (see Dependency injection for unit tests)
-            
-            // Cancel the previous task if a new request is added before the previous task is completed
-            task?.cancel()
-            
-            // 3. Give the session a task
-            task = session.dataTask(with: url, completionHandler: { data, response, error in
-                DispatchQueue.main.async {
-                    guard let safeData = data, error == nil else {
-                        callback(false, nil)
-                        return
-                    }
-                    
-                    guard let safeResponse = response as? HTTPURLResponse, safeResponse.statusCode == 200 else {
-                        callback(false, nil)
-                        return
-                    }
-                    
-                    guard let weather = self.parseJSON(safeData) else {
-                        callback(false, nil)
-                        return
-                    }
-                    
-                    callback(true, weather)
-                }
-            })
+        // 2. Building final url with all parameters
+        components.queryItems = [URLQueryItem]()
+        for (key, value) in urlParams {
+            components.queryItems?.append(URLQueryItem(name: key, value: value))
         }
         
-        // 4. Start the task
+        // 3. Create final url
+        guard let url = components.url else {
+            completion(.failure(WeatherError.failedToConnect))
+            return
+        }
+        
+        // 4. Create URLRequest
+        let request = URLRequest(url: url)
+        
+        // 5. Create URLSession (see Dependency injection for unit tests)
+        
+        // Cancel the previous task if another request happens
+        task?.cancel()
+        
+        // 6. Give the session a task
+        task = session.dataTask(with: request, completionHandler: { data, response, error in
+            DispatchQueue.main.async {
+                guard let safeData = data, error == nil else {
+                    completion(.failure(WeatherError.failedToConnect))
+                    return
+                }
+                
+                guard let safeResponse = response as? HTTPURLResponse, safeResponse.statusCode == 200 else {
+                    completion(.failure(WeatherError.failedToGetWeather))
+                    return
+                }
+                
+                guard let weather = self.parseJSON(safeData) else {
+                    completion(.failure(WeatherError.failedToGetWeather))
+                    return
+                }
+                completion(.success(weather))
+            }
+        })
+                
+        // 7. Start the task
         task?.resume()
     }
     

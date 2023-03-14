@@ -5,9 +5,6 @@
 //  Created by Sylvain Druaux on 11/02/2023.
 //
 
-// https://developers.google.com/maps/documentation/places/ios-sdk/reference/interface_g_m_s_autocomplete_prediction
-// https://developers.google.com/maps/documentation/places/ios-sdk/reference/interface_g_m_s_place
-
 import Foundation
 import GooglePlaces
 
