@@ -67,6 +67,6 @@ As easy to use as the applications on which it is based.
 
 |Currency|Translate|Weather|
 |--|--|--|
-|<img src="/Resources/Demo-iPhone-14-Pro-Currency.gif" width="250">|<img src="/Resources/Demo-iPhone-14-Pro-Translate.gif" width="250">|<img src="/Resources/Demo-iPhone-14-Pro-Weather.gif" width="250">|
+|<img src="/Resources/Demo-iPhone-14-Pro-Currency.gif" width="220">|<img src="/Resources/Demo-iPhone-14-Pro-Translate.gif" width="220">|<img src="/Resources/Demo-iPhone-14-Pro-Weather.gif" width="220">|
 
 ## License
