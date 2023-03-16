@@ -21,15 +21,15 @@ As easy to use as the applications on which it is based.
 ## Dependency
 
 * This application requires the pod GooglePlaces 7.3.0.
-    * To install CocoaPods: https://cocoapods.org/
+    * To install it, follow these instructions: [CocoaPods](https://cocoapods.org/)
 
 * OpenWeather API and fixer.io API keys are present, but they may not be active forever.
     * You can create your own keys for free on these websites:
-        * https://openweathermap.org/
-        * https://apilayer.com/marketplace/fixer-api
+        * [OpenWeather](https://openweathermap.org/)
+        * [fixer](https://fixer.io/)
 
 * Your own Google API key is required in the Secrets.xconfig file.
-    * To create your Google API key, follow these steps: https://support.google.com/googleapi/answer/6158862?hl=en
+    * To create your Google API key, follow these instructions: [Setting up API keys](https://support.google.com/googleapi/answer/6158862?hl=en)
     * You will need an access to Cloud Translation API and Places API.
 
 ## Features
@@ -65,12 +65,10 @@ As easy to use as the applications on which it is based.
 
 ## Demo
 
-|Currency|Weather|
-|--|--|
-|<video width="200"><source src="/Resources/Demo-iPhone-14-Pro-Currency.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|<video width="200"><source src="/Resources/Demo-iPhone-14-Pro-Weather.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|
-
-|Translate|
-|--|--|
-|<video width="200"><source src="/Resources/Demo-iPhone-14-Pro-Translate-1.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|<video width="200"><source src="/Resources/Demo-iPhone-14-Pro-Translate-2.mp4" type="video/mp4" />Your browser does not support the video tag.</video>|
+|Currency|Translate|Weather|
+|--|--|--|
+|<img src="/Resources/Demo-iPhone-14-Pro-Currency.gif" width="220">|<img src="/Resources/Demo-iPhone-14-Pro-Translate.gif" width="220">|<img src="/Resources/Demo-iPhone-14-Pro-Weather.gif" width="220">|
 
 ## License
+
+See LICENSE.md for details
