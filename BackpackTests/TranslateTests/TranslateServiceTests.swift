@@ -1,5 +1,5 @@
 //
-//  TranslateManagerTests.swift
+//  TranslateServiceTests.swift
 //  BackpackTests
 //
 //  Created by Sylvain Druaux on 15/02/2023.
@@ -8,16 +8,16 @@
 @testable import Backpack
 import XCTest
 
-final class TranslateManagerTests: XCTestCase {
+final class TranslateServiceTests: XCTestCase {
     func test_translate_Failed_Error() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(data: nil, response: nil, error: TranslateResponseDataFake.error))
+        let translateService = TranslateService(session: URLSessionFake(data: nil, response: nil, error: TranslateResponseDataFake.error))
         
         let textToTranslate = "Bonjour, Quel âge avez-vous ?"
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
+        translateService.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
             switch result {
             case .success:
@@ -32,13 +32,13 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_translate_Failed_WithoutData() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(data: nil, response: nil, error: nil))
+        let translateService = TranslateService(session: URLSessionFake(data: nil, response: nil, error: nil))
         
         let textToTranslate = "Bonjour, Quel âge avez-vous ?"
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
+        translateService.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
             switch result {
             case .success:
@@ -53,7 +53,7 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_translate_Failed_InccorectResponse() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(
+        let translateService = TranslateService(session: URLSessionFake(
             data: TranslateResponseDataFake.translateCorrectData,
             response: TranslateResponseDataFake.responseKO, error: nil)
         )
@@ -62,7 +62,7 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
+        translateService.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
             switch result {
             case .success:
@@ -77,7 +77,7 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_translate_Failed_InccorectData() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(
+        let translateService = TranslateService(session: URLSessionFake(
             data: TranslateResponseDataFake.translateIncorrectData,
             response: TranslateResponseDataFake.responseOK, error: nil)
         )
@@ -86,7 +86,7 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
+        translateService.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
             switch result {
             case .success:
@@ -101,7 +101,7 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_translate_Success_CorrectData() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(
+        let translateService = TranslateService(session: URLSessionFake(
             data: TranslateResponseDataFake.translateCorrectData,
             response: TranslateResponseDataFake.responseOK, error: nil)
         )
@@ -110,7 +110,7 @@ final class TranslateManagerTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
+        translateService.translate(textToTranslate: textToTranslate, targetLanguage: "en") { result in
             // Then
             let translatedText = "Hello, How old are you?"
             let detectedSourceLanguage = "fr"
@@ -128,11 +128,11 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_fetchSupportedLanguages_Failed_Error() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(data: nil, response: nil, error: LanguageResponseDataFake.error))
+        let translateService = TranslateService(session: URLSessionFake(data: nil, response: nil, error: LanguageResponseDataFake.error))
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { result in
+        translateService.fetchSupportedLanguages { result in
             // Then
             switch result {
             case .success:
@@ -147,11 +147,11 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_fetchSupportedLanguages_Failed_WithoutData() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(data: nil, response: nil, error: nil))
+        let translateService = TranslateService(session: URLSessionFake(data: nil, response: nil, error: nil))
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { result in
+        translateService.fetchSupportedLanguages { result in
             // Then
             switch result {
             case .success:
@@ -166,14 +166,14 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_fetchSupportedLanguages_Failed_InccorectResponse() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(
+        let translateService = TranslateService(session: URLSessionFake(
             data: LanguageResponseDataFake.languageCorrectData,
             response: LanguageResponseDataFake.responseKO, error: nil)
         )
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { result in
+        translateService.fetchSupportedLanguages { result in
             // Then
             switch result {
             case .success:
@@ -188,14 +188,14 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_fetchSupportedLanguages_Failed_InccorectData() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(
+        let translateService = TranslateService(session: URLSessionFake(
             data: LanguageResponseDataFake.languageIncorrectData,
             response: LanguageResponseDataFake.responseOK, error: nil)
         )
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { result in
+        translateService.fetchSupportedLanguages { result in
             // Then
             switch result {
             case .success:
@@ -210,14 +210,14 @@ final class TranslateManagerTests: XCTestCase {
     
     func test_fetchSupportedLanguages_Success_CorrectData() {
         // Given
-        let translateManager = TranslateManager(session: URLSessionFake(
+        let translateService = TranslateService(session: URLSessionFake(
             data: LanguageResponseDataFake.languageCorrectData,
             response: LanguageResponseDataFake.responseOK, error: nil)
         )
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        translateManager.fetchSupportedLanguages { result in
+        translateService.fetchSupportedLanguages { result in
             // Then
             let afLanguageName = "Afrikaans"
             let afLanguageCode = "af"

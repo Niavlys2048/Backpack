@@ -56,7 +56,7 @@ final class LanguageViewController: UIViewController {
     
     private func getSupportedLanguages() {
         activityIndicator.isHidden = false
-        TranslateManager.shared.fetchSupportedLanguages { [weak self] result in
+        TranslateService.shared.fetchSupportedLanguages { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
             case .success(let languages):

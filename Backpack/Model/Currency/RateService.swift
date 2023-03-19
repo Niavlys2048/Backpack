@@ -1,16 +1,17 @@
 //
-//  WeatherManager.swift
+//  RateService.swift
 //  Backpack
 //
-//  Created by Sylvain Druaux on 31/01/2023.
+//  Created by Sylvain Druaux on 03/02/2023.
 //
 
 import Foundation
 
-final class WeatherManager {
+final class RateService {
     
     // MARK: - Properties
-    static var shared = WeatherManager()
+    static var shared = RateService()
+    private let currencyCodes = CurrencyCodes.mainCurrencies.joined(separator: ",")
     private var task: URLSessionTask?
     private var session = URLSession(configuration: .default)
     
@@ -18,8 +19,8 @@ final class WeatherManager {
     private var apiKey: String?
     
     // MARK: - Enum
-    enum WeatherError: Error {
-        case failedToConnect, failedToGetWeather, failedToParseWeather
+    enum RateError: Error {
+        case failedToConnect, failedToGetRates, failedToParseRates
     }
     
     // MARK: - Methods
@@ -28,22 +29,18 @@ final class WeatherManager {
     }
     
     private init() {
-        apiKey = appConfiguration.openWeatherApiKey
+        apiKey = appConfiguration.fixerApiKey
     }
     
-    func performRequest(coordinates: Coordinates, completion: @escaping (Result<WeatherModel?, Error>) -> Void) {
-        let latitude = String(coordinates.latitude)
-        let longitude = String(coordinates.longitude)
-        
+    func performRequest(completion: @escaping (Result<[RateModel], Error>) -> Void) {
         var urlParams = [String: String]()
-        urlParams["appid"] = apiKey
-        urlParams["units"] = "metric"
-        urlParams["lat"] = latitude
-        urlParams["lon"] = longitude
+        urlParams["apikey"] = apiKey
+        urlParams["base"] = CurrencyCodes.usDollar
+        urlParams["symbols"] = currencyCodes
         
         // 1. Retrieve url
-        guard var components = URLComponents(string: appConfiguration.openWeatherBaseURL) else {
-            completion(.failure(WeatherError.failedToConnect))
+        guard var components = URLComponents(string: appConfiguration.fixerBaseURL) else {
+            completion(.failure(RateError.failedToConnect))
             return
         }
         
@@ -55,7 +52,7 @@ final class WeatherManager {
         
         // 3. Create final url
         guard let url = components.url else {
-            completion(.failure(WeatherError.failedToConnect))
+            completion(.failure(RateError.failedToConnect))
             return
         }
         
@@ -71,39 +68,39 @@ final class WeatherManager {
         task = session.dataTask(with: request, completionHandler: { data, response, error in
             DispatchQueue.main.async {
                 guard let safeData = data, error == nil else {
-                    completion(.failure(WeatherError.failedToConnect))
+                    completion(.failure(RateError.failedToConnect))
                     return
                 }
                 
                 guard let safeResponse = response as? HTTPURLResponse, safeResponse.statusCode == 200 else {
-                    completion(.failure(WeatherError.failedToGetWeather))
+                    completion(.failure(RateError.failedToGetRates))
                     return
                 }
                 
-                guard let weather = self.parseJSON(safeData) else {
-                    completion(.failure(WeatherError.failedToGetWeather))
+                guard let rates = self.parseJSON(safeData) else {
+                    completion(.failure(RateError.failedToParseRates))
                     return
                 }
-                completion(.success(weather))
+                completion(.success(rates))
             }
         })
-                
+        
         // 7. Start the task
         task?.resume()
     }
     
-    private func parseJSON(_ weatherData: Data) -> WeatherModel? {
+    private func parseJSON(_ rateData: Data) -> [RateModel]? {
         let decoder = JSONDecoder()
         do {
-            let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
-            let city = decodedData.name
-            let timeZone = decodedData.timezone
-            let conditionName = decodedData.weather[0].main
-            let id = decodedData.weather[0].id
-            let temp = decodedData.main.temp
+            let decodedData = try decoder.decode(RateData.self, from: rateData)
             
-            let weather = WeatherModel(cityName: city, timeZone: timeZone, conditionName: conditionName, temperature: temp, conditionId: id)
-            return weather
+            var rates: [RateModel] = []
+            for row in decodedData.rates {
+                let rate = RateModel(currencyCode: row.key, currencyRate: row.value)
+                rates.append(rate)
+            }
+
+            return rates
         } catch {
             return nil
         }

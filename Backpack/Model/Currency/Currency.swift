@@ -22,13 +22,13 @@ final class Currency {
         self.code = locale.currencyCode ?? ""
         self.symbol = locale.currencySymbol ?? ""
         switch code {
-        case "EUR": // For all Euro Member Countries
+        case CurrencyCodes.euro: // For all Euro Member Countries
             self.countryCode = "EU"
-        case "AUD": // Fix a bug from Locale giving the wrong country code
+        case CurrencyCodes.auDollar: // Fix a bug from Locale giving the wrong country code
             self.countryCode = "AU"
         default:
             self.countryCode = locale.regionCode ?? ""
         }
-        self.name = (code == "EUR") ? "Euro Member Countries" : Locale.current.localizedString(forCurrencyCode: code) ?? ""
+        self.name = (code == CurrencyCodes.euro) ? "Euro Member Countries" : Locale.current.localizedString(forCurrencyCode: code) ?? ""
     }
 }

@@ -19,7 +19,7 @@ final class CurrencyViewController: UIViewController {
     private var menuButton: UIBarButtonItem!
     private var menu: UIMenu!
     
-    private let mainCurrencyCodes = CurrencyCodes.mainCurrencyCodes
+    private let mainCurrencyCodes = CurrencyCodes.mainCurrencies
     private var availableCurrencyData: [Currency] = []
     private var currencyData: [Currency] = []
     private var rates: [RateModel] = []
@@ -81,7 +81,7 @@ final class CurrencyViewController: UIViewController {
     }
     
     private func initCurrencyData() {
-        let startingCurrencyList = ["EUR", "USD", "GBP", "JPY", "IDR", "UAH"]
+        let startingCurrencyList = CurrencyCodes.defaultCurrencies
         currencyData = availableCurrencyData.filter { currency in
             return startingCurrencyList.contains(currency.code)
         }
@@ -89,7 +89,7 @@ final class CurrencyViewController: UIViewController {
     
     private func updateRates() {
         activityIndicator.isHidden = false
-        RateManager.shared.performRequest { [weak self] result in
+        RateService.shared.performRequest { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
             case .success(let rates):
@@ -175,7 +175,7 @@ final class CurrencyViewController: UIViewController {
         menuButton.action = #selector(exitEditing)
         menuButton.target = self
         
-        if !currencyTableView.isEditing { currencyTableView.isEditing = true }
+        currencyTableView.isEditing.toggle()
     }
     
     // MARK: - Actions
@@ -272,7 +272,7 @@ extension CurrencyViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         let currency = currencyData[indexPath.row]
-        if currency.code == "USD" || currency.code == "EUR" { return .none }
+        if currency.code == CurrencyCodes.usDollar || currency.code == CurrencyCodes.euro { return .none }
         return .delete
     }
     

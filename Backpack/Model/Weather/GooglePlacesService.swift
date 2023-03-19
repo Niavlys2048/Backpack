@@ -1,5 +1,5 @@
 //
-//  GooglePlacesManager.swift
+//  GooglePlacesService.swift
 //  Backpack
 //
 //  Created by Sylvain Druaux on 29/01/2023.
@@ -19,10 +19,10 @@ struct Coordinates {
     let longitude: Double
 }
 
-final class GooglePlacesManager {
+final class GooglePlacesService {
     
     // MARK: - Properties
-    static let shared = GooglePlacesManager()
+    static let shared = GooglePlacesService()
     private var client = GMSPlacesClientWrapper.shared
     
     // MARK: - Enum

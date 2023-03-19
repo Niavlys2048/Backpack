@@ -43,4 +43,12 @@ struct WeatherModel {
             return "sun.min"
         }
     }
+    
+    init(weatherResponse: WeatherResponse) {
+        self.cityName = weatherResponse.name
+        self.timeZone = weatherResponse.timezone
+        self.conditionName = weatherResponse.weather[0].main
+        self.temperature = weatherResponse.main.temp
+        self.conditionId = weatherResponse.weather[0].id
+    }
 }

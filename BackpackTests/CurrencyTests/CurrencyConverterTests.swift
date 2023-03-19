@@ -26,7 +26,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = ""
         
@@ -45,7 +45,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "not_a_number"
         
@@ -64,7 +64,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "5"
         
@@ -92,7 +92,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "5\(decimalSeparator)"
         
@@ -120,7 +120,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "5\(decimalSeparator)2"
         
@@ -148,7 +148,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "50000\(decimalSeparator)"
         
@@ -176,7 +176,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "USD" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.usDollar }).first else { return }
         currency.amount = "not_a_number"
         
         // Then
@@ -194,7 +194,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "USD" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.usDollar }).first else { return }
         currency.amount = (500.00).displayCurrency
         
         // Then

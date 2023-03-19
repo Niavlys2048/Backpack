@@ -19,7 +19,7 @@ class CurrencyDataFake {
         for localeID in localeIDs {
             let locale = Locale(identifier: localeID)
             let currencyCode = locale.currencyCode
-            if let currencyCode, CurrencyCodes.mainCurrencyCodes.contains(currencyCode), !availableCurrencyData.contains(where: {
+            if let currencyCode, CurrencyCodes.mainCurrencies.contains(currencyCode), !availableCurrencyData.contains(where: {
                 $0.code == currencyCode }
             ) {
                 let currency = Currency(countryId: localeID)

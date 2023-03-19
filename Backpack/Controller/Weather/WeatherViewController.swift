@@ -133,11 +133,25 @@ final class WeatherViewController: UIViewController {
         
         activityIndicator.isHidden = false
         
-        WeatherManager.shared.performRequest(coordinates: currentCoordinates) { [weak self] result in
+//        WeatherService.shared.performRequest(coordinates: currentCoordinates) { [weak self] result in
+//            self?.activityIndicator.isHidden = true
+//            switch result {
+//            case .success(let weatherModel):
+//                guard let weather = weatherModel else { return }
+//                self?.weather = weather
+//                self?.weatherData.append(weather)
+//                self?.weatherTableView.reloadData()
+//            case .failure(let error):
+//                self?.presentAlert(.connectionFailed)
+//                print(error)
+//            }
+//        }
+        
+        WeatherService.shared.getWeather(coordinates: currentCoordinates) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
-            case .success(let weatherModel):
-                guard let weather = weatherModel else { return }
+            case .success(let weatherResponse):
+                let weather = WeatherModel(weatherResponse: weatherResponse)
                 self?.weather = weather
                 self?.weatherData.append(weather)
                 self?.weatherTableView.reloadData()
@@ -200,7 +214,7 @@ extension WeatherViewController: UISearchResultsUpdating {
         resultVC.delegate = self
         
         activityIndicator.isHidden = false
-        GooglePlacesManager.shared.findPlaces(query: query) { [weak self] result in
+        GooglePlacesService.shared.findPlaces(query: query) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
             case .success(let places):
@@ -222,11 +236,24 @@ extension WeatherViewController: ResultsViewControllerDelegate {
         searchController.dismiss(animated: true)
         
         activityIndicator.isHidden = false
-        WeatherManager.shared.performRequest(coordinates: coordinates) { [weak self] result in
+//        WeatherService.shared.performRequest(coordinates: coordinates) { [weak self] result in
+//            self?.activityIndicator.isHidden = true
+//            switch result {
+//            case .success(let weatherModel):
+//                guard let weather = weatherModel else { return }
+//                self?.weather = weather
+//                self?.performSegue(withIdentifier: "segueToAddWeather", sender: self)
+//            case .failure(let error):
+//                self?.presentAlert(.connectionFailed)
+//                print(error)
+//            }
+//        }
+        
+        WeatherService.shared.getWeather(coordinates: coordinates) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
-            case .success(let weatherModel):
-                guard let weather = weatherModel else { return }
+            case .success(let weatherResponse):
+                let weather = WeatherModel(weatherResponse: weatherResponse)
                 self?.weather = weather
                 self?.performSegue(withIdentifier: "segueToAddWeather", sender: self)
             case .failure(let error):

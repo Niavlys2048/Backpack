@@ -69,7 +69,7 @@ final class TranslateViewController: UIViewController {
     
     private func translateText() {
         activityIndicator.isHidden = false
-        TranslateManager.shared.translate(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] result in
+        TranslateService.shared.translate(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
             case .success(let translation):

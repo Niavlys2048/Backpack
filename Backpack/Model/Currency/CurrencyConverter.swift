@@ -50,11 +50,11 @@ final class CurrencyConverter {
     }
     
     func updateAmount(currencyArray: [Currency]) -> [Currency] {
-        let dollarAmount = currencyArray.filter({ $0.code == "USD" }).map({ return $0.amount })[0]
+        let dollarAmount = currencyArray.filter({ $0.code == CurrencyCodes.usDollar }).map({ return $0.amount })[0]
         guard let dollarAmountDecimal = dollarAmount.toDecimal else {
             return currencyArray
         }
-        for currency in currencyArray where currency.code != "USD" {
+        for currency in currencyArray where currency.code != CurrencyCodes.usDollar {
             let currencyRateDecimal = Decimal(currency.rate)
             let currencyAmountDecimal = currencyRateDecimal * dollarAmountDecimal
             currency.amount = currencyAmountDecimal.displayCurrency

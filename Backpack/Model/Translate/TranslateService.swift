@@ -1,5 +1,5 @@
 //
-//  TranslateManager.swift
+//  TranslateService.swift
 //  Backpack
 //
 //  Created by Sylvain Druaux on 14/02/2023.
@@ -7,10 +7,10 @@
 
 import Foundation
 
-final class TranslateManager {
+final class TranslateService {
     
     // MARK: - Properties
-    static var shared = TranslateManager()
+    static var shared = TranslateService()
     private var task: URLSessionTask?
     private var session = URLSession(configuration: .default)
     
