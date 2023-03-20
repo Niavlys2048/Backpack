@@ -26,7 +26,7 @@ final class WeatherViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: ResultsViewController())
     
     private var currentLocation: CLLocationCoordinate2D?
-    let locationManager = CLLocationManager()
+    var locationManager: CLLocationManager?
     
     private var menuButton: UIBarButtonItem!
     private var menu: UIMenu!
@@ -39,16 +39,12 @@ final class WeatherViewController: UIViewController {
         
         initNavigationBar()
         
-        locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
+        locationManager = CLLocationManager()
+        self.locationManager?.delegate = self
         
-        DispatchQueue.global().async {
-            if CLLocationManager.locationServicesEnabled() {
-                self.locationManager.delegate = self
-                self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-                self.locationManager.startUpdatingLocation()
-            }
-        }
+        locationManager?.requestAlwaysAuthorization()
+        locationManager?.requestWhenInUseAuthorization()
+        locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
@@ -132,21 +128,6 @@ final class WeatherViewController: UIViewController {
         let currentCoordinates = Coordinates(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
         
         activityIndicator.isHidden = false
-        
-//        WeatherService.shared.performRequest(coordinates: currentCoordinates) { [weak self] result in
-//            self?.activityIndicator.isHidden = true
-//            switch result {
-//            case .success(let weatherModel):
-//                guard let weather = weatherModel else { return }
-//                self?.weather = weather
-//                self?.weatherData.append(weather)
-//                self?.weatherTableView.reloadData()
-//            case .failure(let error):
-//                self?.presentAlert(.connectionFailed)
-//                print(error)
-//            }
-//        }
-        
         WeatherService.shared.getWeather(coordinates: currentCoordinates) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
@@ -192,10 +173,34 @@ extension WeatherViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
-        case .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
+        case .denied: // Setting option: Never
+            print("LocationManager didChangeAuthorization denied")
+        case .notDetermined: // Setting option: Ask Next Time
+            print("LocationManager didChangeAuthorization notDetermined")
+        case .authorizedWhenInUse: // Setting option: While Using the App
+            print("LocationManager didChangeAuthorization authorizedWhenInUse")
+            
+            // Stpe 6: Request a one-time location information
+            locationManager?.requestLocation()
+        case .authorizedAlways: // Setting option: Always
+            print("LocationManager didChangeAuthorization authorizedAlways")
+            
+            // Stpe 6: Request a one-time location information
+            locationManager?.requestLocation()
+        case .restricted: // Restricted by parental control
+            print("LocationManager didChangeAuthorization restricted")
         default:
-            break
+            print("LocationManager didChangeAuthorization")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("LocationManager didFailWithError \(error.localizedDescription)")
+        if let error = error as? CLError, error.code == .denied {
+            // Location updates are not authorized.
+            // To prevent forever looping of `didFailWithError` callback
+            locationManager?.stopMonitoringSignificantLocationChanges()
+            return
         }
     }
 }
@@ -236,19 +241,6 @@ extension WeatherViewController: ResultsViewControllerDelegate {
         searchController.dismiss(animated: true)
         
         activityIndicator.isHidden = false
-//        WeatherService.shared.performRequest(coordinates: coordinates) { [weak self] result in
-//            self?.activityIndicator.isHidden = true
-//            switch result {
-//            case .success(let weatherModel):
-//                guard let weather = weatherModel else { return }
-//                self?.weather = weather
-//                self?.performSegue(withIdentifier: "segueToAddWeather", sender: self)
-//            case .failure(let error):
-//                self?.presentAlert(.connectionFailed)
-//                print(error)
-//            }
-//        }
-        
         WeatherService.shared.getWeather(coordinates: coordinates) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {

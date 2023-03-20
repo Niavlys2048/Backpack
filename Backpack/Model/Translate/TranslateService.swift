@@ -94,11 +94,9 @@ final class TranslateService {
         task?.resume()
     }
     
-    func translate(
-        textToTranslate: String,
-        targetLanguage: String,
-        completion: @escaping (Result<TranslateModel?, Error>
-        ) -> Void) {
+    func translate(textToTranslate: String,
+                   targetLanguage: String,
+                   completion: @escaping (Result<TranslateModel?, Error>) -> Void) {
         
         var urlParams = [String: String]()
         urlParams["key"] = apiKey
