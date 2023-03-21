@@ -8,21 +8,15 @@
 import Foundation
 
 class WeatherService {
-    static let shared = WeatherService()
+    static var shared = WeatherService()
     
-    private var restAPIClient: RestAPIClient?
+    private var restAPIClient: RestAPIClient
     
-    init(restAPIClient: RestAPIClient) {
+    init(restAPIClient: RestAPIClient = .shared) {
         self.restAPIClient = restAPIClient
     }
     
-    private init() { }
-    
     func getWeather(coordinates: Coordinates, completion: @escaping(Result<WeatherResponse, DataError>) -> Void) {
-        if let restAPIClient {
-            restAPIClient.getWeather(coordinates: coordinates, completion: completion)
-        } else {
-            RestAPIClient.shared.getWeather(coordinates: coordinates, completion: completion)
-        }
+        restAPIClient.getWeather(coordinates: coordinates, completion: completion)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  TranslateData.swift
+//  TranslateResponse.swift
 //  Backpack
 //
 //  Created by Sylvain Druaux on 14/02/2023.
@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct TranslateData: Decodable {
+struct TranslateResponse: Codable {
     let data: Translations
 }
 
-struct Translations: Decodable {
+struct Translations: Codable {
     var translations: [Translation]
 }
 
-struct Translation: Decodable {
+struct Translation: Codable {
     let translatedText: String
     let detectedSourceLanguage: String
 }

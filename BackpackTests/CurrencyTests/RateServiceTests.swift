@@ -11,11 +11,11 @@ import XCTest
 final class RateServiceTests: XCTestCase {
     func test_performRequest_Failed_Error() {
         // Given
-        let rateService = RateService(session: URLSessionFake(data: nil, response: nil, error: RatesResponseDataFake.error))
-        
+        let restApiClient = RestAPIClient(session: URLSessionFake(data: nil, response: nil, error: RatesResponseDataFake.error))
+        let rateService = RateService(restAPIClient: restApiClient)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateService.performRequest { result in
+        rateService.getRates { result in
             // Then
             switch result {
             case .success:
@@ -30,11 +30,11 @@ final class RateServiceTests: XCTestCase {
     
     func test_performRequest_Failed_WithoutData() {
         // Given
-        let rateService = RateService(session: URLSessionFake(data: nil, response: nil, error: nil))
-        
+        let restApiClient = RestAPIClient(session: URLSessionFake(data: nil, response: nil, error: nil))
+        let rateService = RateService(restAPIClient: restApiClient)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateService.performRequest { result in
+        rateService.getRates { result in
             // Then
             switch result {
             case .success:
@@ -49,16 +49,16 @@ final class RateServiceTests: XCTestCase {
     
     func test_performRequest_Failed_InccorectResponse() {
         // Given
-        let rateService = RateService(
+        let restApiClient = RestAPIClient(
             session: URLSessionFake(
                 data: RatesResponseDataFake.ratesCorrectData,
                 response: RatesResponseDataFake.responseKO, error: nil
             )
         )
-        
+        let rateService = RateService(restAPIClient: restApiClient)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateService.performRequest { result in
+        rateService.getRates { result in
             // Then
             switch result {
             case .success:
@@ -73,16 +73,16 @@ final class RateServiceTests: XCTestCase {
     
     func test_performRequest_Failed_InccorectData() {
         // Given
-        let rateService = RateService(
+        let restApiClient = RestAPIClient(
             session: URLSessionFake(
                 data: RatesResponseDataFake.ratesIncorrectData,
                 response: RatesResponseDataFake.responseOK, error: nil
             )
         )
-        
+        let rateService = RateService(restAPIClient: restApiClient)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateService.performRequest { result in
+        rateService.getRates { result in
             // Then
             switch result {
             case .success:
@@ -97,16 +97,16 @@ final class RateServiceTests: XCTestCase {
     
     func test_performRequest_Success_CorrectData() {
         // Given
-        let rateService = RateService(
+        let restApiClient = RestAPIClient(
             session: URLSessionFake(
                 data: RatesResponseDataFake.ratesCorrectData,
                 response: RatesResponseDataFake.responseOK, error: nil
             )
         )
-        
+        let rateService = RateService(restAPIClient: restApiClient)
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        rateService.performRequest { result in
+        rateService.getRates { result in
             // Then
             
             let aedCurrencyCode = "AED"
@@ -122,8 +122,9 @@ final class RateServiceTests: XCTestCase {
             let cadCurrencyRate = 1.340375
             
             switch result {
-            case .success(let rateModels):
-                let sortedRates = rateModels.sorted { $0.currencyCode < $1.currencyCode }
+            case .success(let rateResponse):
+                let rates = RatesModel(rateResponse: rateResponse).rates
+                let sortedRates = rates.sorted { $0.currencyCode < $1.currencyCode }
                 
                 XCTAssertEqual(aedCurrencyCode, sortedRates[0].currencyCode)
                 XCTAssertEqual(aedCurrencyRate, sortedRates[0].currencyRate)

@@ -69,15 +69,16 @@ final class TranslateViewController: UIViewController {
     
     private func translateText() {
         activityIndicator.isHidden = false
-        TranslateService.shared.translate(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] result in
+        TranslateService.shared.getTranslation(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
-            case .success(let translation):
-                self?.targetTextView.text = translation?.translatedText
+            case .success(let translateResponse):
+                let translation = TranslateModel(translateResponse: translateResponse)
+                self?.targetTextView.text = translation.translatedText
                 
                 guard let selectedSourceLanguage = self?.sourceLanguage else { return }
                 guard var sourceLanguageName = self?.locale.localizedString(forIdentifier: selectedSourceLanguage) else { return }
-                guard let detectedSourceLanguage = translation?.detectedSourceLanguage else { return }
+                let detectedSourceLanguage = translation.detectedSourceLanguage
                 
                 if selectedSourceLanguage.contains("detect") || selectedSourceLanguage != detectedSourceLanguage {
                     sourceLanguageName = self?.locale.localizedString(forIdentifier: detectedSourceLanguage) ?? sourceLanguageName
@@ -164,7 +165,6 @@ extension TranslateViewController: LanguageViewControllerDelegate {
 // MARK: - TextViewDelegate to update source/target TextViews
 extension TranslateViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        // https://stackoverflow.com/questions/27652227/add-placeholder-text-inside-uitextview-in-swift
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.darkGray

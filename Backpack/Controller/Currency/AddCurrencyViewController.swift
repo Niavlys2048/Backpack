@@ -19,7 +19,6 @@ final class AddCurrencyViewController: UIViewController {
     // MARK: - Properties
     weak var delegate: AddCurrencyViewControllerDelegate?
     
-    // Data for currencyTableView & addCurrencyTableView
     var availableCurrencyData: [Currency] = []
     var currencyData: [Currency] = []
     private var addableCurrencyData: [Currency] = []

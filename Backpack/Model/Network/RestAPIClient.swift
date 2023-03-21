@@ -85,15 +85,17 @@ final class RestAPIClient {
                        completion: completion)
     }
     
-//    func getRates(completion: @escaping(Result<RateResponse, DataError>) -> Void) {
-//
-//    }
-//
-//    func getTranslation(textToTranslate: String, targetLanguage: String, completion: @escaping(Result<TranslateResponse, DataError>) -> Void) {
-//
-//    }
-//
-//    func getLanguages(completion: @escaping(Result<LanguageResponse, DataError>) -> Void) {
-//
-//    }
+    func getRates(completion: @escaping(Result<RateResponse, DataError>) -> Void) {
+        return fetchData(type: RateResponse.self, route: APIRouter.getRates, completion: completion)
+    }
+
+    func getTranslation(textToTranslate: String, targetLanguage: String, completion: @escaping(Result<TranslateResponse, DataError>) -> Void) {
+        return fetchData(type: TranslateResponse.self,
+                         route: APIRouter.getTranslation(textToTranslate: textToTranslate, targetLanguage: targetLanguage),
+                         completion: completion)
+    }
+
+    func getLanguages(completion: @escaping(Result<LanguageResponse, DataError>) -> Void) {
+        return fetchData(type: LanguageResponse.self, route: APIRouter.getLanguages, completion: completion)
+    }
 }

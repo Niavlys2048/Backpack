@@ -173,22 +173,10 @@ extension WeatherViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
-        case .denied: // Setting option: Never
-            print("LocationManager didChangeAuthorization denied")
-        case .notDetermined: // Setting option: Ask Next Time
-            print("LocationManager didChangeAuthorization notDetermined")
-        case .authorizedWhenInUse: // Setting option: While Using the App
-            print("LocationManager didChangeAuthorization authorizedWhenInUse")
-            
-            // Stpe 6: Request a one-time location information
+        case .authorizedWhenInUse:
             locationManager?.requestLocation()
-        case .authorizedAlways: // Setting option: Always
-            print("LocationManager didChangeAuthorization authorizedAlways")
-            
-            // Stpe 6: Request a one-time location information
+        case .authorizedAlways:
             locationManager?.requestLocation()
-        case .restricted: // Restricted by parental control
-            print("LocationManager didChangeAuthorization restricted")
         default:
             print("LocationManager didChangeAuthorization")
         }
@@ -237,6 +225,7 @@ extension WeatherViewController: UISearchResultsUpdating {
 // MARK: - ResultsViewController Delegate to retrieve and send coordinates to weatherManager
 extension WeatherViewController: ResultsViewControllerDelegate {
     func didTapPlace(with coordinates: Coordinates) {
+        searchController.searchBar.text = ""
         searchController.searchBar.resignFirstResponder()
         searchController.dismiss(animated: true)
         

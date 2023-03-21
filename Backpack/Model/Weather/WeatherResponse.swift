@@ -1,5 +1,5 @@
 //
-//  WeatherData.swift
+//  WeatherResponse.swift
 //  Backpack
 //
 //  Created by Sylvain Druaux on 28/01/2023.

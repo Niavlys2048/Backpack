@@ -89,10 +89,11 @@ final class CurrencyViewController: UIViewController {
     
     private func updateRates() {
         activityIndicator.isHidden = false
-        RateService.shared.performRequest { [weak self] result in
+        RateService.shared.getRates { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
-            case .success(let rates):
+            case .success(let rateResponse):
+                let rates = RatesModel(rateResponse: rateResponse).rates
                 self?.rates = rates
                 
                 guard let availableCurrencies = self?.availableCurrencyData else { return }
