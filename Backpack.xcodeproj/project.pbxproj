@@ -329,6 +329,7 @@
 			children = (
 				4FEE435829803273002DB4AF /* AppDelegate.swift */,
 				E4706DC629C082A900E81E9B /* AppConfigurations.swift */,
+				E41829A729C62C8400538A39 /* Network */,
 				4FEE43922980599D002DB4AF /* Model */,
 				4FEE4393298059A4002DB4AF /* View */,
 				4FEE4394298059AB002DB4AF /* Controller */,
@@ -343,7 +344,6 @@
 		4FEE43922980599D002DB4AF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E41829A729C62C8400538A39 /* Network */,
 				4F5F0B7E298D2DFA00F037B5 /* Currency */,
 				4F4C756A299BB27500BB8D45 /* Translate */,
 				4F20110B2985B1EE004AA281 /* Weather */,

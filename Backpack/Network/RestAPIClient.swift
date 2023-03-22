@@ -28,7 +28,7 @@ final class RestAPIClient {
     
     private init() { }
     
-    func fetchData<T: Codable>(type: T.Type, route: APIRouter, completion: @escaping(Result<T, DataError>) -> Void) {
+    func fetchData<T: Decodable>(route: APIRouter, completion: @escaping(Result<T, DataError>) -> Void) {
         // Create a request from the API router
         guard let request = try? route.asURLRequest() else {
             completion(.failure(.connectionFailed))
@@ -75,27 +75,5 @@ final class RestAPIClient {
             }
         }
         task.resume()
-    }
-    
-    func getWeather(coordinates: Coordinates, completion: @escaping(Result<WeatherResponse, DataError>) -> Void) {
-        let latitude = String(coordinates.latitude)
-        let longitude = String(coordinates.longitude)
-        return fetchData(type: WeatherResponse.self,
-                         route: APIRouter.getWeather(latitude: latitude, longitude: longitude),
-                       completion: completion)
-    }
-    
-    func getRates(completion: @escaping(Result<RateResponse, DataError>) -> Void) {
-        return fetchData(type: RateResponse.self, route: APIRouter.getRates, completion: completion)
-    }
-
-    func getTranslation(textToTranslate: String, targetLanguage: String, completion: @escaping(Result<TranslateResponse, DataError>) -> Void) {
-        return fetchData(type: TranslateResponse.self,
-                         route: APIRouter.getTranslation(textToTranslate: textToTranslate, targetLanguage: targetLanguage),
-                         completion: completion)
-    }
-
-    func getLanguages(completion: @escaping(Result<LanguageResponse, DataError>) -> Void) {
-        return fetchData(type: LanguageResponse.self, route: APIRouter.getLanguages, completion: completion)
     }
 }

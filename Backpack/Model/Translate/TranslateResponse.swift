@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct TranslateResponse: Codable {
+struct TranslateResponse: Decodable {
     let data: Translations
 }
 
-struct Translations: Codable {
+struct Translations: Decodable {
     var translations: [Translation]
 }
 
-struct Translation: Codable {
+struct Translation: Decodable {
     let translatedText: String
     let detectedSourceLanguage: String
 }

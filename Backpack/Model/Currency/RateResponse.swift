@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct RateResponse: Codable {
+struct RateResponse: Decodable {
     let rates: [String: Double]
 }

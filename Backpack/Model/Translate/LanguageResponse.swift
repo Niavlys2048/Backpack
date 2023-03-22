@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct LanguageResponse: Codable {
+struct LanguageResponse: Decodable {
     let data: Languages
 }
 
-struct Languages: Codable {
+struct Languages: Decodable {
     var languages: [Language]
 }
 
-struct Language: Codable {
+struct Language: Decodable {
     let language: String
     let name: String
 }

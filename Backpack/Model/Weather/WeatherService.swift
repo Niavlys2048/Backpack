@@ -17,6 +17,8 @@ class WeatherService {
     }
     
     func getWeather(coordinates: Coordinates, completion: @escaping(Result<WeatherResponse, DataError>) -> Void) {
-        restAPIClient.getWeather(coordinates: coordinates, completion: completion)
+        let latitude = String(coordinates.latitude)
+        let longitude = String(coordinates.longitude)
+        return restAPIClient.fetchData(route: .getWeather(latitude: latitude, longitude: longitude), completion: completion)
     }
 }

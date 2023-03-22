@@ -1,6 +1,6 @@
 #  Backpack
 
-A three-page application that allows you to:
+A 3-in-1 application that allows you to:
 * Get the exchange rate between the dollar and your current currency.
 * Translate any supported languages.
 * Compare the local weather with all your favorite places.
@@ -16,12 +16,12 @@ A three-page application that allows you to:
 
 ## Usage
 
-As easy to use as the applications on which it is based.
+As user-friendly to use as the applications on which it is based.
 
 ## Dependency
 
 * This application requires the pod GooglePlaces 7.3.0.
-    * To install it, follow these instructions: [CocoaPods](https://cocoapods.org/)
+    * To install it, follow these instructions: [Google Places SDK for iOS](https://cocoapods.org/pods/GooglePlaces)
 
 * OpenWeather API and fixer.io API keys are present, but they may not be active forever.
     * You can create your own keys for free on these websites:
@@ -40,7 +40,7 @@ As easy to use as the applications on which it is based.
     * The list is editable to add or remove currencies.
     * Using the fixer.io API, updated each time the application is opened to be up to date.
     * Real-time currency conversion as you type an amount on the selected currency of your choice.
-    * Using svg flags from FlagKit.
+    * Using svg flags from [FlagKit](https://github.com/madebybowtie/FlagKit).
 
 * 2nd page: Translate (Google translate)
     * UX/UI inspired by the "Google Translate" app (available on App Store).
@@ -61,7 +61,7 @@ As easy to use as the applications on which it is based.
 
 ## Structure
 
-* Using MVC architecture pattern.
+* Using MVC architecture pattern and a separate Network layer.
 
 ## Demo
 

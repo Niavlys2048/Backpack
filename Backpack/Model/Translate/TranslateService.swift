@@ -19,10 +19,13 @@ final class TranslateService {
     }
     
     func getTranslation(textToTranslate: String, targetLanguage: String, completion: @escaping(Result<TranslateResponse, DataError>) -> Void) {
-        restAPIClient.getTranslation(textToTranslate: textToTranslate, targetLanguage: targetLanguage, completion: completion)
+        return restAPIClient.fetchData(
+            route: .getTranslation(textToTranslate: textToTranslate, targetLanguage: targetLanguage),
+            completion: completion
+        )
     }
     
     func getLanguages(completion: @escaping(Result<LanguageResponse, DataError>) -> Void) {
-        restAPIClient.getLanguages(completion: completion)
+        return restAPIClient.fetchData(route: .getLanguages, completion: completion)
     }
 }

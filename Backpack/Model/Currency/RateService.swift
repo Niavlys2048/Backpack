@@ -19,6 +19,6 @@ final class RateService {
     }
     
     func getRates(completion: @escaping(Result<RateResponse, DataError>) -> Void) {
-        restAPIClient.getRates(completion: completion)
+        return restAPIClient.fetchData(route: .getRates, completion: completion)
     }
 }
