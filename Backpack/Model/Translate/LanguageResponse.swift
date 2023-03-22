@@ -1,5 +1,5 @@
 //
-//  LanguageData.swift
+//  LanguageResponse.swift
 //  Backpack
 //
 //  Created by Sylvain Druaux on 15/02/2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LanguageData: Decodable {
+struct LanguageResponse: Decodable {
     let data: Languages
 }
 

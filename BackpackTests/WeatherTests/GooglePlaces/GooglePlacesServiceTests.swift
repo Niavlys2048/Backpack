@@ -1,5 +1,5 @@
 //
-//  GooglePlacesManagerTests.swift
+//  GooglePlacesServiceTests.swift
 //  BackpackTests
 //
 //  Created by Sylvain Druaux on 07/02/2023.
@@ -9,7 +9,7 @@
 import GooglePlaces
 import XCTest
 
-final class GooglePlacesManagerTests: XCTestCase {
+final class GooglePlacesServiceTests: XCTestCase {
     enum ErrorMock: Error {
         case dummy
     }
@@ -17,12 +17,12 @@ final class GooglePlacesManagerTests: XCTestCase {
     func test_findPlaces_Error() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
-        let googlePlacesManager = GooglePlacesManager(client: clientWrapperMock)
+        let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         clientWrapperMock.expectedError = ErrorMock.dummy
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        googlePlacesManager.findPlaces(query: "san") { result in
+        googlePlacesService.findPlaces(query: "san") { result in
             // Then
             switch result {
             case .success:
@@ -38,13 +38,13 @@ final class GooglePlacesManagerTests: XCTestCase {
     func test_findPlaces_Success_WithData() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
-        let googlePlacesManager = GooglePlacesManager(client: clientWrapperMock)
+        let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         let autocompletePredictionMock = GMSAutocompletePredictionMock.mock
         clientWrapperMock.expectedAutocompletePredictionResults = [autocompletePredictionMock]
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        googlePlacesManager.findPlaces(query: "san") { result in
+        googlePlacesService.findPlaces(query: "san") { result in
             // Then
             switch result {
             case .success(let places):
@@ -64,12 +64,12 @@ final class GooglePlacesManagerTests: XCTestCase {
     func test_findPlaces_Success_WithoutData() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
-        let googlePlacesManager = GooglePlacesManager(client: clientWrapperMock)
+        let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         clientWrapperMock.expectedAutocompletePredictionResults = []
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        googlePlacesManager.findPlaces(query: "san") { result in
+        googlePlacesService.findPlaces(query: "san") { result in
             // Then
             switch result {
             case .success(let places):
@@ -87,13 +87,13 @@ final class GooglePlacesManagerTests: XCTestCase {
     func test_resolveLocation_Error() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
-        let googlePlacesManager = GooglePlacesManager(client: clientWrapperMock)
+        let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         clientWrapperMock.expectedError = ErrorMock.dummy
         let place = Place(name: "San Francisco, CA, USA", identifier: "ChIJN1t_tDeuEmsRUsoyG83frY4")
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        googlePlacesManager.resolveLocation(for: place) { result in
+        googlePlacesService.resolveLocation(for: place) { result in
             // Then
             switch result {
             case .success:
@@ -109,14 +109,14 @@ final class GooglePlacesManagerTests: XCTestCase {
     func test_resolveLocation_Success_WithData() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
-        let googlePlacesManager = GooglePlacesManager(client: clientWrapperMock)
+        let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         let placeMock = GMSPlaceMock.mock
         clientWrapperMock.expectedPlaceResult = placeMock
         let place = Place(name: "San Francisco, CA, USA", identifier: "ChIJN1t_tDeuEmsRUsoyG83frY4")
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        googlePlacesManager.resolveLocation(for: place) { result in
+        googlePlacesService.resolveLocation(for: place) { result in
             // Then
             switch result {
             case .success(let coordinate):

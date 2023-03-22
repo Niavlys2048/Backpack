@@ -5,8 +5,6 @@
 //  Created by Sylvain Druaux on 06/02/2023.
 //
 
-// https://stackoverflow.com/questions/46183628/rounding-corners-of-delete-button-in-uitableviewcell
-
 import UIKit
 
 extension UIImage {

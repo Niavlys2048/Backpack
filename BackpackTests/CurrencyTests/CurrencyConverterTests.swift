@@ -11,7 +11,6 @@ import XCTest
 final class CurrencyConverterTests: XCTestCase {
     var currencyConverter: CurrencyConverter!
     
-    // Setting the separator var ("." or "," based on locale)
     let numberFormatter = NumberFormatter()
     var decimalSeparator = ""
     
@@ -27,7 +26,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = ""
         
@@ -46,7 +45,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "not_a_number"
         
@@ -65,7 +64,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "5"
         
@@ -78,7 +77,7 @@ final class CurrencyConverterTests: XCTestCase {
         let expectedJPYAmount = (704.13312).displayCurrency
         
         let expectedAmounts = [
-            expectedEURAmount, // Euro amount input
+            expectedEURAmount,
             expectedUSDAmount,
             expectedGBPAmount,
             expectedJPYAmount
@@ -93,7 +92,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "5\(decimalSeparator)"
         
@@ -106,7 +105,7 @@ final class CurrencyConverterTests: XCTestCase {
         let expectedJPYAmount = (704.13312).displayCurrency
         
         let expectedAmounts = [
-            expectedEURAmount, // Euro amount input
+            expectedEURAmount,
             expectedUSDAmount,
             expectedGBPAmount,
             expectedJPYAmount
@@ -121,7 +120,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "5\(decimalSeparator)2"
         
@@ -134,7 +133,7 @@ final class CurrencyConverterTests: XCTestCase {
         let expectedJPYAmount = (732.2984).displayCurrency
         
         let expectedAmounts = [
-            expectedEURAmount, // Euro amount input
+            expectedEURAmount,
             expectedUSDAmount,
             expectedGBPAmount,
             expectedJPYAmount
@@ -149,7 +148,7 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "EUR" }).first else { return }
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.euro }).first else { return }
         
         let amount = "50000\(decimalSeparator)"
         
@@ -162,7 +161,7 @@ final class CurrencyConverterTests: XCTestCase {
         let expectedJPYAmount = (7041331.19).displayCurrency
         
         let expectedAmounts = [
-            expectedEURAmount, // Euro amount input
+            expectedEURAmount,
             expectedUSDAmount,
             expectedGBPAmount,
             expectedJPYAmount
@@ -177,9 +176,8 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "USD" }).first else { return }
-        
-        currency.amount = "not_a_number" // Dollar currency
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.usDollar }).first else { return }
+        currency.amount = "not_a_number"
         
         // Then
         let result = currencyConverter.updateAmount(currencyArray: currencyData)
@@ -196,9 +194,8 @@ final class CurrencyConverterTests: XCTestCase {
         let currencyData = currencies.currencyData
         
         // When
-        guard let currency = currencyData.filter({ $0.code == "USD" }).first else { return }
-        
-        currency.amount = (500.00).displayCurrency // Dollar currency
+        guard let currency = currencyData.filter({ $0.code == CurrencyCodes.usDollar }).first else { return }
+        currency.amount = (500.00).displayCurrency
         
         // Then
         let result = currencyConverter.updateAmount(currencyArray: currencyData)
@@ -209,7 +206,7 @@ final class CurrencyConverterTests: XCTestCase {
         let expectedJPYAmount = (65394.251).displayCurrency
 
         let expectedAmounts = [
-            expectedEURAmount, // Euro amount input
+            expectedEURAmount,
             expectedUSDAmount,
             expectedGBPAmount,
             expectedJPYAmount

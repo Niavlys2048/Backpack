@@ -5,8 +5,6 @@
 //  Created by Sylvain Druaux on 29/01/2023.
 //
 
-// https://www.youtube.com/watch?v=Cd-B5_vkOFs
-
 import UIKit
 
 protocol ResultsViewControllerDelegate: AnyObject {
@@ -65,7 +63,7 @@ extension ResultsViewController: UITableViewDataSource {
         tableView.isHidden = true
         
         let place = places[indexPath.row]
-        GooglePlacesManager.shared.resolveLocation(for: place) { [weak self] result in
+        GooglePlacesService.shared.resolveLocation(for: place) { [weak self] result in
             switch result {
             case .success(let coordinate):
                 DispatchQueue.main.async {

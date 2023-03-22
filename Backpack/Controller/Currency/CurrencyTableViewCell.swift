@@ -5,8 +5,6 @@
 //  Created by Sylvain Druaux on 03/02/2023.
 //
 
-// https://www.youtube.com/watch?v=WK5vrOD1zCQ
-
 import UIKit
 
 final class CurrencyTableViewCell: UITableViewCell {

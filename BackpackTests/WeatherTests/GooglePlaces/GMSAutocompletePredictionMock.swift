@@ -5,8 +5,6 @@
 //  Created by Sylvain Druaux on 09/02/2023.
 //
 
-// https://developers.google.com/maps/documentation/places/ios-sdk/reference/interface_g_m_s_autocomplete_prediction
-
 @testable import Backpack
 import Foundation
 

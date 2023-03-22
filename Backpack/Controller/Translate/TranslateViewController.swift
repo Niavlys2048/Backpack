@@ -41,16 +41,16 @@ final class TranslateViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Init Navigation Bar
-        title = "Google Translate"
         
-        // Init View
+        initView()
+        sourceTextView.delegate = self
+    }
+    
+    private func initView() {
+        title = "Google Translate"
         sourceTextView.text = "Enter text"
         sourceTextView.textColor = UIColor.lightGray
         targetTextView.text = nil
-        
-        sourceTextView.delegate = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -58,71 +58,51 @@ final class TranslateViewController: UIViewController {
             changeLanguageVC.delegate = self
             changeLanguageVC.selectedLanguage = selectedLanguage
             
-            // Get the current source/target language
             let button = sender as? UIButton
+            guard let languageName = button?.currentTitle else { return }
+            guard var languageCode = locale.localizedString(forLanguageCode: languageName) else { return }
+            languageCode = languageName.contains("Detect") ? "detect" : languageCode
             
-            guard let languageName = button?.currentTitle else {
-                return
-            }
-            
-            guard var languageCode = locale.localizedString(forLanguageCode: languageName) else {
-                return
-            }
-            
-            if languageName.contains("Detect") {
-                languageCode = "detect"
-            }
             changeLanguageVC.languageData = LanguageModel(name: languageName, code: languageCode)
         }
     }
     
     private func translateText() {
-        guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "GOOGLE_API_KEY") as? String,
-                !apiKey.isEmpty else {
-            presentAlert(.missingApiKey)
-            return
-        }
-        
         activityIndicator.isHidden = false
-        // https://www.avanderlee.com/swift/weak-self/
-        TranslateManager.shared.translate(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] success, translation in
+        TranslateService.shared.getTranslation(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] result in
             self?.activityIndicator.isHidden = true
-            guard let translation, success else {
+            switch result {
+            case .success(let translateResponse):
+                let translation = TranslateModel(translateResponse: translateResponse)
+                self?.targetTextView.text = translation.translatedText
+                
+                guard let selectedSourceLanguage = self?.sourceLanguage else { return }
+                guard var sourceLanguageName = self?.locale.localizedString(forIdentifier: selectedSourceLanguage) else { return }
+                let detectedSourceLanguage = translation.detectedSourceLanguage
+                
+                if selectedSourceLanguage.contains("detect") || selectedSourceLanguage != detectedSourceLanguage {
+                    sourceLanguageName = self?.locale.localizedString(forIdentifier: detectedSourceLanguage) ?? sourceLanguageName
+                    self?.sourceLanguageButton.setTitle("Detect language", for: .normal)
+                }
+                self?.sourceLanguageLabel.text = sourceLanguageName.uppercased()
+                
+                guard let targetLanguage = self?.targetLanguage else { return }
+                let targetLanguageName = self?.locale.localizedString(forIdentifier: targetLanguage)
+                self?.targetLanguageLabel.text = targetLanguageName?.uppercased()
+            case .failure(let error):
                 self?.presentAlert(.connectionFailed)
-                return
+                print(error)
             }
-            self?.targetTextView.text = translation.translatedText
-            
-            // Set sourceLanguageLabel text
-            guard let selectedSourceLanguage = self?.sourceLanguage else {
-                return
-            }
-            var sourceLanguageName = self?.locale.localizedString(forIdentifier: selectedSourceLanguage)
-            let detectedSourceLanguage = translation.detectedSourceLanguage
-            if selectedSourceLanguage.contains("detect") || selectedSourceLanguage != detectedSourceLanguage {
-                sourceLanguageName = self?.locale.localizedString(forIdentifier: detectedSourceLanguage)
-                self?.sourceLanguageButton.setTitle("Detect language", for: .normal)
-            }
-            self?.sourceLanguageLabel.text = sourceLanguageName?.uppercased()
-            
-            // Set targetLanguageLabel text
-            guard let targetLanguage = self?.targetLanguage else {
-                return
-            }
-            let targetLanguageName = self?.locale.localizedString(forIdentifier: targetLanguage)
-            self?.targetLanguageLabel.text = targetLanguageName?.uppercased()
         }
     }
     
     // MARK: - Actions
     @IBAction private func sourceLanguageButtonPressed(_ sender: UIButton) {
-        // Send the current sourceLanguage to segue to ask whether or not we change the language
         selectedLanguage = .sourceLanguage
         self.performSegue(withIdentifier: "segueToChangeLanguage", sender: sender)
     }
     
     @IBAction private func targetLanguageButtonPressed(_ sender: UIButton) {
-        // Send the current targetLanguage to segue to ask whether or not we change the language
         selectedLanguage = .targetLanguage
         self.performSegue(withIdentifier: "segueToChangeLanguage", sender: sender)
     }
@@ -139,16 +119,13 @@ final class TranslateViewController: UIViewController {
     }
     
     @IBAction private func validationButtonPressed(_ sender: UIButton) {
-        guard !sourceTextView.text.isEmpty else {
-            return
-        }
+        guard !sourceTextView.text.isEmpty else { return }
         
         sourceTextView.resignFirstResponder()
         sourceLanguageLabel.isHidden = false
         targetLanguageLabel.isHidden = false
         validationButton.isHidden = true
         
-        // translate
         translateText()
     }
 }
@@ -158,10 +135,7 @@ final class TranslateViewController: UIViewController {
 // MARK: - LanguageViewControllerDelegate to update source/target language
 extension TranslateViewController: LanguageViewControllerDelegate {
     func didTapLanguage(_ languageViewController: LanguageViewController) {
-        // Update selected language
-        guard let language = languageViewController.languageData else {
-            return
-        }
+        guard let language = languageViewController.languageData else { return }
         
         let languageCode = language.code
         let languageName = language.name
@@ -191,7 +165,6 @@ extension TranslateViewController: LanguageViewControllerDelegate {
 // MARK: - TextViewDelegate to update source/target TextViews
 extension TranslateViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        // https://stackoverflow.com/questions/27652227/add-placeholder-text-inside-uitextview-in-swift
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.darkGray
@@ -221,7 +194,6 @@ extension TranslateViewController: UITextViewDelegate {
             targetLanguageLabel.isHidden = false
             validationButton.isHidden = true
             
-            // translate
             translateText()
             
             return false

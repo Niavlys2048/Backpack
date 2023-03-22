@@ -7,7 +7,6 @@
 
 import UIKit
 
-// https://jamesrochabrun.medium.com/implementing-delegates-in-swift-step-by-step-d3211cbac3ef
 protocol AddWeatherViewControllerDelegate: AnyObject {
     func didTapAdd(_ addWeatherViewController: AddWeatherViewController)
 }
@@ -34,9 +33,7 @@ final class AddWeatherViewController: UIViewController {
     }
     
     private func update() {
-        guard let weather = weather else {
-            return
-        }
+        guard let weather = weather else { return }
         cityLabel.text = weather.cityName
         timeLabel.text = weather.timeZone.timeFromTimezone()
         conditionLabel.text = weather.conditionName

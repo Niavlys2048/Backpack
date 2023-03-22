@@ -1,12 +1,9 @@
 //
-//  GooglePlacesManager.swift
+//  GooglePlacesService.swift
 //  Backpack
 //
 //  Created by Sylvain Druaux on 29/01/2023.
 //
-
-// https://developers.google.com/maps/documentation/places/ios-sdk/config#use-cocoapods
-// https://developers.google.com/maps/documentation/places/ios-sdk/autocomplete
 
 import Foundation
 import GooglePlaces
@@ -22,12 +19,10 @@ struct Coordinates {
     let longitude: Double
 }
 
-final class GooglePlacesManager {
+final class GooglePlacesService {
     
     // MARK: - Properties
-    static let shared = GooglePlacesManager()
-    
-//    private let client = GMSPlacesClient.shared()
+    static let shared = GooglePlacesService()
     private var client = GMSPlacesClientWrapper.shared
     
     // MARK: - Enum
@@ -44,7 +39,6 @@ final class GooglePlacesManager {
     
     public func findPlaces(query: String, completion: @escaping (Result<[Place], Error>) -> Void) {
         let filter = GMSAutocompleteFilter()
-        // https://developers.google.com/maps/documentation/places/ios-sdk/supported_types
         filter.types = ["locality"]
         
         client.findAutocompletePredictions(fromQuery: query, filter: filter, sessionToken: nil) { results, error in

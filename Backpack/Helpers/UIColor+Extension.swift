@@ -5,8 +5,6 @@
 //  Created by Sylvain Druaux on 19/01/2023.
 //
 
-// https://stackoverflow.com/questions/24263007/how-to-use-hex-color-values
-
 import UIKit
 
 /// Example: UIColor(hex: 0xFFFFFF)
