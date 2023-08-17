@@ -22,7 +22,6 @@
 		4F2C1BDE29917AF400937309 /* WeatherResponseDataFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C1BDD29917AF400937309 /* WeatherResponseDataFake.swift */; };
 		4F2C1BE429917CEF00937309 /* WeatherServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C1BE329917CEF00937309 /* WeatherServiceTests.swift */; };
 		4F2C1BE62991A57E00937309 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2C1BE52991A57E00937309 /* UIImage+Extension.swift */; };
-		4F30FFC129818823009EB827 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FFC029818823009EB827 /* CustomTabBarController.swift */; };
 		4F30FFC429819805009EB827 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FFC329819805009EB827 /* UIColor+Extension.swift */; };
 		4F4C756C299BB64E00BB8D45 /* TranslateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4C756B299BB64E00BB8D45 /* TranslateService.swift */; };
 		4F4C756E299BC14900BB8D45 /* TranslateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4C756D299BC14900BB8D45 /* TranslateResponse.swift */; };
@@ -69,9 +68,12 @@
 		4FFCA1812988500C00E38CFB /* AddWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFCA1802988500C00E38CFB /* AddWeatherViewController.swift */; };
 		C7F844AEAB87DA65E6548038 /* libPods-BackpackTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4422CF7B923C2600F38335AD /* libPods-BackpackTests.a */; };
 		D0618DEC0A3F5213B46F1F36 /* libPods-Backpack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80FBB5EAA237421CC04C17C0 /* libPods-Backpack.a */; };
+		E4056C9A2A856D7B00647033 /* UISearchBar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4056C992A856D7B00647033 /* UISearchBar+Extension.swift */; };
 		E41829A929C62C9A00538A39 /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41829A829C62C9A00538A39 /* APIRouter.swift */; };
 		E44D562B29C6053A0066E286 /* RestAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44D562A29C6053A0066E286 /* RestAPIClient.swift */; };
 		E4706DC729C082A900E81E9B /* AppConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4706DC629C082A900E81E9B /* AppConfigurations.swift */; };
+		E4D7AD4B2A83BE3400ACA48D /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D7AD4A2A83BE3400ACA48D /* GradientView.swift */; };
+		E4EE8A042A8BCB4500C2D17A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EE8A032A8BCB4500C2D17A /* UIFont+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +106,6 @@
 		4F2C1BDD29917AF400937309 /* WeatherResponseDataFake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherResponseDataFake.swift; sourceTree = "<group>"; };
 		4F2C1BE329917CEF00937309 /* WeatherServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServiceTests.swift; sourceTree = "<group>"; };
 		4F2C1BE52991A57E00937309 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		4F30FFC029818823009EB827 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		4F30FFC329819805009EB827 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		4F4C756B299BB64E00BB8D45 /* TranslateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateService.swift; sourceTree = "<group>"; };
 		4F4C756D299BC14900BB8D45 /* TranslateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateResponse.swift; sourceTree = "<group>"; };
@@ -156,9 +157,12 @@
 		80FBB5EAA237421CC04C17C0 /* libPods-Backpack.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Backpack.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E17ECF0885E7E3A172E66C5 /* Pods-BackpackTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BackpackTests.release.xcconfig"; path = "Target Support Files/Pods-BackpackTests/Pods-BackpackTests.release.xcconfig"; sourceTree = "<group>"; };
 		C310CBF21889296BFBD5D7F8 /* Pods-Backpack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Backpack.release.xcconfig"; path = "Target Support Files/Pods-Backpack/Pods-Backpack.release.xcconfig"; sourceTree = "<group>"; };
+		E4056C992A856D7B00647033 /* UISearchBar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Extension.swift"; sourceTree = "<group>"; };
 		E41829A829C62C9A00538A39 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		E44D562A29C6053A0066E286 /* RestAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestAPIClient.swift; sourceTree = "<group>"; };
 		E4706DC629C082A900E81E9B /* AppConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurations.swift; sourceTree = "<group>"; };
+		E4D7AD4A2A83BE3400ACA48D /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		E4EE8A032A8BCB4500C2D17A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,7 +244,7 @@
 			path = WeatherTests;
 			sourceTree = "<group>";
 		};
-		4F30FFC2298197E5009EB827 /* Helpers */ = {
+		4F30FFC2298197E5009EB827 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				4FEEC36829995CDF0008E47E /* Decimal+Extension.swift */,
@@ -251,8 +255,10 @@
 				4F2C1BE52991A57E00937309 /* UIImage+Extension.swift */,
 				4FA0C7AC299F9AA800F87D0C /* UIViewController+Extension.swift */,
 				4F5A7C7C29A41CB400918897 /* Data+Extension.swift */,
+				E4056C992A856D7B00647033 /* UISearchBar+Extension.swift */,
+				E4EE8A032A8BCB4500C2D17A /* UIFont+Extension.swift */,
 			);
-			path = Helpers;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		4F4C756A299BB27500BB8D45 /* Translate */ = {
@@ -333,10 +339,8 @@
 				4FEE43922980599D002DB4AF /* Model */,
 				4FEE4393298059A4002DB4AF /* View */,
 				4FEE4394298059AB002DB4AF /* Controller */,
-				4F30FFC2298197E5009EB827 /* Helpers */,
+				4F30FFC2298197E5009EB827 /* Extensions */,
 				4FEE4395298059CD002DB4AF /* Resources */,
-				4FEE436629803274002DB4AF /* Info.plist */,
-				4F6F4E50298C480700024B39 /* Secrets.xcconfig */,
 			);
 			path = Backpack;
 			sourceTree = "<group>";
@@ -356,6 +360,7 @@
 			children = (
 				4FEE435E29803273002DB4AF /* Main.storyboard */,
 				4FEE436329803274002DB4AF /* LaunchScreen.storyboard */,
+				E4D7AD4A2A83BE3400ACA48D /* GradientView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -366,7 +371,6 @@
 				4FFCA1792987C12A00E38CFB /* Currency */,
 				4FFCA1782987C11F00E38CFB /* Translate */,
 				4F20110A2985B147004AA281 /* Weather */,
-				4F30FFC029818823009EB827 /* CustomTabBarController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -375,6 +379,8 @@
 			isa = PBXGroup;
 			children = (
 				4FEE436129803274002DB4AF /* Assets.xcassets */,
+				4FEE436629803274002DB4AF /* Info.plist */,
+				4F6F4E50298C480700024B39 /* Secrets.xcconfig */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -383,8 +389,8 @@
 			isa = PBXGroup;
 			children = (
 				4FFCA17C2987C15600E38CFB /* TranslateViewController.swift */,
-				4F192EA4299D0B3C0041B5F8 /* LanguageTableViewCell.swift */,
 				4F4C757B299C0BC100BB8D45 /* LanguageViewController.swift */,
+				4F192EA4299D0B3C0041B5F8 /* LanguageTableViewCell.swift */,
 			);
 			path = Translate;
 			sourceTree = "<group>";
@@ -394,8 +400,8 @@
 			children = (
 				4FFCA17A2987C14800E38CFB /* CurrencyViewController.swift */,
 				4F5F0B7A298D203F00F037B5 /* CurrencyTableViewCell.swift */,
-				4F8F62B9298FD63D0068DBB5 /* AddCurrencyTableViewCell.swift */,
 				4F8F62BB298FD93E0068DBB5 /* AddCurrencyViewController.swift */,
+				4F8F62B9298FD63D0068DBB5 /* AddCurrencyTableViewCell.swift */,
 			);
 			path = Currency;
 			sourceTree = "<group>";
@@ -661,6 +667,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F5F0B8A298D6E4400F037B5 /* CurrencyCodes.swift in Sources */,
+				E4056C9A2A856D7B00647033 /* UISearchBar+Extension.swift in Sources */,
 				4FEEC36929995CDF0008E47E /* Decimal+Extension.swift in Sources */,
 				4F4C756E299BC14900BB8D45 /* TranslateResponse.swift in Sources */,
 				4F192EA3299CE7650041B5F8 /* LanguageResponse.swift in Sources */,
@@ -669,6 +676,7 @@
 				4F192EA5299D0B3C0041B5F8 /* LanguageTableViewCell.swift in Sources */,
 				E41829A929C62C9A00538A39 /* APIRouter.swift in Sources */,
 				4F73AA11298A66FE00D80F41 /* Double+Extension.swift in Sources */,
+				E4EE8A042A8BCB4500C2D17A /* UIFont+Extension.swift in Sources */,
 				4FA0C7AD299F9AA800F87D0C /* UIViewController+Extension.swift in Sources */,
 				4F59959929895B8C008395B5 /* Int+Extension.swift in Sources */,
 				4FFCA17B2987C14800E38CFB /* CurrencyViewController.swift in Sources */,
@@ -685,13 +693,13 @@
 				4F5F0B8C298D6FC400F037B5 /* Currency.swift in Sources */,
 				4F20110D2985B211004AA281 /* WeatherModel.swift in Sources */,
 				4F4C757C299C0BC100BB8D45 /* LanguageViewController.swift in Sources */,
-				4F30FFC129818823009EB827 /* CustomTabBarController.swift in Sources */,
 				4FFCA17D2987C15600E38CFB /* TranslateViewController.swift in Sources */,
 				4F5A7C7D29A41CB400918897 /* Data+Extension.swift in Sources */,
 				4FFCA1812988500C00E38CFB /* AddWeatherViewController.swift in Sources */,
 				4F5C740D2993ACE5002503AA /* CurrencyConverter.swift in Sources */,
 				E44D562B29C6053A0066E286 /* RestAPIClient.swift in Sources */,
 				4F5995972989407B008395B5 /* WeatherService.swift in Sources */,
+				E4D7AD4B2A83BE3400ACA48D /* GradientView.swift in Sources */,
 				4F4C756C299BB64E00BB8D45 /* TranslateService.swift in Sources */,
 				4F2C1BE62991A57E00937309 /* UIImage+Extension.swift in Sources */,
 				4F5F0B88298D5A6400F037B5 /* RateResponse.swift in Sources */,
@@ -906,7 +914,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SSZ659U5H9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Backpack/Info.plist;
+				INFOPLIST_FILE = Backpack/Resources/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires access to your device's location to provide accurate weather information.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app requires access to your device's location to provide accurate weather information.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -941,7 +949,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SSZ659U5H9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Backpack/Info.plist;
+				INFOPLIST_FILE = Backpack/Resources/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires access to your device's location to provide accurate weather information.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app requires access to your device's location to provide accurate weather information.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

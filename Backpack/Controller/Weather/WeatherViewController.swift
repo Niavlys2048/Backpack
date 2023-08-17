@@ -52,17 +52,26 @@ final class WeatherViewController: UIViewController {
     
     private func initNavigationBar() {
         title = "Weather"
+        initSearchController()
+        initMenuButton()
         navigationItem.searchController = searchController
+        navigationItem.rightBarButtonItem = menuButton
+    }
+    
+    private func initSearchController() {
         searchController.searchResultsUpdater = self
+        searchController.searchBar.setTextFieldColor(hexColor: 0xFFFFFF, transparency: 0.4)
+        searchController.searchBar.tintColor = UIColor(named: "textColor")
+    }
+    
+    private func initMenuButton() {
         menuButton = UIBarButtonItem(
             title: nil,
-            image: UIImage(systemName: "ellipsis.circle"),
+            image: UIImage(systemName: "ellipsis"),
             primaryAction: nil,
             menu: generatePullDownMenu()
         )
-        navigationItem.rightBarButtonItem = menuButton
-        navigationItem.searchController?.searchBar.tintColor = UIColor(named: "weatherColor")
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "weatherColor")
+        menuButton.tintColor = UIColor(named: "textColor")
     }
     
     private func generatePullDownMenu() -> UIMenu {
@@ -104,6 +113,8 @@ final class WeatherViewController: UIViewController {
         searchController.searchBar.isHidden = true
         
         menuButton.title = "Done"
+        let font = UIFont.boldSystemFont(ofSize: 20)
+        menuButton.setTitleTextAttributes([NSAttributedString.Key.font: font], for: UIControl.State.normal)
         menuButton.image = nil
         menuButton.menu = nil
         menuButton.action = #selector(exitEditing)
@@ -148,7 +159,7 @@ final class WeatherViewController: UIViewController {
         searchController.searchBar.isHidden = false
         
         menuButton.title = nil
-        menuButton.image = UIImage(systemName: "ellipsis.circle")
+        menuButton.image = UIImage(systemName: "ellipsis")
         menuButton.menu = generatePullDownMenu()
         menuButton.action = nil
         
@@ -274,19 +285,7 @@ extension WeatherViewController: UITableViewDataSource {
             cell.resetSize()
         }
         
-        cell.cityLabel.text = weather.cityName
-        cell.timeLabel.text = weather.timeZone.timeFromTimezone()
-        cell.conditionLabel.text = weather.conditionName
-        cell.conditionImageView.image = UIImage(systemName: weather.conditionImage)
-        switch degreeUnit {
-        case .celsius:
-            cell.degreeUnitLabel.text = "C"
-            cell.temperatureLabel.text = weather.temperatureCelsius
-        case .fahrenheit:
-            cell.degreeUnitLabel.text = "F"
-            cell.temperatureLabel.text = weather.temperatureFahrenheit
-        }
-        
+        cell.configure(with: weather, degreeUnit: degreeUnit)
         return cell
     }
     
@@ -337,8 +336,8 @@ extension WeatherViewController: UITableViewDataSource {
 extension WeatherViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView.isEditing {
-            return 120
+            return 140
         }
-        return 150
+        return 180
     }
 }

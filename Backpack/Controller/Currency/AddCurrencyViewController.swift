@@ -64,11 +64,7 @@ extension AddCurrencyViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let flag = addableCurrency.countryCode
-        cell.flagImageView.image = UIImage(named: flag)
-        cell.currencyLabel.text = addableCurrency.code
-        cell.detailLabel.text = "\(addableCurrency.name), \(addableCurrency.symbol)"
-        
+        cell.configure(with: addableCurrency)
         return cell
     }
     

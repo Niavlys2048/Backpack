@@ -11,11 +11,6 @@ import Foundation
 struct GMSAutocompletePredictionMock: GMSAutocompletePredictionProtocol {
     let placeID: String
     let attributedFullText: NSAttributedString
-    
-    init(placeID: String, attributedFullText: NSAttributedString) {
-        self.placeID = placeID
-        self.attributedFullText = attributedFullText
-    }
 }
 
 extension GMSAutocompletePredictionMock {

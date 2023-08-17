@@ -48,10 +48,6 @@ final class LanguageViewController: UIViewController {
         case .targetLanguage:
             translateLabel.text = "Translate to"
         }
-        
-        let textFieldInsideSearchBar = languageSearchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.overrideUserInterfaceStyle = .dark
-        if self.traitCollection.userInterfaceStyle == .light { textFieldInsideSearchBar?.keyboardAppearance = .light }
     }
     
     private func getSupportedLanguages() {
@@ -100,8 +96,7 @@ extension LanguageViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.languageLabel.text = supportedLanguage.name
-        
+        cell.configure(with: supportedLanguage)
         return cell
     }
     
