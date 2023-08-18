@@ -28,6 +28,7 @@ A 3-in-1 application that allows you to:
     * Real-time currency conversion as you type an amount on the selected currency of your choice.
     * Applying SVG flags from [FlagKit](https://github.com/madebybowtie/FlagKit).
 <br />
+
 * 2nd page: Google translate
     * UX/UI inspired by the "Google Translate" app.
     * Write the sentence of your choice in any auto-detected language and receive its translation in another language of your choice.
@@ -35,6 +36,7 @@ A 3-in-1 application that allows you to:
     * A search bar can also be used to facilitate your language selection.
     * Option to reverse source and target languages.
 <br />
+
 * 3rd page: Weather
     * UX/UI inspired by the official Apple weather app.
     * User-friendly search functionality.
@@ -42,6 +44,7 @@ A 3-in-1 application that allows you to:
     * The list is customizable for sorting, adding or removing loactions and converting Celsius to Fahrenheit.
     * High-quality SVG icons for most weather forecast senarios.
 <br />
+
 * Responsive Layout from the iPhone SE (3rd Generation) and subsequent versions.
 
 ## Technologies Used
