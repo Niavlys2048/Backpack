@@ -29,6 +29,7 @@ final class AddWeatherViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        cityLabel.font = UIFont.systemFont(ofSize: 28, weight: .medium).rounded
         update()
     }
     
@@ -37,7 +38,7 @@ final class AddWeatherViewController: UIViewController {
         cityLabel.text = weather.cityName
         timeLabel.text = weather.timeZone.timeFromTimezone()
         conditionLabel.text = weather.conditionName
-        weatherImage.image = UIImage(systemName: weather.conditionImage)
+        weatherImage.image = UIImage(named: weather.conditionImage)
         switch degreeUnit {
         case .celsius:
             degreeUnitLabel.text = "C"

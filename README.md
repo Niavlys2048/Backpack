@@ -1,74 +1,84 @@
 #  Backpack
 
 A 3-in-1 application that allows you to:
-* Get the exchange rate between the dollar and your current currency.
+* Convert any currency to another.
 * Translate any supported languages.
 * Compare the local weather with all your favorite places.
 
-|Currency|Translate|Weather|
-|--|--|--|
-|<img src="/Resources/iPhone-14-Pro-Currency-Light.png" width="200">|<img src="/Resources/iPhone-14-Pro-Translate-Light.png" width="200">|<img src="/Resources/iPhone-14-Pro-Weather-Light.png" width="200">|
-|<img src="/Resources/iPhone-14-Pro-Currency-Dark.png" width="200">|<img src="/Resources/iPhone-14-Pro-Translate-Dark.png" width="200">|<img src="/Resources/iPhone-14-Pro-Weather-Dark.png" width="200">|
+<p align="center">
+<img src="Resources/Screenshot-001.png" width="200px">
+<img src="Resources/Screenshot-002.png" width="200px">
+<img src="Resources/Screenshot-003.png" width="200px">
+<br />
+<img src="Resources/Screenshot-004.png" width="200px">
+<img src="Resources/Screenshot-005.png" width="200px">
+<img src="Resources/Screenshot-006.png" width="200px">
+</p>
 
 ## Requirements
 
 * iOS 14.7+
 
+## Features
+
+* 1st page: Currency (Exchange rates)
+    * UX/UI inspired by the "Currency converter - Money" app.
+    * List of the most traded currencies.
+    * Personnal editable list to add or remove currencies.
+    * Real-time currency conversion as you type an amount on the selected currency of your choice.
+    * Applying SVG flags from [FlagKit](https://github.com/madebybowtie/FlagKit).
+<br />
+
+* 2nd page: Google translate
+    * UX/UI inspired by the "Google Translate" app.
+    * Write the sentence of your choice in any auto-detected language and receive its translation in another language of your choice.
+    * The source/target language can be modified by selecting from a list of supported languages.
+    * A search bar can also be used to facilitate your language selection.
+    * Option to reverse source and target languages.
+<br />
+
+* 3rd page: Weather
+    * UX/UI inspired by the official Apple weather app.
+    * User-friendly search functionality.
+    * Display weather information for any city of your choice.
+    * The list is customizable for sorting, adding or removing loactions and converting Celsius to Fahrenheit.
+    * High-quality SVG icons for most weather forecast senarios.
+<br />
+
+* Responsive Layout from the iPhone SE (3rd Generation) and subsequent versions.
+
+## Technologies Used
+* Design Tools: Figma.
+* UX/UI: UIKit, via storyboard and code.
+* Asynchronous Operations: DispatchQueue for multitasking.
+* API Integration: fixer.io, Google Translate, Google Places and OpenWeatherMap.
+
 ## Usage
 
 As user-friendly to use as the applications on which it is based.
 
+## Installation
+1. Clone or download the repository.
+2. Install/Update [CocoaPods](https://guides.cocoapods.org/using/getting-started.html).
+3. Install required dependency (see below).
+4. Open the project in Xcode via Backpack.xcworkspace.
+5. Add your own API keys for:
+    - fixer.io
+    - [Google Places & Google Translate](https://support.google.com/googleapi/answer/6158862?hl=en)
+    - [OpenWeather](https://openweathermap.org/)
+
 ## Dependency
 
-* This application requires the pod GooglePlaces 7.3.0.
-    * To install it, follow these instructions: [Google Places SDK for iOS](https://cocoapods.org/pods/GooglePlaces)
+* This application requires the pod [GooglePlaces SDK 7.3.0](https://cocoapods.org/pods/GooglePlaces)
 
-* OpenWeather API and fixer.io API keys are present, but they may not be active forever.
-    * You can create your own keys for free on these websites:
-        * [OpenWeather](https://openweathermap.org/)
-        * [fixer](https://fixer.io/)
+## Architecture
 
-* Your own Google API key is required in the Secrets.xconfig file.
-    * To create your Google API key, follow these instructions: [Setting up API keys](https://support.google.com/googleapi/answer/6158862?hl=en)
-    * You will need an access to Cloud Translation API and Places API.
-
-## Features
-
-* 1st page: Currency (Exchange rate)
-    * UX/UI inspired by the "Currency converter - Money" app (available on App Store).
-    * Using a list of the most traded currencies.
-    * The list is editable to add or remove currencies.
-    * Using the fixer.io API, updated each time the application is opened to be up to date.
-    * Real-time currency conversion as you type an amount on the selected currency of your choice.
-    * Using svg flags from [FlagKit](https://github.com/madebybowtie/FlagKit).
-
-* 2nd page: Translate (Google translate)
-    * UX/UI inspired by the "Google Translate" app (available on App Store).
-    * Write the sentence of your choice in any auto-detected language and get its translation in another language of your choice.
-    * The source/target language can be modified by choosing it from a list of supported languages.
-    * A searchBar can also be used to make your selection easier. 
-    * Using Google Translate API.
-
-* 3rd page: Weather
-    * UX/UI inspired by the official Apple weather app.
-    * User-friendly search, thanks to Google Places SDK and its autocomplete features (via CocoaPods).
-    * The Google Places SDK isn't free, but you can use your own API key or request one through a free trial.
-    * Display weather information for any city of your choice, using the OpenWeatherMap API.
-    * The list is editable to sort, add or remove loactions and convert Celsius to Fahrenheit.
-
-* Responsive Layout from the iPhone SE (3rd Generation) to the last version.
-* Using tab bar to navigate between the pages.
-
-## Structure
-
-* Using MVC architecture pattern and a separate Network layer.
+* MVC Architecture with a separate Network layer.
 
 ## Demo
 
-|Currency|Translate|Weather|
-|--|--|--|
-|<img src="/Resources/Demo-iPhone-14-Pro-Currency.gif" width="220">|<img src="/Resources/Demo-iPhone-14-Pro-Translate.gif" width="220">|<img src="/Resources/Demo-iPhone-14-Pro-Weather.gif" width="220">|
+Coming soon...
 
 ## License
 
-See LICENSE.md for details
+See [LICENSE.md](LICENSE.md) for details

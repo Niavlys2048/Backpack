@@ -11,10 +11,6 @@ import CoreLocation
 
 struct GMSPlaceMock: GMSPlaceProtocol {
     let coordinate: CLLocationCoordinate2D
-    
-    init(coordinate: CLLocationCoordinate2D) {
-        self.coordinate = coordinate
-    }
 }
 
 extension GMSPlaceMock {

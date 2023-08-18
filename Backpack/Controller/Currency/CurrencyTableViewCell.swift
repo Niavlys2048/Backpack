@@ -18,7 +18,11 @@ final class CurrencyTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    func configure(with model: Currency) {
+        let flag = model.countryCode
+        flagImageView.image = UIImage(named: flag)
+        currencyLabel.text = model.code
+        amountLabel.text = model.amount
+        detailLabel.text = "\(model.name), \(model.symbol)"
     }
 }

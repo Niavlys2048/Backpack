@@ -126,14 +126,18 @@ final class CurrencyViewController: UIViewController {
     
     private func initNavigationBar() {
         title = "Currency"
+        initMenuButton()
+        navigationItem.rightBarButtonItem = menuButton
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "textColor")
+    }
+    
+    private func initMenuButton() {
         menuButton = UIBarButtonItem(
             title: nil,
-            image: UIImage(systemName: "ellipsis.circle"),
+            image: UIImage(systemName: "ellipsis"),
             primaryAction: nil,
             menu: generatePullDownMenu()
         )
-        navigationItem.rightBarButtonItem = menuButton
-        navigationItem.rightBarButtonItem?.tintColor = .white
     }
     
     private func generatePullDownMenu() -> UIMenu {
@@ -188,7 +192,7 @@ final class CurrencyViewController: UIViewController {
     
     @objc private func exitEditing() {
         menuButton.title = nil
-        menuButton.image = UIImage(systemName: "ellipsis.circle")
+        menuButton.image = UIImage(systemName: "ellipsis")
         menuButton.menu = generatePullDownMenu()
         menuButton.action = nil
         
@@ -253,13 +257,7 @@ extension CurrencyViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let flag = currency.countryCode
-        cell.flagImageView.image = UIImage(named: flag)
-        cell.currencyLabel.text = currency.code
-        cell.amountLabel.text = currency.amount
-        
-        cell.detailLabel.text = "\(currency.name), \(currency.symbol)"
-        
+        cell.configure(with: currency)
         return cell
     }
     
