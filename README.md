@@ -48,6 +48,7 @@ A 3-in-1 application that allows you to:
 * Responsive Layout from the iPhone SE (3rd Generation) and subsequent versions.
 
 ## Technologies Used
+
 * Design Tools: Figma.
 * UX/UI: UIKit, via storyboard and code.
 * Asynchronous Operations: DispatchQueue for multitasking.
@@ -58,12 +59,13 @@ A 3-in-1 application that allows you to:
 As user-friendly to use as the applications on which it is based.
 
 ## Installation
+
 1. Clone or download the repository.
 2. Install/Update [CocoaPods](https://guides.cocoapods.org/using/getting-started.html).
 3. Install required dependency (see below).
 4. Open the project in Xcode via Backpack.xcworkspace.
 5. Add your own API keys for:
-    - fixer.io
+    - [fixer.io](https://fixer.io/)
     - [Google Places & Google Translate](https://support.google.com/googleapi/answer/6158862?hl=en)
     - [OpenWeather](https://openweathermap.org/)
 
