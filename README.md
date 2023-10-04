@@ -17,7 +17,7 @@ A 3-in-1 application that allows you to:
 
 ## Requirements
 
-* iOS 14.7+
+* iOS 15.0+
 
 ## Features
 
@@ -71,7 +71,7 @@ As user-friendly to use as the applications on which it is based.
 
 ## Dependency
 
-* This application requires the pod [GooglePlaces SDK 7.3.0](https://cocoapods.org/pods/GooglePlaces)
+* This application requires the pod [GooglePlaces](https://cocoapods.org/pods/GooglePlaces)
 
 ## Architecture
 
