@@ -749,7 +749,7 @@
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EU" translatesAutoresizingMaskIntoConstraints="NO" id="sga-7M-yci">
                                                                     <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" secondItem="sga-7M-yci" secondAttribute="height" id="qkW-gH-KFL"/>
+                                                                        <constraint firstAttribute="width" secondItem="sga-7M-yci" secondAttribute="height" priority="999" id="qkW-gH-KFL"/>
                                                                         <constraint firstAttribute="width" constant="60" id="tyD-BZ-3SI"/>
                                                                     </constraints>
                                                                 </imageView>

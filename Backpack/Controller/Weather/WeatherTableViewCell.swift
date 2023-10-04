@@ -32,10 +32,6 @@ final class WeatherTableViewCell: UITableViewCell {
         super.awakeFromNib()
         cityLabel.font = UIFont.systemFont(ofSize: 28, weight: .medium).rounded
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
     func configure(with model: WeatherModel, degreeUnit: DegreeUnit) {
         cityLabel.text = model.cityName

@@ -72,6 +72,7 @@
 		E41829A929C62C9A00538A39 /* APIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41829A829C62C9A00538A39 /* APIRouter.swift */; };
 		E44D562B29C6053A0066E286 /* RestAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44D562A29C6053A0066E286 /* RestAPIClient.swift */; };
 		E4706DC729C082A900E81E9B /* AppConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4706DC629C082A900E81E9B /* AppConfigurations.swift */; };
+		E4BA477B2A9D4B7900C58B5A /* UIContextualAction+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BA477A2A9D4B7900C58B5A /* UIContextualAction+Extension.swift */; };
 		E4D7AD4B2A83BE3400ACA48D /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D7AD4A2A83BE3400ACA48D /* GradientView.swift */; };
 		E4EE8A042A8BCB4500C2D17A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EE8A032A8BCB4500C2D17A /* UIFont+Extension.swift */; };
 /* End PBXBuildFile section */
@@ -161,6 +162,7 @@
 		E41829A829C62C9A00538A39 /* APIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRouter.swift; sourceTree = "<group>"; };
 		E44D562A29C6053A0066E286 /* RestAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestAPIClient.swift; sourceTree = "<group>"; };
 		E4706DC629C082A900E81E9B /* AppConfigurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurations.swift; sourceTree = "<group>"; };
+		E4BA477A2A9D4B7900C58B5A /* UIContextualAction+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIContextualAction+Extension.swift"; sourceTree = "<group>"; };
 		E4D7AD4A2A83BE3400ACA48D /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		E4EE8A032A8BCB4500C2D17A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -257,6 +259,7 @@
 				4F5A7C7C29A41CB400918897 /* Data+Extension.swift */,
 				E4056C992A856D7B00647033 /* UISearchBar+Extension.swift */,
 				E4EE8A032A8BCB4500C2D17A /* UIFont+Extension.swift */,
+				E4BA477A2A9D4B7900C58B5A /* UIContextualAction+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -688,6 +691,7 @@
 				4FECA09B2992BA190084E738 /* GMSPlacesClientWrapper.swift in Sources */,
 				4F7BD4322987082A00AAC176 /* GooglePlacesService.swift in Sources */,
 				4F4C7570299BC48300BB8D45 /* TranslateModel.swift in Sources */,
+				E4BA477B2A9D4B7900C58B5A /* UIContextualAction+Extension.swift in Sources */,
 				4F8F62BA298FD63D0068DBB5 /* AddCurrencyTableViewCell.swift in Sources */,
 				4F2011112985B2A7004AA281 /* WeatherResponse.swift in Sources */,
 				4F5F0B8C298D6FC400F037B5 /* Currency.swift in Sources */,

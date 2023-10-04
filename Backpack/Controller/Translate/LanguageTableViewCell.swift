@@ -10,10 +10,6 @@ import UIKit
 final class LanguageTableViewCell: UITableViewCell {
     
     @IBOutlet var languageLabel: UILabel!
-        
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 
     func configure(with model: LanguageModel) {
         languageLabel.text = model.name

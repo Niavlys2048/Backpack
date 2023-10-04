@@ -13,10 +13,6 @@ final class CurrencyTableViewCell: UITableViewCell {
     @IBOutlet var currencyLabel: UILabel!
     @IBOutlet var amountLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 
     func configure(with model: Currency) {
         let flag = model.countryCode
