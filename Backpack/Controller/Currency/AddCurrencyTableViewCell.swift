@@ -12,10 +12,6 @@ final class AddCurrencyTableViewCell: UITableViewCell {
     @IBOutlet var flagImageView: UIImageView!
     @IBOutlet var currencyLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
 
     func configure(with model: Currency) {
         let flag = model.countryCode

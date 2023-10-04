@@ -22,7 +22,7 @@ final class GooglePlacesServiceTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        googlePlacesService.findPlaces(query: "san") { result in
+        googlePlacesService.findPlaces(query: "san", delay: 0.01) { result in
             // Then
             switch result {
             case .success:
@@ -32,7 +32,7 @@ final class GooglePlacesServiceTests: XCTestCase {
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.2)
     }
     
     func test_findPlaces_Success_WithData() {
@@ -44,7 +44,7 @@ final class GooglePlacesServiceTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        googlePlacesService.findPlaces(query: "san") { result in
+        googlePlacesService.findPlaces(query: "san", delay: 0.01) { result in
             // Then
             switch result {
             case .success(let places):
@@ -58,7 +58,7 @@ final class GooglePlacesServiceTests: XCTestCase {
             XCTAssertEqual(clientWrapperMock.givenFilterTypes?.first, "locality")
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.2)
     }
     
     func test_findPlaces_Success_WithoutData() {
@@ -69,7 +69,7 @@ final class GooglePlacesServiceTests: XCTestCase {
         
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
-        googlePlacesService.findPlaces(query: "san") { result in
+        googlePlacesService.findPlaces(query: "san", delay: 0.01) { result in
             // Then
             switch result {
             case .success(let places):
@@ -81,7 +81,7 @@ final class GooglePlacesServiceTests: XCTestCase {
             XCTAssertEqual(clientWrapperMock.givenFilterTypes?.first, "locality")
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.2)
     }
     
     func test_resolveLocation_Error() {

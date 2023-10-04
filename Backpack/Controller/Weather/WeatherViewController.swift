@@ -26,7 +26,8 @@ final class WeatherViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: ResultsViewController())
     
     private var currentLocation: CLLocationCoordinate2D?
-    var locationManager: CLLocationManager?
+    private var locationManager: CLLocationManager?
+    private var didFindLocation: Bool = false
     
     private var menuButton: UIBarButtonItem!
     private var menu: UIMenu!
@@ -177,9 +178,12 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         
-        self.currentLocation = locValue
-        updateWeatherTableViewWithCurrentLocation()
-        manager.stopUpdatingLocation()
+        if didFindLocation == false {
+            self.currentLocation = locValue
+            updateWeatherTableViewWithCurrentLocation()
+            didFindLocation.toggle()
+            manager.stopUpdatingLocation()
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -218,7 +222,7 @@ extension WeatherViewController: UISearchResultsUpdating {
         resultVC.delegate = self
         
         activityIndicator.isHidden = false
-        GooglePlacesService.shared.findPlaces(query: query) { [weak self] result in
+        GooglePlacesService.shared.findPlaces(query: query, delay: 0.6) { [weak self] result in
             self?.activityIndicator.isHidden = true
             switch result {
             case .success(let places):

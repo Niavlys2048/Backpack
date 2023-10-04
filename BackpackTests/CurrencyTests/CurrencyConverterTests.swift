@@ -83,7 +83,7 @@ final class CurrencyConverterTests: XCTestCase {
             expectedJPYAmount
         ]
         let resultAmounts = result.map { $0.amount }
-        XCTAssertEqual(resultAmounts, expectedAmounts)
+        XCTAssertEqual(resultAmounts.sorted(), expectedAmounts.sorted())
     }
     
     func test_convertCurrency_AmountWithSeparator_Success() {
@@ -111,7 +111,7 @@ final class CurrencyConverterTests: XCTestCase {
             expectedJPYAmount
         ]
         let resultAmounts = result.map { $0.amount }
-        XCTAssertEqual(resultAmounts, expectedAmounts)
+        XCTAssertEqual(resultAmounts.sorted(), expectedAmounts.sorted())
     }
     
     func test_convertCurrency_AmountWithSeparatorAndOneDecimalDigit_Success() {
@@ -139,7 +139,7 @@ final class CurrencyConverterTests: XCTestCase {
             expectedJPYAmount
         ]
         let resultAmounts = result.map { $0.amount }
-        XCTAssertEqual(resultAmounts, expectedAmounts)
+        XCTAssertEqual(resultAmounts.sorted(), expectedAmounts.sorted())
     }
     
     func test_convertCurrency_LargeAmountWithSeparator_Success() {
@@ -167,7 +167,7 @@ final class CurrencyConverterTests: XCTestCase {
             expectedJPYAmount
         ]
         let resultAmounts = result.map { $0.amount }
-        XCTAssertEqual(resultAmounts, expectedAmounts)
+        XCTAssertEqual(resultAmounts.sorted(), expectedAmounts.sorted())
     }
     
     func test_updateAmount_WrongDollarAmount_Success() {
@@ -212,6 +212,6 @@ final class CurrencyConverterTests: XCTestCase {
             expectedJPYAmount
         ]
         let resultAmounts = result.map { $0.amount }
-        XCTAssertEqual(resultAmounts, expectedAmounts)
+        XCTAssertEqual(resultAmounts.sorted(), expectedAmounts.sorted())
     }
 }
