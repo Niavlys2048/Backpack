@@ -9,7 +9,7 @@ import Foundation
 
 struct LanguagesModel {
     var languages: [LanguageModel]
-    
+
     init(languageResponse: LanguageResponse) {
         languages = [LanguageModel]()
         let languagesData = languageResponse.data.languages

@@ -8,17 +8,16 @@
 import Foundation
 
 final class RateService {
-    
     // MARK: - Properties
+
     static var shared = RateService()
-    
     private var restAPIClient: RestAPIClient
-    
+
     init(restAPIClient: RestAPIClient = .shared) {
         self.restAPIClient = restAPIClient
     }
-    
-    func getRates(completion: @escaping(Result<RateResponse, DataError>) -> Void) {
-        return restAPIClient.fetchData(route: .getRates, completion: completion)
+
+    func getRates(completion: @escaping (Result<RateResponse, DataError>) -> Void) {
+        restAPIClient.fetchData(route: .getRates, completion: completion)
     }
 }

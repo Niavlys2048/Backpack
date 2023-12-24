@@ -13,13 +13,13 @@ final class GooglePlacesServiceTests: XCTestCase {
     enum ErrorMock: Error {
         case dummy
     }
-    
+
     func test_findPlaces_Error() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
         let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         clientWrapperMock.expectedError = ErrorMock.dummy
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         googlePlacesService.findPlaces(query: "san", delay: 0.01) { result in
@@ -34,14 +34,14 @@ final class GooglePlacesServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.2)
     }
-    
+
     func test_findPlaces_Success_WithData() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
         let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         let autocompletePredictionMock = GMSAutocompletePredictionMock.mock
         clientWrapperMock.expectedAutocompletePredictionResults = [autocompletePredictionMock]
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         googlePlacesService.findPlaces(query: "san", delay: 0.01) { result in
@@ -60,13 +60,13 @@ final class GooglePlacesServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.2)
     }
-    
+
     func test_findPlaces_Success_WithoutData() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
         let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         clientWrapperMock.expectedAutocompletePredictionResults = []
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         googlePlacesService.findPlaces(query: "san", delay: 0.01) { result in
@@ -83,14 +83,14 @@ final class GooglePlacesServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.2)
     }
-    
+
     func test_resolveLocation_Error() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
         let googlePlacesService = GooglePlacesService(client: clientWrapperMock)
         clientWrapperMock.expectedError = ErrorMock.dummy
         let place = Place(name: "San Francisco, CA, USA", identifier: "ChIJN1t_tDeuEmsRUsoyG83frY4")
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         googlePlacesService.resolveLocation(for: place) { result in
@@ -105,7 +105,7 @@ final class GooglePlacesServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.01)
     }
-    
+
     func test_resolveLocation_Success_WithData() {
         // Given
         let clientWrapperMock = GMSPlacesClientWrapperMock()
@@ -113,7 +113,7 @@ final class GooglePlacesServiceTests: XCTestCase {
         let placeMock = GMSPlaceMock.mock
         clientWrapperMock.expectedPlaceResult = placeMock
         let place = Place(name: "San Francisco, CA, USA", identifier: "ChIJN1t_tDeuEmsRUsoyG83frY4")
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         googlePlacesService.resolveLocation(for: place) { result in

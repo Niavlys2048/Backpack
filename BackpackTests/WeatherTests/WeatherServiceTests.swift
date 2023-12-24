@@ -28,13 +28,13 @@ final class WeatherServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.01)
     }
-    
+
     func test_performRequest_Failed_WithoutData() {
         // Given
         let restAPIClient = RestAPIClient(session: URLSessionFake(data: nil, response: nil, error: nil))
         let weatherService = WeatherService(restAPIClient: restAPIClient)
         let parisCoordinates = Coordinates(latitude: 48.8566, longitude: 2.3522)
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         weatherService.getWeather(coordinates: parisCoordinates) { result in
@@ -49,8 +49,8 @@ final class WeatherServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.01)
     }
-    
-    func test_performRequest_Failed_InccorectResponse() {
+
+    func test_performRequest_Failed_IncorrectResponse() {
         // Given
         let restAPIClient = RestAPIClient(
             session: URLSessionFake(
@@ -60,7 +60,7 @@ final class WeatherServiceTests: XCTestCase {
         )
         let weatherService = WeatherService(restAPIClient: restAPIClient)
         let parisCoordinates = Coordinates(latitude: 48.8566, longitude: 2.3522)
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         weatherService.getWeather(coordinates: parisCoordinates) { result in
@@ -75,8 +75,8 @@ final class WeatherServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.01)
     }
-    
-    func test_performRequest_Failed_InccorectData() {
+
+    func test_performRequest_Failed_IncorrectData() {
         // Given
         let restAPIClient = RestAPIClient(
             session: URLSessionFake(
@@ -86,7 +86,7 @@ final class WeatherServiceTests: XCTestCase {
         )
         let weatherService = WeatherService(restAPIClient: restAPIClient)
         let parisCoordinates = Coordinates(latitude: 48.8566, longitude: 2.3522)
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         weatherService.getWeather(coordinates: parisCoordinates) { result in
@@ -101,7 +101,7 @@ final class WeatherServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.01)
     }
-    
+
     func test_performRequest_Success_CorrectData() {
         // Given
         let restAPIClient = RestAPIClient(
@@ -112,7 +112,7 @@ final class WeatherServiceTests: XCTestCase {
         )
         let weatherService = WeatherService(restAPIClient: restAPIClient)
         let parisCoordinates = Coordinates(latitude: 48.8566, longitude: 2.3522)
-        
+
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change")
         weatherService.getWeather(coordinates: parisCoordinates) { result in
@@ -122,7 +122,7 @@ final class WeatherServiceTests: XCTestCase {
             let conditionName = "Clear"
             let temperature = 5.99
             let conditionId = 800
-            
+
             switch result {
             case .success(let weatherResponse):
                 let weatherModel = WeatherModel(weatherResponse: weatherResponse)

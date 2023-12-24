@@ -15,7 +15,7 @@ extension Double {
         numberFormatter.maximumFractionDigits = 0
         return numberFormatter.string(for: self) ?? String(self)
     }
-    
+
     var displayCurrency: String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

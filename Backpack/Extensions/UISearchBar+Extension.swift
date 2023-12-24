@@ -9,7 +9,7 @@ import UIKit
 
 extension UISearchBar {
     func setTextFieldColor(hexColor: Int, transparency: CGFloat) {
-        if let textField = self.value(forKey: "searchField") as? UITextField {
+        if let textField = value(forKey: "searchField") as? UITextField {
             textField.backgroundColor = UIColor(hex: hexColor, alpha: transparency)
         }
     }

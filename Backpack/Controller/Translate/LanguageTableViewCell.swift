@@ -8,7 +8,6 @@
 import UIKit
 
 final class LanguageTableViewCell: UITableViewCell {
-    
     @IBOutlet var languageLabel: UILabel!
 
     func configure(with model: LanguageModel) {

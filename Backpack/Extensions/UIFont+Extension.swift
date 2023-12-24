@@ -8,10 +8,9 @@
 import UIKit
 
 public extension UIFont {
-    
     var rounded: UIFont {
-        guard let desc = self.fontDescriptor.withDesign(.rounded)
+        guard let desc = fontDescriptor.withDesign(.rounded)
         else { return self }
-        return UIFont(descriptor: desc, size: self.pointSize)
+        return UIFont(descriptor: desc, size: pointSize)
     }
 }

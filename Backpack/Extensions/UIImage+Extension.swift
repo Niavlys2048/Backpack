@@ -18,7 +18,7 @@ extension UIImage {
             width: imageSize.width,
             height: imageSize.height
         )
-        
+
         let view = UIView(frame: roundedBoxFrame)
         view.backgroundColor = color ?? .systemRed
         view.layer.cornerRadius = cornerRadius

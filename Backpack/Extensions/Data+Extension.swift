@@ -17,8 +17,9 @@ extension Data {
             )
         } catch {
             print("error:", error)
-            return  nil
+            return nil
         }
     }
+
     var html2String: String { html2AttributedString?.string ?? "" }
 }

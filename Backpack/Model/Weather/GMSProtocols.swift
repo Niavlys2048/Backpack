@@ -9,6 +9,7 @@ import Foundation
 import GooglePlaces
 
 // MARK: - GMSAutocompletePrediction Protocol
+
 protocol GMSAutocompletePredictionProtocol {
     var attributedFullText: NSAttributedString { get }
     var placeID: String { get }
@@ -17,6 +18,7 @@ protocol GMSAutocompletePredictionProtocol {
 extension GMSAutocompletePrediction: GMSAutocompletePredictionProtocol {}
 
 // MARK: - GMSPlace Protocol
+
 protocol GMSPlaceProtocol {
     var coordinate: CLLocationCoordinate2D { get }
 }

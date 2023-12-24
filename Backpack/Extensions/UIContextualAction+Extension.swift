@@ -8,19 +8,17 @@
 import UIKit
 
 extension UIContextualAction {
-    
     func configure() {
-        
-        self.image = UIImage(
+        image = UIImage(
             systemName: "trash.fill",
             withConfiguration: UIImage.SymbolConfiguration(scale: .large)
         )?
             .withTintColor(.white, renderingMode: .alwaysTemplate)
             .addBackgroundRounded(
                 size: CGSize(width: 60, height: 60),
-                color: UIColor(hex: 0xEA5545),
+                color: UIColor(hex: 0xea5545),
                 cornerRadius: 10
             )
-        self.backgroundColor = UIColor(white: 1, alpha: 0)
+        backgroundColor = UIColor(white: 1, alpha: 0)
     }
 }

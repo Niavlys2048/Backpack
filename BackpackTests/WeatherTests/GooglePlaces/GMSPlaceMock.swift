@@ -6,8 +6,8 @@
 //
 
 @testable import Backpack
-import Foundation
 import CoreLocation
+import Foundation
 
 struct GMSPlaceMock: GMSPlaceProtocol {
     let coordinate: CLLocationCoordinate2D

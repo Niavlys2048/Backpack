@@ -9,7 +9,7 @@ import Foundation
 
 struct RatesModel {
     var rates: [RateModel]
-    
+
     init(rateResponse: RateResponse) {
         rates = [RateModel]()
         let ratesData = rateResponse.rates

@@ -1,5 +1,5 @@
 PODS:
-  - GooglePlaces (8.2.1)
+  - GooglePlaces (8.3.0)
 
 DEPENDENCIES:
   - GooglePlaces
@@ -9,8 +9,8 @@ SPEC REPOS:
     - GooglePlaces
 
 SPEC CHECKSUMS:
-  GooglePlaces: 867722fe422f5a4cc19c68bc28f9f74a24470e40
+  GooglePlaces: b922e192c50994436900ef14d19f84971950250b
 
 PODFILE CHECKSUM: e14555ad4b512cbf8f30427205d1b595c2ed267e
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.14.3

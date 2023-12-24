@@ -18,53 +18,53 @@ enum DataError: Error {
 
 final class RestAPIClient {
     static var shared = RestAPIClient()
-    
+
     private var task: URLSessionTask?
     private var session = URLSession(configuration: .default)
-    
+
     init(session: URLSession) {
         self.session = session
     }
-    
-    private init() { }
-    
-    func fetchData<T: Decodable>(route: APIRouter, completion: @escaping(Result<T, DataError>) -> Void) {
+
+    private init() {}
+
+    func fetchData<T: Decodable>(route: APIRouter, completion: @escaping (Result<T, DataError>) -> Void) {
         // Create a request from the API router
         guard let request = try? route.asURLRequest() else {
             completion(.failure(.connectionFailed))
             return
         }
-        
+
         // Cancel the previous task if another request happens
         task?.cancel()
-        
+
         // Create a URLSessionDataTask to send the request
-        let task = session.dataTask(with: request) { (data, response, error) in
+        let task = session.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 // Check for errors
-                if let error = error {
+                if let error {
                     completion(.failure(.requestFailed(error: error)))
                     return
                 }
-                
+
                 // Check for a response
                 guard let httpResponse = response as? HTTPURLResponse else {
                     completion(.failure(.invalidResponse))
                     return
                 }
-                
+
                 // Check for a successful response
                 guard (200...299).contains(httpResponse.statusCode) else {
                     completion(.failure(.unsuccessfulResponse(statusCode: httpResponse.statusCode)))
                     return
                 }
-                
+
                 // Check for data
-                guard let data = data else {
+                guard let data else {
                     completion(.failure(.noData))
                     return
                 }
-                
+
                 do {
                     // Decode the data to the specified type
                     let decodedData = try JSONDecoder().decode(T.self, from: data)
