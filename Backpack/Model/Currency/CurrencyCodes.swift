@@ -46,6 +46,6 @@ enum CurrencyCodes {
         "COP",
         "RUB",
         "RON",
-        "UAH"
+        "UAH",
     ]
 }

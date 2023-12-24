@@ -8,7 +8,6 @@
 import UIKit
 
 final class AddCurrencyTableViewCell: UITableViewCell {
-
     @IBOutlet var flagImageView: UIImageView!
     @IBOutlet var currencyLabel: UILabel!
     @IBOutlet var detailLabel: UILabel!

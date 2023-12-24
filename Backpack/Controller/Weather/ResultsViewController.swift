@@ -12,31 +12,32 @@ protocol ResultsViewControllerDelegate: AnyObject {
 }
 
 final class ResultsViewController: UIViewController {
-    
     // MARK: - Properties
+
     weak var delegate: ResultsViewControllerDelegate?
-    
+
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return table
     }()
-    
+
     private var places: [Place] = []
-    
+
     // MARK: - Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
-    
+
     func update(with places: [Place]) {
         tableView.isHidden = false
         self.places = places
@@ -47,21 +48,22 @@ final class ResultsViewController: UIViewController {
 // MARK: - Extensions
 
 // MARK: - tableView DataSource
+
 extension ResultsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return places.count
+        places.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = places[indexPath.row].name
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         tableView.isHidden = true
-        
+
         let place = places[indexPath.row]
         GooglePlacesService.shared.resolveLocation(for: place) { [weak self] result in
             switch result {
@@ -77,4 +79,5 @@ extension ResultsViewController: UITableViewDataSource {
 }
 
 // MARK: - tableView Delegate
+
 extension ResultsViewController: UITableViewDelegate {}

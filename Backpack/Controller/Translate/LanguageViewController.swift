@@ -12,35 +12,37 @@ protocol LanguageViewControllerDelegate: AnyObject {
 }
 
 final class LanguageViewController: UIViewController {
-
     // MARK: - Outlets
+
     @IBOutlet var translateLabel: UILabel!
     @IBOutlet private var languageSearchBar: UISearchBar!
     @IBOutlet private var languageTableView: UITableView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    
+
     // MARK: - Properties
+
     weak var delegate: LanguageViewControllerDelegate?
-    
+
     // Data for languageTableView
     var supportedLanguageData: [LanguageModel] = []
     var filteredData: [LanguageModel] = []
     var languageData: LanguageModel?
-    
+
     var selectedLanguage: SelectedLanguage = .sourceLanguage
-    
+
     // MARK: - Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
-        
+
         languageTableView.dataSource = self
         languageTableView.delegate = self
         languageSearchBar.delegate = self
-        
+
         getSupportedLanguages()
     }
-    
+
     private func initView() {
         switch selectedLanguage {
         case .sourceLanguage:
@@ -49,7 +51,7 @@ final class LanguageViewController: UIViewController {
             translateLabel.text = "Translate to"
         }
     }
-    
+
     private func getSupportedLanguages() {
         activityIndicator.isHidden = false
         TranslateService.shared.getLanguages { [weak self] result in
@@ -58,14 +60,14 @@ final class LanguageViewController: UIViewController {
             case .success(let languageResponse):
                 let supportedLanguages = LanguagesModel(languageResponse: languageResponse).languages
                 self?.supportedLanguageData = supportedLanguages
-                
+
                 guard var supportedLanguages = self?.supportedLanguageData else { return }
                 self?.supportedLanguageData = supportedLanguages.sorted { $0.name < $1.name }
-                
+
                 if self?.selectedLanguage == .sourceLanguage {
                     supportedLanguages.insert(LanguageModel(name: "Detect language", code: "detect"), at: 0)
                 }
-                
+
                 self?.filteredData = supportedLanguages
                 self?.languageTableView.reloadData()
             case .failure(let error):
@@ -74,8 +76,9 @@ final class LanguageViewController: UIViewController {
             }
         }
     }
-    
+
     // MARK: - Actions
+
     @IBAction private func cancelButtonPressed(_ sender: UIButton) {
         dismiss(animated: true)
     }
@@ -84,22 +87,23 @@ final class LanguageViewController: UIViewController {
 // MARK: - Extensions
 
 // MARK: - languageTableView DataSource
+
 extension LanguageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         filteredData.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let supportedLanguage = filteredData[indexPath.row]
-        
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "LanguageCell", for: indexPath) as? LanguageTableViewCell else {
             return UITableViewCell()
         }
-        
+
         cell.configure(with: supportedLanguage)
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark
@@ -108,7 +112,7 @@ extension LanguageViewController: UITableViewDataSource {
             delegate?.didTapLanguage(self)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .none
@@ -117,20 +121,21 @@ extension LanguageViewController: UITableViewDataSource {
 }
 
 // MARK: - languageTableView Delegate
+
 extension LanguageViewController: UITableViewDelegate {}
 
 // MARK: - languageSearchBar Delegate to find language faster
+
 extension LanguageViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         if searchText.isEmpty {
             filteredData = supportedLanguageData
         } else {
             filteredData = supportedLanguageData.filter { data in
-                return data.name.lowercased().contains(searchText.lowercased())
+                data.name.lowercased().contains(searchText.lowercased())
             }
         }
-        
+
         languageTableView.reloadData()
     }
 }

@@ -12,33 +12,36 @@ protocol AddCurrencyViewControllerDelegate: AnyObject {
 }
 
 final class AddCurrencyViewController: UIViewController {
-    
     // MARK: - Outlets
+
     @IBOutlet private var addCurrencyTableView: UITableView!
-    
+
     // MARK: - Properties
+
     weak var delegate: AddCurrencyViewControllerDelegate?
-    
+
     var availableCurrencyData: [Currency] = []
     var currencyData: [Currency] = []
     private var addableCurrencyData: [Currency] = []
-    
+
     // MARK: - Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addCurrencyTableView.dataSource = self
         addCurrencyTableView.delegate = self
-        
-        let currentCurrencyCodes = currencyData.map({ return $0.code })
-        addableCurrencyData = availableCurrencyData.filter({ !currentCurrencyCodes.contains($0.code) })
+
+        let currentCurrencyCodes = currencyData.map(\.code)
+        addableCurrencyData = availableCurrencyData.filter { !currentCurrencyCodes.contains($0.code) }
     }
-    
+
     // MARK: - Actions
+
     @IBAction private func cancelPressed(_ sender: UIButton) {
         dismiss(animated: true)
     }
-    
+
     @IBAction private func donePressed(_ sender: UIButton) {
         if let selectedRows = addCurrencyTableView.indexPathsForSelectedRows {
             for indexPath in selectedRows {
@@ -52,28 +55,29 @@ final class AddCurrencyViewController: UIViewController {
 // MARK: - Extensions
 
 // MARK: - addCurrencyTableView DataSource
+
 extension AddCurrencyViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         addableCurrencyData.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let addableCurrency = addableCurrencyData[indexPath.row]
-        
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddCurrencyCell", for: indexPath) as? AddCurrencyTableViewCell else {
             return UITableViewCell()
         }
-        
+
         cell.configure(with: addableCurrency)
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .none
@@ -82,8 +86,9 @@ extension AddCurrencyViewController: UITableViewDataSource {
 }
 
 // MARK: - addCurrencyTableView Delegate
+
 extension AddCurrencyViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        50
     }
 }

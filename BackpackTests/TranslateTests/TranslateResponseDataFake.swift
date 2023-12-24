@@ -10,10 +10,10 @@ import Foundation
 class TranslateResponseDataFake {
     static let responseOK = HTTPURLResponse(url: URL(string: "https://translation.googleapis.com/language/translate/v2")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
     static let responseKO = HTTPURLResponse(url: URL(string: "https://translation.googleapis.com/language/translate/v2")!, statusCode: 500, httpVersion: nil, headerFields: nil)!
-    
+
     class TranslateError: Error {}
     static let error = TranslateError()
-    
+
     static var translateCorrectData: Data {
         let bundle = Bundle(for: TranslateResponseDataFake.self)
         let url = bundle.url(forResource: "Translation", withExtension: "json")
@@ -24,6 +24,6 @@ class TranslateResponseDataFake {
             return Data()
         }
     }
-    
-    static let translateIncorrectData = "incorrect data".data(using: .utf8)!
+
+    static let translateIncorrectData = Data("incorrect data".utf8)
 }

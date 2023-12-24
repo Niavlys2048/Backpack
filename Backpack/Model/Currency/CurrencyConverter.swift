@@ -11,18 +11,18 @@ final class CurrencyConverter {
     func convertCurrency(amount: String, selectedCurrency: Currency, currencyArray: [Currency]) -> [Currency] {
         guard !amount.isEmpty else {
             for currency in currencyArray {
-                currency.amount = (0).displayCurrency
+                currency.amount = 0.displayCurrency
             }
             return currencyArray
         }
-        
+
         let numberFormatter = NumberFormatter()
         let decimalSeparator = numberFormatter.locale.decimalSeparator ?? "."
-        
+
         guard let amountDecimal = amount.toDecimal else {
             return currencyArray
         }
-        
+
         // Reformat amount to match the input (hidden TextField)
         let amountSplit = amount.components(separatedBy: decimalSeparator)
         if !amount.contains(decimalSeparator) {
@@ -37,10 +37,10 @@ final class CurrencyConverter {
         } else {
             selectedCurrency.amount = amountDecimal.displayCurrency
         }
-        
+
         let selectedCurrencyRateDecimal = Decimal(selectedCurrency.rate)
         let factorDecimal = amountDecimal / selectedCurrencyRateDecimal
-        
+
         for currency in currencyArray where currency.code != selectedCurrency.code {
             let currencyRateDecimal = Decimal(currency.rate)
             let currencyAmountDecimal = currencyRateDecimal * factorDecimal
@@ -48,9 +48,9 @@ final class CurrencyConverter {
         }
         return currencyArray
     }
-    
+
     func updateAmount(currencyArray: [Currency]) -> [Currency] {
-        let dollarAmount = currencyArray.filter({ $0.code == CurrencyCodes.usDollar }).map({ return $0.amount })[0]
+        let dollarAmount = currencyArray.filter { $0.code == CurrencyCodes.usDollar }.map(\.amount)[0]
         guard let dollarAmountDecimal = dollarAmount.toDecimal else {
             return currencyArray
         }

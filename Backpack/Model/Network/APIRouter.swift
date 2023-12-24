@@ -16,20 +16,20 @@ enum APIRouter {
     case getRates
     case getTranslation(textToTranslate: String, targetLanguage: String)
     case getLanguages
-        
+
     private var urlPath: String {
         switch self {
         case .getWeather:
-            return AppConfiguration.shared.openWeatherBaseURL
+            AppConfiguration.shared.openWeatherBaseURL
         case .getRates:
-            return AppConfiguration.shared.fixerBaseURL
+            AppConfiguration.shared.fixerBaseURL
         case .getTranslation:
-            return AppConfiguration.shared.googleTranslateBaseURL
+            AppConfiguration.shared.googleTranslateBaseURL
         case .getLanguages:
-            return AppConfiguration.shared.googleLanguagesBaseURL
+            AppConfiguration.shared.googleLanguagesBaseURL
         }
     }
-    
+
     private var parameters: [String: String] {
         var urlParams = [String: String]()
         switch self {
@@ -55,22 +55,22 @@ enum APIRouter {
             return urlParams
         }
     }
-        
+
     func asURLRequest() throws -> URLRequest {
         guard var components = URLComponents(string: urlPath) else {
             throw NetworkError.invalidURL
         }
-        
+
         components.queryItems = [URLQueryItem]()
         for (key, value) in parameters {
             components.queryItems?.append(URLQueryItem(name: key, value: value))
         }
-        
+
         guard let url = components.url else {
             throw NetworkError.invalidURL
         }
         let urlRequest = URLRequest(url: url)
-        
+
         return urlRequest
     }
 }

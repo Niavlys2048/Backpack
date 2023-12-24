@@ -1,14 +1,24 @@
 disabled_rules:
 - trailing_whitespace
+- trailing_comma
 
 opt_in_rules:
 - empty_count
 - empty_string
+- trailing_closure
 
 excluded:
 - Carthage
 - Pods
 - SwiftLint/Common/3rdPartyLib
+
+custom_rules:
+    use_data_constructor_over_string_member:
+        included: ".*\\.swift"
+        name: "Do not use String.data(using: .utf8)"
+        regex: "\\.?data\\(using: \\.utf8\\)"
+        message: "Prefer using Data(string.utf8) over String.data(using: .utf8) since the Data constructor is non-optional, and Strings are guaranteed to be encodable as .utf8."
+        severity: error
 
 line_length:
     warning: 150
@@ -39,3 +49,6 @@ cyclomatic_complexity:
     error: 25
 
 reporter: "xcode"
+
+identifier_name:
+    allowed_symbols: "_"

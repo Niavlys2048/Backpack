@@ -14,21 +14,21 @@ final class Currency {
     let symbol: String
     let countryCode: String
     var rate: Double = 0.0
-    var amount: String = (0).displayCurrency
-    
+    var amount: String = 0.displayCurrency
+
     init(countryId: String) {
         self.countryId = countryId
         let locale = Locale(identifier: countryId)
-        self.code = locale.currencyCode ?? ""
-        self.symbol = locale.currencySymbol ?? ""
+        code = locale.currencyCode ?? ""
+        symbol = locale.currencySymbol ?? ""
         switch code {
         case CurrencyCodes.euro: // For all Euro Member Countries
-            self.countryCode = "EU"
+            countryCode = "EU"
         case CurrencyCodes.auDollar: // Fix a bug from Locale giving the wrong country code
-            self.countryCode = "AU"
+            countryCode = "AU"
         default:
-            self.countryCode = locale.regionCode ?? ""
+            countryCode = locale.regionCode ?? ""
         }
-        self.name = (code == CurrencyCodes.euro) ? "Euro Member Countries" : Locale.current.localizedString(forCurrencyCode: code) ?? ""
+        name = (code == CurrencyCodes.euro) ? "Euro Member Countries" : Locale.current.localizedString(forCurrencyCode: code) ?? ""
     }
 }
