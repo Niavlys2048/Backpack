@@ -40,9 +40,9 @@ enum APIRouter {
             urlParams["lon"] = longitude
             return urlParams
         case .getRates:
-            urlParams["apikey"] = AppConfiguration.shared.fixerApiKey
-            urlParams["base"] = CurrencyCodes.usDollar
-            urlParams["symbols"] = CurrencyCodes.mainCurrencies.joined(separator: ",")
+            urlParams["access_key"] = AppConfiguration.shared.fixerApiKey
+//            urlParams["base"] = CurrencyCodes.usDollar
+//            urlParams["symbols"] = CurrencyCodes.mainCurrencies.joined(separator: ",")
             return urlParams
         case .getTranslation(let textToTranslate, let targetLanguage):
             urlParams["key"] = AppConfiguration.shared.googleApiKey

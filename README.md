@@ -79,7 +79,11 @@ As user-friendly to use as the applications on which it is based.
 
 ## Demo
 
-Coming soon...
+<p align="center">
+<img src="Resources/Demo-iPhone-15-Pro-Currency.gif" width="180px">
+<img src="Resources/Demo-iPhone-15-Pro-Translate.gif" width="180px">
+<img src="Resources/Demo-iPhone-15-Pro-Weather.gif" width="180px">
+</p>
 
 ## License
 
