@@ -24,10 +24,8 @@ final class Currency {
         switch code {
         case CurrencyCodes.euro: // For all Euro Member Countries
             countryCode = "EU"
-        case CurrencyCodes.auDollar: // Fix a bug from Locale giving the wrong country code
-            countryCode = "AU"
         default:
-            countryCode = locale.regionCode ?? ""
+            countryCode = String(code.prefix(2))
         }
         name = (code == CurrencyCodes.euro) ? "Euro Member Countries" : Locale.current.localizedString(forCurrencyCode: code) ?? ""
     }

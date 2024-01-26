@@ -9,10 +9,8 @@ import UIKit
 
 extension UIContextualAction {
     func configure() {
-        image = UIImage(
-            systemName: "trash.fill",
-            withConfiguration: UIImage.SymbolConfiguration(scale: .large)
-        )?
+        image = SFSymbols.trash?
+            .withConfiguration(UIImage.SymbolConfiguration(scale: .large))
             .withTintColor(.white, renderingMode: .alwaysTemplate)
             .addBackgroundRounded(
                 size: CGSize(width: 60, height: 60),

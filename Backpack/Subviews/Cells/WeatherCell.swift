@@ -1,5 +1,5 @@
 //
-//  WeatherTableViewCell.swift
+//  WeatherCell.swift
 //  Backpack
 //
 //  Created by Sylvain Druaux on 28/01/2023.
@@ -7,16 +7,16 @@
 
 import UIKit
 
-final class WeatherTableViewCell: UITableViewCell {
+final class WeatherCell: UITableViewCell {
     // MARK: - Outlets
 
-    @IBOutlet var cityLabel: UILabel!
-    @IBOutlet var timeLabel: UILabel!
-    @IBOutlet var conditionLabel: UILabel!
-    @IBOutlet var conditionImageView: UIImageView!
-    @IBOutlet var temperatureLabel: UILabel!
-    @IBOutlet var degreeLabel: UILabel!
-    @IBOutlet var degreeUnitLabel: UILabel!
+    @IBOutlet private var cityLabel: UILabel!
+    @IBOutlet private var timeLabel: UILabel!
+    @IBOutlet private var conditionLabel: UILabel!
+    @IBOutlet private var conditionImageView: UIImageView!
+    @IBOutlet private var temperatureLabel: UILabel!
+    @IBOutlet private var degreeLabel: UILabel!
+    @IBOutlet private var degreeUnitLabel: UILabel!
 
     // MARK: - Properties
 
@@ -27,6 +27,8 @@ final class WeatherTableViewCell: UITableViewCell {
     private lazy var degreeLabelFontSize = degreeLabel.font.pointSize
     private lazy var degreeUnitFontSize = degreeUnitLabel.font.pointSize
     private lazy var conditionImageViewWidth = conditionImageView.frame.width
+
+    static let reuseID = "WeatherCell"
 
     // MARK: - Methods
 
@@ -40,6 +42,7 @@ final class WeatherTableViewCell: UITableViewCell {
         timeLabel.text = model.timeZone.timeFromTimezone()
         conditionLabel.text = model.conditionName
         conditionImageView.image = UIImage(named: model.conditionImage)
+
         switch degreeUnit {
         case .celsius:
             degreeUnitLabel.text = "C"

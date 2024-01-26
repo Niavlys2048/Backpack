@@ -27,28 +27,11 @@ final class AddWeatherViewController: UIViewController {
     var weather: WeatherModel?
     var degreeUnit: DegreeUnit = .celsius
 
-    // MARK: - Methods
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        cityLabel.font = UIFont.systemFont(ofSize: 28, weight: .medium).rounded
-        update()
-    }
-
-    private func update() {
-        guard let weather else { return }
-        cityLabel.text = weather.cityName
-        timeLabel.text = weather.timeZone.timeFromTimezone()
-        conditionLabel.text = weather.conditionName
-        weatherImage.image = UIImage(named: weather.conditionImage)
-        switch degreeUnit {
-        case .celsius:
-            degreeUnitLabel.text = "C"
-            temperatureLabel.text = weather.temperatureCelsius
-        case .fahrenheit:
-            degreeUnitLabel.text = "F"
-            temperatureLabel.text = weather.temperatureFahrenheit
-        }
+        configure()
     }
 
     // MARK: - Actions
@@ -59,5 +42,27 @@ final class AddWeatherViewController: UIViewController {
 
     @IBAction private func addPressed(_ sender: UIButton) {
         delegate?.didTapAdd(self)
+    }
+
+    // MARK: - View
+
+    private func configure() {
+        guard let weather else { return }
+        cityLabel.text = weather.cityName
+        cityLabel.font = UIFont.systemFont(ofSize: 28, weight: .medium).rounded
+        timeLabel.text = weather.timeZone.timeFromTimezone()
+        conditionLabel.text = weather.conditionName
+
+        weatherImage.image = UIImage(named: weather.conditionImage)
+
+        switch degreeUnit {
+        case .celsius:
+            degreeUnitLabel.text = "C"
+            temperatureLabel.text = weather.temperatureCelsius
+
+        case .fahrenheit:
+            degreeUnitLabel.text = "F"
+            temperatureLabel.text = weather.temperatureFahrenheit
+        }
     }
 }
