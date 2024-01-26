@@ -10,27 +10,19 @@ import UIKit
 @IBDesignable
 class GradientView: UIView {
     @IBInspectable var firstColor: UIColor = .clear {
-        didSet {
-            updateView()
-        }
+        didSet { updateView() }
     }
 
     @IBInspectable var secondColor: UIColor = .clear {
-        didSet {
-            updateView()
-        }
+        didSet { updateView() }
     }
 
     @IBInspectable var thirdColor: UIColor = .clear {
-        didSet {
-            updateView()
-        }
+        didSet { updateView() }
     }
 
     @IBInspectable var isHorizontal: Bool = true {
-        didSet {
-            updateView()
-        }
+        didSet { updateView() }
     }
 
     override class var layerClass: AnyClass {

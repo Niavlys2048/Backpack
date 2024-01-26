@@ -17,8 +17,8 @@ enum DegreeUnit {
 final class WeatherViewController: UIViewController {
     // MARK: - Outlets
 
-    @IBOutlet private var weatherTableView: UITableView!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
 
     // MARK: - Properties
 
@@ -36,25 +36,69 @@ final class WeatherViewController: UIViewController {
 
     private var degreeUnit: DegreeUnit = .celsius
 
-    // MARK: - Methods
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        initNavigationBar()
-
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-
-        locationManager?.requestAlwaysAuthorization()
-        locationManager?.requestWhenInUseAuthorization()
-        locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-
-        weatherTableView.dataSource = self
-        weatherTableView.delegate = self
+        configureNavigationBar()
+        setLocationManager()
+        configureTableView()
     }
 
-    private func initNavigationBar() {
+    // MARK: - Navigation
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let addWeatherVC = segue.destination as? AddWeatherViewController {
+            addWeatherVC.delegate = self
+            addWeatherVC.degreeUnit = degreeUnit
+            addWeatherVC.weather = weather
+        }
+    }
+
+    // MARK: - Actions
+
+    @objc private func exitEditing() {
+        searchController.searchBar.isHidden = false
+
+        menuButton.title = nil
+        menuButton.image = SFSymbols.ellipsis
+        menuButton.menu = generatePullDownMenu()
+        menuButton.action = nil
+
+        if tableView.isEditing {
+            tableView.isEditing = false
+            tableView.reloadData()
+        }
+    }
+
+    private func updateTableViewWithCurrentLocation() {
+        guard let currentLocation else { return }
+        let currentCoordinates = Coordinates(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+
+        activityIndicator.isHidden = false
+        WeatherService.shared.getWeather(coordinates: currentCoordinates) { [weak self] result in
+            guard let self else { return }
+            activityIndicator.isHidden = true
+
+            switch result {
+            case .success(let weatherResponse):
+                let weather = WeatherModel(weatherResponse: weatherResponse)
+                self.weather = weather
+                weatherData.append(weather)
+                tableView.reloadData()
+
+            case .failure(let error):
+                presentAlert(.connectionFailed)
+                print(error)
+            }
+        }
+    }
+}
+
+extension WeatherViewController {
+    // MARK: - View
+
+    private func configureNavigationBar() {
         title = "Weather"
         initSearchController()
         initMenuButton()
@@ -65,45 +109,43 @@ final class WeatherViewController: UIViewController {
     private func initSearchController() {
         searchController.searchResultsUpdater = self
         searchController.searchBar.setTextFieldColor(hexColor: 0xffffff, transparency: 0.4)
-        searchController.searchBar.tintColor = UIColor(named: "textColor")
+        searchController.searchBar.tintColor = UIColor(.text)
     }
 
     private func initMenuButton() {
-        menuButton = UIBarButtonItem(
-            title: nil,
-            image: UIImage(systemName: "ellipsis"),
-            primaryAction: nil,
-            menu: generatePullDownMenu()
-        )
-        menuButton.tintColor = UIColor(named: "textColor")
+        menuButton = UIBarButtonItem(image: SFSymbols.ellipsis, menu: generatePullDownMenu())
+        menuButton.tintColor = UIColor(.text)
+    }
+
+    private func setLocationManager() {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+
+        locationManager?.requestAlwaysAuthorization()
+        locationManager?.requestWhenInUseAuthorization()
+        locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    }
+
+    private func configureTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
     }
 
     private func generatePullDownMenu() -> UIMenu {
-        let editItem = UIAction(
-            title: "Edit List",
-            image: UIImage(systemName: "pencil")
-        ) { _ in
+        let editItem = UIAction(title: "Edit List", image: SFSymbols.pencil) { _ in
             self.editList()
         }
 
-        let celsiusItem = UIAction(
-            title: "Celsius",
-            image: UIImage(named: "degreeC"),
-            state: degreeUnit == .celsius ? .on : .off
-        ) { _ in
+        let celsiusItem = UIAction(title: "Celsius", image: .degreeC, state: degreeUnit == .celsius ? .on : .off) { _ in
             self.degreeUnit = .celsius
             self.navigationItem.rightBarButtonItem?.menu = self.generatePullDownMenu()
-            self.weatherTableView.reloadData()
+            self.tableView.reloadData()
         }
 
-        let fahrenheitItem = UIAction(
-            title: "Fahrenheit",
-            image: UIImage(named: "degreeF"),
-            state: degreeUnit == .fahrenheit ? .on : .off
-        ) { _ in
+        let fahrenheitItem = UIAction(title: "Fahrenheit", image: .degreeF, state: degreeUnit == .fahrenheit ? .on : .off) { _ in
             self.degreeUnit = .fahrenheit
             self.navigationItem.rightBarButtonItem?.menu = self.generatePullDownMenu()
-            self.weatherTableView.reloadData()
+            self.tableView.reloadData()
         }
 
         menu = UIMenu(options: .displayInline, children: [editItem, celsiusItem, fahrenheitItem])
@@ -121,58 +163,12 @@ final class WeatherViewController: UIViewController {
         menuButton.action = #selector(exitEditing)
         menuButton.target = self
 
-        if !weatherTableView.isEditing {
-            weatherTableView.isEditing = true
-            weatherTableView.reloadData()
-        }
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let addWeatherVC = segue.destination as? AddWeatherViewController {
-            addWeatherVC.delegate = self
-            addWeatherVC.degreeUnit = degreeUnit
-            addWeatherVC.weather = weather
-        }
-    }
-
-    private func updateWeatherTableViewWithCurrentLocation() {
-        guard let currentLocation else { return }
-        let currentCoordinates = Coordinates(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
-
-        activityIndicator.isHidden = false
-        WeatherService.shared.getWeather(coordinates: currentCoordinates) { [weak self] result in
-            self?.activityIndicator.isHidden = true
-            switch result {
-            case .success(let weatherResponse):
-                let weather = WeatherModel(weatherResponse: weatherResponse)
-                self?.weather = weather
-                self?.weatherData.append(weather)
-                self?.weatherTableView.reloadData()
-            case .failure(let error):
-                self?.presentAlert(.connectionFailed)
-                print(error)
-            }
-        }
-    }
-
-    // MARK: - Actions
-
-    @objc private func exitEditing() {
-        searchController.searchBar.isHidden = false
-
-        menuButton.title = nil
-        menuButton.image = UIImage(systemName: "ellipsis")
-        menuButton.menu = generatePullDownMenu()
-        menuButton.action = nil
-
-        if weatherTableView.isEditing {
-            weatherTableView.isEditing = false
-            weatherTableView.reloadData()
+        if !tableView.isEditing {
+            tableView.isEditing = true
+            tableView.reloadData()
         }
     }
 }
-
-// MARK: - Extensions
 
 // MARK: - locationManager Delegate
 
@@ -182,7 +178,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
 
         if didFindLocation == false {
             currentLocation = locValue
-            updateWeatherTableViewWithCurrentLocation()
+            updateTableViewWithCurrentLocation()
             didFindLocation.toggle()
             manager.stopUpdatingLocation()
         }
@@ -192,8 +188,10 @@ extension WeatherViewController: CLLocationManagerDelegate {
         switch status {
         case .authorizedWhenInUse:
             locationManager?.requestLocation()
+
         case .authorizedAlways:
             locationManager?.requestLocation()
+
         default:
             print("LocationManager didChangeAuthorization")
         }
@@ -225,15 +223,16 @@ extension WeatherViewController: UISearchResultsUpdating {
         resultVC.delegate = self
 
         activityIndicator.isHidden = false
-        GooglePlacesService.shared.findPlaces(query: query, delay: 0.6) { [weak self] result in
-            self?.activityIndicator.isHidden = true
+        GooglePlacesService.shared.findPlaces(query: query, delay: 0.8) { [weak self] result in
+            guard let self else { return }
+            activityIndicator.isHidden = true
+
             switch result {
             case .success(let places):
-                DispatchQueue.main.async {
-                    resultVC.update(with: places)
-                }
+                DispatchQueue.main.async { resultVC.update(with: places) }
+
             case .failure(let error):
-                self?.presentAlert(.connectionFailed)
+                presentAlert(.connectionFailed)
                 print(error)
             }
         }
@@ -250,33 +249,36 @@ extension WeatherViewController: ResultsViewControllerDelegate {
 
         activityIndicator.isHidden = false
         WeatherService.shared.getWeather(coordinates: coordinates) { [weak self] result in
-            self?.activityIndicator.isHidden = true
+            guard let self else { return }
+            activityIndicator.isHidden = true
+
             switch result {
             case .success(let weatherResponse):
                 let weather = WeatherModel(weatherResponse: weatherResponse)
-                self?.weather = weather
-                self?.performSegue(withIdentifier: "segueToAddWeather", sender: self)
+                self.weather = weather
+                performSegue(withIdentifier: "segueToAddWeather", sender: self)
+
             case .failure(let error):
-                self?.presentAlert(.connectionFailed)
+                presentAlert(.connectionFailed)
                 print(error)
             }
         }
     }
 }
 
-// MARK: - AdditionViewController Delegate to display the city and add it to WeatherTableView
+// MARK: - AdditionViewController Delegate to display the city and add it to TableView
 
 extension WeatherViewController: AddWeatherViewControllerDelegate {
     func didTapAdd(_ addWeatherViewController: AddWeatherViewController) {
         if let weather {
             weatherData.append(weather)
-            weatherTableView.reloadData()
+            tableView.reloadData()
         }
         addWeatherViewController.dismiss(animated: true)
     }
 }
 
-// MARK: - WeatherTableView DataSource
+// MARK: - TableView DataSource
 
 extension WeatherViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -285,15 +287,11 @@ extension WeatherViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let weather = weatherData[indexPath.row]
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as? WeatherTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WeatherCell.reuseID, for: indexPath) as? WeatherCell else {
             return UITableViewCell()
         }
 
-        if tableView.isEditing {
-            cell.decreaseSize()
-        } else {
-            cell.resetSize()
-        }
+        if tableView.isEditing { cell.decreaseSize() } else { cell.resetSize() }
 
         cell.configure(with: weather, degreeUnit: degreeUnit)
         return cell
@@ -331,13 +329,11 @@ extension WeatherViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - WeatherTableView Delegate
+// MARK: - TableView Delegate
 
 extension WeatherViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView.isEditing {
-            return 140
-        }
+        if tableView.isEditing { return 140 }
         return 180
     }
 }

@@ -10,10 +10,9 @@ import UIKit
 final class CurrencyViewController: UIViewController {
     // MARK: - Outlets
 
-    @IBOutlet private var currencyTableView: UITableView!
-    @IBOutlet private var inputTextField: UITextField!
-
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var textField: UITextField!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
 
     // MARK: - Properties
 
@@ -31,137 +30,26 @@ final class CurrencyViewController: UIViewController {
     // Used to keep the indexPath of the selecected row right before textField become first responder
     private var indexPathForSelectedRow: IndexPath?
 
-    // Used to keep currencyTableView selected cell visible on top of the keyboard
-    private var currencyTableViewContentOffset: CGPoint = .zero
-    private var currencyTableViewContentInset = UIEdgeInsets()
+    // Used to keep tableView selected cell visible on top of the keyboard
+    private var tableViewContentOffset: CGPoint = .zero
+    private var tableViewContentInset = UIEdgeInsets()
     private var typingAmount: Bool = false
 
-    // MARK: - Methods
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        initNavigationBar()
-        initAvailableCurrencyData()
+        configureNavigationBar()
+        setAvailableCurrencyData()
         updateRates()
-        initCurrencyData()
-
-        currencyTableView.refreshControl = UIRefreshControl()
-        currencyTableView.refreshControl?.addTarget(self, action: #selector(callPullToRefresh), for: .valueChanged)
-
-        currencyTableView.dataSource = self
-        currencyTableView.delegate = self
-
-        inputTextField.delegate = self
-
-        let numberFormatter = NumberFormatter()
-        decimalSeparator = numberFormatter.locale.decimalSeparator ?? "."
-
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification, object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification, object: nil
-        )
+        setCurrencyData()
+        configureTableView()
+        setDecimalSeparator()
+        addKeyboardObservers()
+        textField.delegate = self
     }
 
-    private func initAvailableCurrencyData() {
-        let localeIDs = Locale.availableIdentifiers
-
-        for localeID in localeIDs {
-            let locale = Locale(identifier: localeID)
-            let currencyCode = locale.currencyCode
-            if let currencyCode, mainCurrencyCodes.contains(currencyCode), !availableCurrencyData.contains(
-                where: {
-                    $0.code == currencyCode
-                }
-            ) {
-                let currency = Currency(countryId: localeID)
-                availableCurrencyData.append(currency)
-            }
-        }
-    }
-
-    private func initCurrencyData() {
-        let startingCurrencyList = CurrencyCodes.defaultCurrencies
-        currencyData = availableCurrencyData.filter { currency in
-            startingCurrencyList.contains(currency.code)
-        }
-    }
-
-    private func updateRates() {
-        activityIndicator.isHidden = false
-        RateService.shared.getRates { [weak self] result in
-            self?.activityIndicator.isHidden = true
-            switch result {
-            case .success(let rateResponse):
-                let rates = RatesModel(rateResponse: rateResponse).rates
-                self?.rates = rates
-
-                guard let availableCurrencies = self?.availableCurrencyData else { return }
-                for currency in availableCurrencies {
-                    for rate in rates where currency.code == rate.currencyCode {
-                        currency.rate = rate.currencyRate
-                    }
-                }
-            case .failure(let error):
-                self?.presentAlert(.connectionFailed)
-                print(error)
-            }
-        }
-
-        guard !currencyData.isEmpty else { return }
-        for currency in currencyData {
-            for rate in rates where currency.code == rate.currencyCode {
-                currency.rate = rate.currencyRate
-            }
-        }
-    }
-
-    private func updateCurrencyData() {
-        let newCurrencyArray = currencyConverter.updateAmount(currencyArray: currencyData)
-        currencyData = newCurrencyArray
-
-        currencyTableView.refreshControl?.endRefreshing()
-        currencyTableView.reloadData()
-    }
-
-    private func initNavigationBar() {
-        title = "Currency"
-        initMenuButton()
-        navigationItem.rightBarButtonItem = menuButton
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "textColor")
-    }
-
-    private func initMenuButton() {
-        menuButton = UIBarButtonItem(
-            title: nil,
-            image: UIImage(systemName: "ellipsis"),
-            primaryAction: nil,
-            menu: generatePullDownMenu()
-        )
-    }
-
-    private func generatePullDownMenu() -> UIMenu {
-        let addItem = UIAction(
-            title: "Add Currency",
-            image: UIImage(systemName: "plus")
-        ) { _ in
-            self.addCurrency()
-        }
-
-        let editItem = UIAction(
-            title: "Edit List",
-            image: UIImage(systemName: "pencil")
-        ) { _ in
-            self.editList()
-        }
-
-        menu = UIMenu(options: .displayInline, children: [addItem, editItem])
-        return menu
-    }
+    // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let addCurrencyVC = segue.destination as? AddCurrencyViewController {
@@ -169,6 +57,56 @@ final class CurrencyViewController: UIViewController {
             addCurrencyVC.availableCurrencyData = availableCurrencyData
             addCurrencyVC.currencyData = currencyData
         }
+    }
+
+    // MARK: - Actions
+
+    @objc private func callPullToRefresh() {
+        // Rates update disabled to avoid too much API calls
+//        updateRates()
+        updateCurrencyData()
+    }
+
+    @objc private func exitEditing() {
+        menuButton.title = nil
+        menuButton.image = SFSymbols.ellipsis
+        menuButton.menu = generatePullDownMenu()
+        menuButton.action = nil
+
+        if tableView.isEditing { tableView.isEditing = false }
+    }
+
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        guard let selectedIndexPath = tableView.indexPathForSelectedRow, !typingAmount else { return }
+
+        let selectedCellRect = tableView.rectForRow(at: selectedIndexPath)
+        let tableViewBottom = tableView.frame.size.height + tableView.contentOffset.y
+        let cellBottom = selectedCellRect.origin.y + selectedCellRect.size.height
+        let difference = tableViewBottom - cellBottom
+
+        guard difference < keyboardSize.height else { return }
+
+        tableViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        tableView.contentInset = tableViewContentInset
+        tableView.scrollIndicatorInsets = tableViewContentInset
+
+        let contentOffset = tableView.contentOffset
+        let newPosition = contentOffset.y + keyboardSize.height - difference
+
+        tableViewContentOffset = CGPoint(x: contentOffset.x, y: newPosition)
+        tableView.contentOffset = tableViewContentOffset
+
+        typingAmount = true
+    }
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        tableView.contentInset = .zero
+        tableView.scrollIndicatorInsets = .zero
+        tableView.contentOffset = .zero
+        tableViewContentOffset = .zero
+        tableViewContentInset = UIEdgeInsets()
+        typingAmount = false
     }
 
     private func addCurrency() {
@@ -182,74 +120,133 @@ final class CurrencyViewController: UIViewController {
         menuButton.action = #selector(exitEditing)
         menuButton.target = self
 
-        currencyTableView.isEditing.toggle()
-    }
-
-    // MARK: - Actions
-
-    @objc private func callPullToRefresh() {
-        // Rates update disabled to avoid too much API calls
-//        updateRates()
-        updateCurrencyData()
-    }
-
-    @objc private func exitEditing() {
-        menuButton.title = nil
-        menuButton.image = UIImage(systemName: "ellipsis")
-        menuButton.menu = generatePullDownMenu()
-        menuButton.action = nil
-
-        if currencyTableView.isEditing { currencyTableView.isEditing = false }
-    }
-
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        guard let selectedIndexPath = currencyTableView.indexPathForSelectedRow, !typingAmount else { return }
-
-        let selectedCellRect = currencyTableView.rectForRow(at: selectedIndexPath)
-        let tableViewBottom = currencyTableView.frame.size.height + currencyTableView.contentOffset.y
-        let cellBottom = selectedCellRect.origin.y + selectedCellRect.size.height
-        let difference = tableViewBottom - cellBottom
-
-        guard difference < keyboardSize.height else { return }
-
-        currencyTableViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        currencyTableView.contentInset = currencyTableViewContentInset
-        currencyTableView.scrollIndicatorInsets = currencyTableViewContentInset
-
-        let contentOffset = currencyTableView.contentOffset
-        let newPosition = contentOffset.y + keyboardSize.height - difference
-
-        currencyTableViewContentOffset = CGPoint(x: contentOffset.x, y: newPosition)
-        currencyTableView.contentOffset = currencyTableViewContentOffset
-
-        typingAmount = true
-    }
-
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        currencyTableView.contentInset = .zero
-        currencyTableView.scrollIndicatorInsets = .zero
-        currencyTableView.contentOffset = .zero
-        currencyTableViewContentOffset = .zero
-        currencyTableViewContentInset = UIEdgeInsets()
-        typingAmount = false
+        tableView.isEditing.toggle()
     }
 }
 
-// MARK: - Extensions
+// MARK: - View
 
-// MARK: - AddCurrencyViewControllerDelegate to display the city and add it to CurrencyTableView
+extension CurrencyViewController {
+    private func configureNavigationBar() {
+        title = "Currency"
+        initMenuButton()
+        navigationItem.rightBarButtonItem = menuButton
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(.text)
+    }
+
+    private func setAvailableCurrencyData() {
+        let localeIDs = Locale.availableIdentifiers
+
+        for localeID in localeIDs {
+            let locale = Locale(identifier: localeID)
+            let currencyCode = locale.currencyCode
+            if let currencyCode, mainCurrencyCodes.contains(currencyCode),
+               !availableCurrencyData.contains(where: { $0.code == currencyCode }) {
+                let currency = Currency(countryId: localeID)
+                availableCurrencyData.append(currency)
+            }
+        }
+    }
+
+    private func updateRates() {
+        activityIndicator.isHidden = false
+        RateService.shared.getRates { [weak self] result in
+            guard let self else { return }
+            activityIndicator.isHidden = true
+
+            switch result {
+            case .success(let rateResponse):
+                let rates = RatesModel(rateResponse: rateResponse).rates
+                self.rates = rates
+
+                let availableCurrencies = availableCurrencyData
+                for currency in availableCurrencies {
+                    for rate in rates where currency.code == rate.currencyCode {
+                        currency.rate = rate.currencyRate
+                    }
+                }
+            case .failure(let error):
+                presentAlert(.connectionFailed)
+                print(error)
+            }
+        }
+
+        guard !currencyData.isEmpty else { return }
+        for currency in currencyData {
+            for rate in rates where currency.code == rate.currencyCode {
+                currency.rate = rate.currencyRate
+            }
+        }
+    }
+
+    private func setCurrencyData() {
+        let startingCurrencyList = CurrencyCodes.defaultCurrencies
+        currencyData = availableCurrencyData.filter { currency in
+            startingCurrencyList.contains(currency.code)
+        }
+    }
+
+    private func configureTableView() {
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(callPullToRefresh), for: .valueChanged)
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+
+    private func setDecimalSeparator() {
+        let numberFormatter = NumberFormatter()
+        decimalSeparator = numberFormatter.locale.decimalSeparator ?? "."
+    }
+
+    private func addKeyboardObservers() {
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification, object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification, object: nil
+        )
+    }
+
+    private func updateCurrencyData() {
+        let newCurrencyArray = currencyConverter.updateAmount(currencyArray: currencyData)
+        currencyData = newCurrencyArray
+
+        tableView.refreshControl?.endRefreshing()
+        tableView.reloadData()
+    }
+
+    private func initMenuButton() {
+        menuButton = UIBarButtonItem(image: SFSymbols.ellipsis, menu: generatePullDownMenu())
+    }
+
+    private func generatePullDownMenu() -> UIMenu {
+        let addItem = UIAction(title: "Add Currency", image: SFSymbols.plus) { _ in
+            self.addCurrency()
+        }
+
+        let editItem = UIAction(title: "Edit List", image: SFSymbols.pencil) { _ in
+            self.editList()
+        }
+
+        menu = UIMenu(options: .displayInline, children: [addItem, editItem])
+        return menu
+    }
+}
+
+// MARK: - AddCurrencyViewControllerDelegate to display the city and add it to TableView
 
 extension CurrencyViewController: AddCurrencyViewControllerDelegate {
-    func didTapAdd(_ addCurrencyViewController: AddCurrencyViewController) {
-        currencyData = addCurrencyViewController.currencyData
+    func didTapAdd(_ addCurrencyVC: AddCurrencyViewController) {
+        currencyData = addCurrencyVC.currencyData
         updateCurrencyData()
 
-        addCurrencyViewController.dismiss(animated: true)
+        addCurrencyVC.dismiss(animated: true)
     }
 }
 
-// MARK: - currencyTableView DataSource
+// MARK: - tableView DataSource
 
 extension CurrencyViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -258,7 +255,7 @@ extension CurrencyViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let currency = currencyData[indexPath.row]
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CurrencyCell", for: indexPath) as? CurrencyTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrencyCell.reuseID, for: indexPath) as? CurrencyCell else {
             return UITableViewCell()
         }
 
@@ -290,12 +287,12 @@ extension CurrencyViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        inputTextField.text = ""
-        inputTextField.becomeFirstResponder()
+        textField.text = ""
+        textField.becomeFirstResponder()
     }
 }
 
-// MARK: - currencyTableView Delegate
+// MARK: - tableView Delegate
 
 extension CurrencyViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -303,18 +300,26 @@ extension CurrencyViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - inputTextField Delegate
+// MARK: - textField Delegate
 
 extension CurrencyViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let selectedIndexPath = currencyTableView.indexPathForSelectedRow else { return false }
+        guard let selectedIndexPath = tableView.indexPathForSelectedRow else { return false }
         let selectedCurrency = currencyData[selectedIndexPath.row]
 
         let currentText = textField.text ?? ""
         let replacementText = (currentText as NSString).replacingCharacters(in: range, with: string)
 
+        guard isValidReplacementText(currentText, replacementText, string) else { return false }
+
+        updateCurrencyData(with: replacementText, selectedCurrency: selectedCurrency, selectedIndexPath: selectedIndexPath)
+
+        return true
+    }
+
+    private func isValidReplacementText(_ currentText: String, _ replacementText: String, _ replacementString: String) -> Bool {
         let currentTextHasDecimalSeparator = currentText.range(of: decimalSeparator)
-        let replacementTextHasDecimalSeparator = string.range(of: decimalSeparator)
+        let replacementTextHasDecimalSeparator = replacementString.range(of: decimalSeparator)
 
         if currentTextHasDecimalSeparator != nil, replacementTextHasDecimalSeparator != nil { return false }
 
@@ -331,20 +336,22 @@ extension CurrencyViewController: UITextFieldDelegate {
             if integerCount > 10 || decimalCount > decimalDigitLimit { return false }
         } else if let integerPart = decimalComponents.first, integerPart.count > 12 { return false }
 
+        return true
+    }
+
+    private func updateCurrencyData(with replacementText: String, selectedCurrency: Currency, selectedIndexPath: IndexPath) {
         let newCurrencyArray = currencyConverter.convertCurrency(
             amount: replacementText,
             selectedCurrency: selectedCurrency,
             currencyArray: currencyData
         )
         currencyData = newCurrencyArray
-        currencyTableView.reloadData()
+        tableView.reloadData()
 
-        currencyTableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
 
-        currencyTableView.contentInset = currencyTableViewContentInset
-        currencyTableView.scrollIndicatorInsets = currencyTableViewContentInset
-        currencyTableView.contentOffset = currencyTableViewContentOffset
-
-        return true
+        tableView.contentInset = tableViewContentInset
+        tableView.scrollIndicatorInsets = tableViewContentInset
+        tableView.contentOffset = tableViewContentOffset
     }
 }

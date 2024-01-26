@@ -41,21 +41,14 @@ final class TranslateViewController: UIViewController {
 
     private let locale = Locale.current
 
-    // MARK: - Methods
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        initView()
-        sourceTextView.delegate = self
+        configure()
     }
 
-    private func initView() {
-        title = "Google Translate"
-        sourceTextView.text = "Enter text"
-        sourceTextView.textColor = UIColor.lightGray
-        targetTextView.text = nil
-    }
+    // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let changeLanguageVC = segue.destination as? LanguageViewController {
@@ -68,33 +61,6 @@ final class TranslateViewController: UIViewController {
             languageCode = languageName.contains("Detect") ? "detect" : languageCode
 
             changeLanguageVC.languageData = LanguageModel(name: languageName, code: languageCode)
-        }
-    }
-
-    private func translateText() {
-        activityIndicator.isHidden = false
-        TranslateService.shared.getTranslation(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] result in
-            self?.activityIndicator.isHidden = true
-            switch result {
-            case .success(let translateResponse):
-                let translation = TranslateModel(translateResponse: translateResponse)
-                self?.targetTextView.text = translation.translatedText
-                let detectedSourceLanguage = translation.detectedSourceLanguage
-                self?.sourceLanguage = detectedSourceLanguage
-
-                guard let sourceLanguageName = self?.locale.localizedString(forIdentifier: detectedSourceLanguage) else { return }
-                self?.sourceLanguageButton.setTitle(sourceLanguageName, for: .normal)
-                self?.arrowButton.setImage(UIImage(named: "double-arrow"), for: .normal)
-                self?.arrowButton.isUserInteractionEnabled = true
-
-                self?.sourceLanguageLabel.text = sourceLanguageName
-                guard let targetLanguage = self?.targetLanguage else { return }
-                let targetLanguageName = self?.locale.localizedString(forIdentifier: targetLanguage)
-                self?.targetLanguageLabel.text = targetLanguageName
-            case .failure(let error):
-                self?.presentAlert(.connectionFailed)
-                print(error)
-            }
         }
     }
 
@@ -155,42 +121,88 @@ final class TranslateViewController: UIViewController {
 
         translateText()
     }
-}
 
-// MARK: - Extensions
+    private func translateText() {
+        activityIndicator.isHidden = false
+        TranslateService.shared.getTranslation(textToTranslate: sourceTextView.text, targetLanguage: targetLanguage) { [weak self] result in
+            guard let self else { return }
+            activityIndicator.isHidden = true
+
+            switch result {
+            case .success(let translateResponse):
+                let translation = TranslateModel(translateResponse: translateResponse)
+                targetTextView.text = translation.translatedText
+                let detectedSourceLanguage = translation.detectedSourceLanguage
+                sourceLanguage = detectedSourceLanguage
+
+                guard let sourceLanguageName = locale.localizedString(forIdentifier: detectedSourceLanguage) else { return }
+                sourceLanguageButton.setTitle(sourceLanguageName, for: .normal)
+                arrowButton.setImage(.doubleArrow, for: .normal)
+                arrowButton.isUserInteractionEnabled = true
+
+                sourceLanguageLabel.text = sourceLanguageName
+                let targetLanguage = targetLanguage
+                let targetLanguageName = locale.localizedString(forIdentifier: targetLanguage)
+                targetLanguageLabel.text = targetLanguageName
+
+            case .failure(let error):
+                presentAlert(.connectionFailed)
+                print(error)
+            }
+        }
+    }
+
+    // MARK: - View
+
+    private func configure() {
+        title = "Google Translate"
+        sourceTextView.text = "Enter text"
+        sourceTextView.textColor = UIColor.lightGray
+        sourceTextView.delegate = self
+        targetTextView.text = nil
+    }
+}
 
 // MARK: - LanguageViewControllerDelegate to update source/target language
 
 extension TranslateViewController: LanguageViewControllerDelegate {
-    func didTapLanguage(_ languageViewController: LanguageViewController) {
-        guard let language = languageViewController.languageData else { return }
+    func didTapLanguage(_ languageVC: LanguageViewController) {
+        guard let language = languageVC.languageData else { return }
 
         let languageCode = language.code
         let languageName = language.name
 
         switch selectedLanguage {
         case .sourceLanguage:
-            let previousSourceLanguage = sourceLanguage
-            sourceLanguage = languageCode
-            sourceLanguageLabel.text = languageName
-            sourceLanguageButton.setTitle(languageName, for: .normal)
-            if sourceLanguage != previousSourceLanguage, !sourceTextView.text.isEmpty, sourceTextView.textColor != .lightGray {
-                translateText()
-            }
-            if sourceLanguage == "detect" {
-                arrowButton.setImage(UIImage(systemName: "arrow.right"), for: .normal)
-                arrowButton.isUserInteractionEnabled = false
-            }
+            updateSourceLanguageWith(languageCode, languageName)
         case .targetLanguage:
-            let previousTargetLanguage = targetLanguage
-            targetLanguage = languageCode
-            targetLanguageLabel.text = languageName
-            targetLanguageButton.setTitle(languageName, for: .normal)
-            if targetLanguage != previousTargetLanguage, !targetTextView.text.isEmpty {
-                translateText()
-            }
+            updateTargetLanguageWith(languageCode, languageName)
         }
-        languageViewController.dismiss(animated: true)
+        languageVC.dismiss(animated: true)
+    }
+
+    private func updateSourceLanguageWith(_ languageCode: String, _ languageName: String) {
+        let previousSourceLanguage = sourceLanguage
+        sourceLanguage = languageCode
+        sourceLanguageLabel.text = languageName
+        sourceLanguageButton.setTitle(languageName, for: .normal)
+        if sourceLanguage != previousSourceLanguage, !sourceTextView.text.isEmpty, sourceTextView.textColor != .lightGray {
+            translateText()
+        }
+        if sourceLanguage == "detect" {
+            arrowButton.setImage(SFSymbols.arrowRight, for: .normal)
+            arrowButton.isUserInteractionEnabled = false
+        }
+    }
+
+    private func updateTargetLanguageWith(_ languageCode: String, _ languageName: String) {
+        let previousTargetLanguage = targetLanguage
+        targetLanguage = languageCode
+        targetLanguageLabel.text = languageName
+        targetLanguageButton.setTitle(languageName, for: .normal)
+        if targetLanguage != previousTargetLanguage, !targetTextView.text.isEmpty {
+            translateText()
+        }
     }
 }
 
@@ -212,7 +224,7 @@ extension TranslateViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
         validationButton.alpha = 1
-        sourceTextView.textColor = UIColor(named: "defaultColor")
+        sourceTextView.textColor = UIColor(.default)
         // Real-time translation (delay required to avoid too much api calls)
 //        translateText()
     }

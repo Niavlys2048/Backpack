@@ -8,45 +8,52 @@
 import UIKit
 
 protocol LanguageViewControllerDelegate: AnyObject {
-    func didTapLanguage(_ languageViewController: LanguageViewController)
+    func didTapLanguage(_ languageVC: LanguageViewController)
 }
 
 final class LanguageViewController: UIViewController {
     // MARK: - Outlets
 
-    @IBOutlet var translateLabel: UILabel!
+    @IBOutlet private var translateLabel: UILabel!
     @IBOutlet private var languageSearchBar: UISearchBar!
     @IBOutlet private var languageTableView: UITableView!
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
 
     // MARK: - Properties
 
     weak var delegate: LanguageViewControllerDelegate?
 
-    // Data for languageTableView
-    var supportedLanguageData: [LanguageModel] = []
-    var filteredData: [LanguageModel] = []
+    private var supportedLanguageData: [LanguageModel] = []
+    private var filteredData: [LanguageModel] = []
     var languageData: LanguageModel?
 
     var selectedLanguage: SelectedLanguage = .sourceLanguage
 
-    // MARK: - Methods
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        initView()
+        configure()
+        getSupportedLanguages()
+    }
 
+    // MARK: - Actions
+
+    @IBAction private func cancelButtonPressed(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
+
+    // MARK: - View
+
+    private func configure() {
         languageTableView.dataSource = self
         languageTableView.delegate = self
         languageSearchBar.delegate = self
 
-        getSupportedLanguages()
-    }
-
-    private func initView() {
         switch selectedLanguage {
         case .sourceLanguage:
             translateLabel.text = "Translate from"
+
         case .targetLanguage:
             translateLabel.text = "Translate to"
         }
@@ -55,36 +62,27 @@ final class LanguageViewController: UIViewController {
     private func getSupportedLanguages() {
         activityIndicator.isHidden = false
         TranslateService.shared.getLanguages { [weak self] result in
-            self?.activityIndicator.isHidden = true
+            guard let self else { return }
+            activityIndicator.isHidden = true
+
             switch result {
             case .success(let languageResponse):
                 let supportedLanguages = LanguagesModel(languageResponse: languageResponse).languages
-                self?.supportedLanguageData = supportedLanguages
+                supportedLanguageData = supportedLanguages.sorted { $0.name < $1.name }
 
-                guard var supportedLanguages = self?.supportedLanguageData else { return }
-                self?.supportedLanguageData = supportedLanguages.sorted { $0.name < $1.name }
-
-                if self?.selectedLanguage == .sourceLanguage {
-                    supportedLanguages.insert(LanguageModel(name: "Detect language", code: "detect"), at: 0)
+                if selectedLanguage == .sourceLanguage {
+                    supportedLanguageData.insert(LanguageModel(name: "Detect language", code: "detect"), at: 0)
                 }
 
-                self?.filteredData = supportedLanguages
-                self?.languageTableView.reloadData()
+                filteredData = supportedLanguageData
+                languageTableView.reloadData()
             case .failure(let error):
-                self?.presentAlert(.connectionFailed)
+                presentAlert(.connectionFailed)
                 print(error)
             }
         }
     }
-
-    // MARK: - Actions
-
-    @IBAction private func cancelButtonPressed(_ sender: UIButton) {
-        dismiss(animated: true)
-    }
 }
-
-// MARK: - Extensions
 
 // MARK: - languageTableView DataSource
 
@@ -96,7 +94,7 @@ extension LanguageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let supportedLanguage = filteredData[indexPath.row]
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "LanguageCell", for: indexPath) as? LanguageTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: LanguageCell.reuseID, for: indexPath) as? LanguageCell else {
             return UITableViewCell()
         }
 

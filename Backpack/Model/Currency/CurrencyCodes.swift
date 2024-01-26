@@ -8,7 +8,6 @@
 enum CurrencyCodes {
     static let usDollar = "USD"
     static let euro = "EUR"
-    static let auDollar = "AUD"
     static let defaultCurrencies = ["EUR", "USD", "GBP", "JPY", "IDR", "UAH"]
     static let mainCurrencies = [
         "USD",

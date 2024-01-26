@@ -16,7 +16,7 @@ extension Data {
                 documentAttributes: nil
             )
         } catch {
-            print("error:", error)
+            print(error)
             return nil
         }
     }
