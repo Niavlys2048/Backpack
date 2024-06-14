@@ -90,7 +90,7 @@ This application uses Install/Update [CocoaPods](https://guides.cocoapods.org/us
 
 ## Installation
 1. Install required dependency (see below).
-2. Open the project and create a new file named secrets.xconfig.
+2. Open the project and create a new file named `Secrets.xcconfig`.
 3. Add your own API keys in the following format:
 ```
 GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"
