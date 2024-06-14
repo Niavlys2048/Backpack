@@ -5,6 +5,8 @@ A 3-in-1 application that allows you to:
 * Translate any supported languages.
 * Compare the local weather with all your favorite places.
 
+## Overview
+
 <p align="center">
 <img src="Resources/Screenshot-001.png" width="200px">
 <img src="Resources/Screenshot-002.png" width="200px">
@@ -14,6 +16,30 @@ A 3-in-1 application that allows you to:
 <img src="Resources/Screenshot-005.png" width="200px">
 <img src="Resources/Screenshot-006.png" width="200px">
 </p>
+
+<br/>
+
+## Table of Contents
+
+<ol>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#technologies-used">Technologies Used</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#dependency">Dependency</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#license">License</a></li>
+  </ol>
+
+<br/>
 
 ## Requirements
 
@@ -54,28 +80,29 @@ A 3-in-1 application that allows you to:
 * Asynchronous Operations: DispatchQueue for multitasking.
 * API Integration: fixer.io, Google Translate, Google Places and OpenWeatherMap.
 
-## Usage
+## Getting Started
+This application uses Install/Update [CocoaPods](https://guides.cocoapods.org/using/getting-started.html) to manage dependencies.
 
-As user-friendly to use as the applications on which it is based.
+## Prerequisites
+1. Visit [fixer.io](https://fixer.io/) or [APILayer](https://apilayer.com/marketplace/fixer-api) and subscribe to get a free Fixer API key.
+2. Visit [Google API Console Help](https://support.google.com/googleapi/answer/6158862?hl=en) and follow the instructions to gain access to the Google Places and Google Translate APIs.
+3. Visit [OpenWeather](https://openweathermap.org/) to obtain an API key (note that OpenWeather services now require payment, albeit at a low cost per request).
 
 ## Installation
-
-1. Clone or download the repository.
-2. Install/Update [CocoaPods](https://guides.cocoapods.org/using/getting-started.html).
-3. Install required dependency (see below).
-4. Open the project in Xcode via Backpack.xcworkspace.
-5. Add your own API keys for:
-    - [fixer.io](https://fixer.io/)
-    - [Google Places & Google Translate](https://support.google.com/googleapi/answer/6158862?hl=en)
-    - [OpenWeather](https://openweathermap.org/)
+1. Install required dependency (see below).
+2. Open the project and create a new file named secrets.xconfig.
+3. Add your own API keys in the following format:
+```
+GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY"
+OPEN_WEATHER_API_KEY = "YOUR_OPEN_WEATHER_API_KEY"
+FIXER_API_KEY = "YOUR_FIXER_API_KEY"
+```
 
 ## Dependency
-
-* This application requires the pod [GooglePlaces](https://cocoapods.org/pods/GooglePlaces)
+This application requires the pod [GooglePlaces](https://cocoapods.org/pods/GooglePlaces)
 
 ## Architecture
-
-* MVC Architecture with a separate Network layer.
+This project relies on MVC Architecture with a separate Network layer.
 
 ## Demo
 
@@ -86,5 +113,4 @@ As user-friendly to use as the applications on which it is based.
 </p>
 
 ## License
-
 See [LICENSE.md](LICENSE.md) for details
